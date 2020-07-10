@@ -5,6 +5,7 @@ import CheckButton from 'react-validation/build/button';
 import { isEmail } from 'validator';
 
 import AuthService from '../services/auth.service';
+import { Card } from 'react-bootstrap';
 
 const required = value => {
   if (!value) {
@@ -102,7 +103,7 @@ const Register = props => {
 
   return (
     <div className='col-md-12'>
-      <div className='card card-container'>
+      <Card className='card-container'>
         <img
           src='//ssl.gstatic.com/accounts/ui/avatar_2x.png'
           alt='profile-img'
@@ -168,7 +169,7 @@ const Register = props => {
           )}
           <CheckButton style={{ display: 'none' }} ref={checkBtn} />
         </Form>
-      </div>
+      </Card>
     </div>
   );
 };

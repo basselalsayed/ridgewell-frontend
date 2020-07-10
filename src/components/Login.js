@@ -4,16 +4,14 @@ import Input from 'react-validation/build/input';
 import CheckButton from 'react-validation/build/button';
 
 import AuthService from '../services/auth.service';
+import { Card } from 'react-bootstrap';
 
-const required = value => {
-  if (!value) {
-    return (
-      <div className='alert alert-danger' role='alert'>
-        This field is required!
-      </div>
-    );
-  }
-};
+const required = value =>
+  !value && (
+    <div className='alert alert-danger' role='alert'>
+      This field is required!
+    </div>
+  );
 
 const Login = props => {
   const form = useRef();
@@ -67,7 +65,7 @@ const Login = props => {
 
   return (
     <div className='col-md-12'>
-      <div className='card card-container'>
+      <Card className='card-container'>
         <img
           src='//ssl.gstatic.com/accounts/ui/avatar_2x.png'
           alt='profile-img'
@@ -117,7 +115,7 @@ const Login = props => {
           )}
           <CheckButton style={{ display: 'none' }} ref={checkBtn} />
         </Form>
-      </div>
+      </Card>
     </div>
   );
 };
