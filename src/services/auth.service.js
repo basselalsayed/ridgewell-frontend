@@ -1,10 +1,11 @@
 import axios from 'axios';
+import API_URL from '../constants/api';
 
-const API_URL = 'http://localhost:3000/session/';
-// const API_URL = 'https://ridgewell-backend.herokuapp.com/session/';
+const ENDPOINT = API_URL + 'session/';
+// const ENDPOINT = 'https://ridgewell-backend.herokuapp.com/session/';
 
 const register = (username, email, password) => {
-  return axios.post(API_URL + 'signup', {
+  return axios.post(ENDPOINT + 'signup', {
     username,
     email,
     password,
@@ -12,7 +13,7 @@ const register = (username, email, password) => {
 };
 
 const login = async (username, password) => {
-  const response = await axios.post(API_URL + 'signin', {
+  const response = await axios.post(ENDPOINT + 'signin', {
     username,
     password,
   });
