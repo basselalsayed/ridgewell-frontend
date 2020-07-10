@@ -1,26 +1,37 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
-function App() {
+import AuthService from './services/auth.service';
+
+import Login from './components/Login';
+import Register from './components/Register';
+import Home from './components/Home';
+import Profile from './components/Profile';
+import BoardUser from './components/BoardUser';
+import BoardModerator from './components/BoardModerator';
+import BoardAdmin from './components/BoardAdmin';
+import Navigation from './components/Header.js';
+
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Navigation />
+
+      <div className='container mt-3'>
+        <Switch>
+          <Route exact path={['/', '/home']} component={Home} />
+          <Route exact path='/login' component={Login} />
+          <Route exact path='/register' component={Register} />
+          <Route exact path='/profile' component={Profile} />
+          <Route path='/user' component={BoardUser} />
+          <Route path='/mod' component={BoardModerator} />
+          <Route path='/admin' component={BoardAdmin} />
+        </Switch>
+      </div>
+    </Router>
   );
-}
+};
 
 export default App;
