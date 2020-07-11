@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 
-import UserService from '../services/user.service';
+import HolidayService from '../services/holiday.service';
 
 const BoardAdmin = () => {
-  const [content, setContent] = useState('');
+  const [content, setContent] = useState([]);
 
   useEffect(() => {
-    UserService.getAdminBoard().then(
+    HolidayService.allHolidays().then(
       response => {
-        setContent(response.data);
+        setContent(response.data.holidays);
       },
       error => {
         const _content =
@@ -26,7 +26,7 @@ const BoardAdmin = () => {
   return (
     <div className='container'>
       <header className='jumbotron'>
-        <h3>{content}</h3>
+        <div>{content && content.forEach(hol => <p>{hol.from}</p>)}</div>
       </header>
     </div>
   );
