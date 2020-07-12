@@ -11,8 +11,10 @@ import BoardUser from './components/BoardUser';
 import BoardModerator from './components/BoardModerator';
 import BoardAdmin from './components/BoardAdmin';
 import Navigation from './components/Header.js';
+import { useSelector } from 'react-redux';
 
 const App = () => {
+  const { user } = useSelector(state => state.userReducer);
   return (
     <Router>
       <Navigation />

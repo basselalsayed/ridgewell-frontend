@@ -5,6 +5,8 @@ import CheckButton from 'react-validation/build/button';
 
 import AuthService from '../services/auth.service';
 import { Card } from 'react-bootstrap';
+import { connect } from 'react-redux';
+import { login } from '../store/actions/auth';
 
 const required = value =>
   !value && (
@@ -32,7 +34,7 @@ const Login = props => {
     setPassword(password);
   };
 
-  const handleLogin = e => {
+  const handleLogin = async e => {
     e.preventDefault();
 
     setMessage('');
@@ -41,23 +43,24 @@ const Login = props => {
     form.current.validateAll();
 
     if (checkBtn.current.context._errors.length === 0) {
-      AuthService.login(username, password).then(
-        () => {
-          props.history.push('/profile');
-          window.location.reload();
-        },
-        error => {
-          const resMessage =
-            (error.response &&
-              error.response.data &&
-              error.response.data.message) ||
-            error.message ||
-            error.toString();
+      await props.login({ username, password });
+      // .then(
+      // () => {
+      props.history.push('/profile');
 
-          setLoading(false);
-          setMessage(resMessage);
-        },
-      );
+      // },
+      // error => {
+      //   const resMessage =
+      //     (error.response &&
+      //       error.response.data &&
+      //       error.response.data.message) ||
+      //     error.message ||
+      //     error.toString();
+
+      //   setLoading(false);
+      //   setMessage(resMessage);
+      // },
+      // );
     } else {
       setLoading(false);
     }
@@ -120,4 +123,10 @@ const Login = props => {
   );
 };
 
-export default Login;
+const mapDispatchToProps = dispatch => {
+  return {
+    login: userInfo => dispatch(login(userInfo)),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(Login);

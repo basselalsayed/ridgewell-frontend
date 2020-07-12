@@ -4,8 +4,9 @@ import Input from 'react-validation/build/input';
 import CheckButton from 'react-validation/build/button';
 import { isEmail } from 'validator';
 
-import AuthService from '../services/auth.service';
 import { Card } from 'react-bootstrap';
+import { connect } from 'react-redux';
+import { signUp } from '../store/actions/auth';
 
 const required = value => {
   if (!value) {
@@ -53,9 +54,9 @@ const Register = props => {
 
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
   const [password, setPassword] = useState('');
   const [successful, setSuccessful] = useState(false);
-  const [message, setMessage] = useState('');
 
   const onChangeUsername = e => {
     const username = e.target.value;
@@ -81,23 +82,24 @@ const Register = props => {
     form.current.validateAll();
 
     if (checkBtn.current.context._errors.length === 0) {
-      AuthService.register(username, email, password).then(
-        response => {
-          setMessage(response.data.message);
-          setSuccessful(true);
-        },
-        error => {
-          const resMessage =
-            (error.response &&
-              error.response.data &&
-              error.response.data.message) ||
-            error.message ||
-            error.toString();
+      props.signUp({ username, email, password });
 
-          setMessage(resMessage);
-          setSuccessful(false);
-        },
-      );
+      //   response => {
+      //     setMessage(response.data.message);
+      //     setSuccessful(true);
+      //   },
+      //   error => {
+      //     const resMessage =
+      //       (error.response &&
+      //         error.response.data &&
+      //         error.response.data.message) ||
+      //       error.message ||
+      //       error.toString();
+
+      //     setMessage(resMessage);
+      //     setSuccessful(false);
+      //   },
+      // );
     }
   };
 
@@ -174,4 +176,12 @@ const Register = props => {
   );
 };
 
-export default Register;
+const mapStateToProps = state => ({
+  serverResponse: state.serverResponse,
+});
+
+const mapDispatchToProps = dispatch => ({
+  signUp: userInfo => dispatch(signUp(userInfo)),
+});
+
+export default connect(null, mapDispatchToProps)(Register);
