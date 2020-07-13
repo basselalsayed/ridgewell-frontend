@@ -13,7 +13,7 @@ const Navigation = ({ user }) => {
 
   useEffect(() => {
     user && setShowAdminBoard(user.roles.includes('ROLE_ADMIN'));
-  }, []);
+  }, [user]);
 
   const adminNavigation = <Nav.Link href={'/admin'}>Admin Board</Nav.Link>;
 
@@ -50,7 +50,7 @@ const Navigation = ({ user }) => {
 };
 
 const mapStateToProps = state => ({
-  user: state.userReducer.user,
+  user: state.authReducer.user,
 });
 
 export default connect(mapStateToProps)(Navigation);

@@ -14,7 +14,7 @@ import Navigation from './components/Header.js';
 import { useSelector } from 'react-redux';
 
 const App = () => {
-  const { user } = useSelector(state => state.userReducer);
+  const { user } = useSelector(state => state.authReducer);
   return (
     <Router>
       <Navigation />

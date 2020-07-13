@@ -2,7 +2,7 @@ const initialState = {
   user: JSON.parse(localStorage.getItem('user')) || null,
 };
 
-const userReducer = (state = initialState, action) => {
+const authReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'SET_USER':
       return { user: action.payload };
@@ -16,4 +16,4 @@ const userReducer = (state = initialState, action) => {
   }
 };
 
-export default userReducer;
+export default authReducer;

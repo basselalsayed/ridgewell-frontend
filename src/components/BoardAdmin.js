@@ -1,35 +1,29 @@
 import React, { useState, useEffect } from 'react';
 
 import HolidayService from '../services/holiday.service';
+import { getHolidyas } from '../store/actions/content';
+import { connect } from 'react-redux';
 
-const BoardAdmin = () => {
-  const [content, setContent] = useState([]);
-
+const BoardAdmin = ({ holidays, getHolidays }) => {
   useEffect(() => {
-    HolidayService.allHolidays().then(
-      response => {
-        setContent(response.data.holidays);
-      },
-      error => {
-        const _content =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-          error.message ||
-          error.toString();
-
-        setContent(_content);
-      },
-    );
+    getHolidays();
   }, []);
 
   return (
     <div className='container'>
       <header className='jumbotron'>
-        <div>{content && content.forEach(hol => <p>{hol.from}</p>)}</div>
+        <div>{holidays && holidays.forEach(hol => <p>{hol.from}</p>)}</div>
       </header>
     </div>
   );
 };
 
-export default BoardAdmin;
+const mapStateToProps = state => ({
+  holidays: state.contentReducer.holidays,
+});
+
+const mapDispatchToProps = dispatch => ({
+  getHolidays: () => dispatch(getHolidyas()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(BoardAdmin);

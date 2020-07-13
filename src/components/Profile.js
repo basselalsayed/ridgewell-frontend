@@ -34,7 +34,7 @@ const Profile = ({ user }) => {
 };
 
 const mapStateToProps = state => ({
-  user: state.userReducer.user,
+  user: state.authReducer.user,
 });
 
 export default connect(mapStateToProps)(Profile);
