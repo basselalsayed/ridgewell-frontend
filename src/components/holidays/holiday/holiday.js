@@ -8,7 +8,7 @@ const Holiday = ({
   until,
   user: { email, username },
 }) => (
-  <Card>
+  <Card border={confirmed ? 'success' : 'warning'}>
     <Card.Title>
       Owner: {username}, {email}
     </Card.Title>

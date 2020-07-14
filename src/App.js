@@ -23,7 +23,7 @@ const App = () => {
       <Header />
 
       <div>
-        <Burger />
+        {/* <Burger /> */}
         <div className='container mt-3'>
           <Switch>
             <Route exact path={['/', '/home']} component={Home} />
