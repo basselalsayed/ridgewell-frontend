@@ -1,16 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Holidays } from './holidays';
-import classes from './menu.module.css';
-const BoardAdmin = () => (
-  <div className='container'>
-    <div className={classes.menuBtn}>
-      <div className={classes.menuBtnBurger}></div>
+import { menuBtn, open, menuBtnBurger } from './menu.module.css';
+const BoardAdmin = () => {
+  const [isOpen, setisOpen] = useState(false);
+  return (
+    <div className='container'>
+      <div className={[menuBtn, isOpen ? open : ''].join(' ')}>
+        <div onClick={() => setisOpen(!isOpen)} className={menuBtnBurger}></div>
+      </div>
+      <header className='jumbotron'>
+        <Holidays />
+      </header>
     </div>
-    <header className='jumbotron'>
-      <Holidays />
-    </header>
-  </div>
-);
+  );
+};
 
 export { BoardAdmin };

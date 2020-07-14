@@ -13,7 +13,7 @@
   height: 80px;
   cursor: pointer;
   transition: all .5s ease-in-out;
-  border: 3px solid rgb(97, 95, 95);
+  /* border: 3px solid rgb(97, 95, 95); */
 }
 
 .menuBtnBurger {
@@ -43,4 +43,18 @@
 
 .menuBtnBurger::after {
   transform: translateY(16px);
+}
+
+.menuBtn.open .menuBtnBurger {
+  transform: translateX(-50px);
+  background: transparent;
+  box-shadow: none;
+}
+
+.menuBtn.open .menuBtnBurger::before {
+  transform: rotate(45deg) translate(35px, -35px);
+}
+
+.menuBtn.open .menuBtnBurger::after {
+  transform: rotate(-45deg) translate(35px, 35px);
 }
