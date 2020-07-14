@@ -1,15 +1,15 @@
-import API_URL from '../../constants/api';
+import API_URL from '../constants/api';
 import axios from 'axios';
 
 const ENDPOINT = API_URL + 'session/';
 
 const setUser = payload => ({ type: 'SET_USER', payload });
 
-export const logOut = () => ({ type: 'LOG_OUT' });
+const logOut = () => ({ type: 'LOG_OUT' });
 
 // Methods
 
-export const signUp = userInfo => async dispatch => {
+const signUp = userInfo => async dispatch => {
   await axios.post(ENDPOINT + 'signup', userInfo).then(({ data: { user } }) => {
     user.accessToken && localStorage.setItem('user', JSON.stringify(user));
 
@@ -17,7 +17,7 @@ export const signUp = userInfo => async dispatch => {
   });
 };
 
-export const login = userInfo => async dispatch => {
+const login = userInfo => async dispatch => {
   const response = await axios.post(ENDPOINT + 'signin', userInfo);
 
   const {
@@ -50,3 +50,5 @@ export const login = userInfo => async dispatch => {
 //       dispatch(setUser(data.user));
 //     });
 // };
+
+export { logOut, signUp, login };

@@ -1,18 +1,15 @@
-import API_URL from '../../constants/api';
+import API_URL from '../constants/api';
 import axios from 'axios';
-import authHeader from './auth-header';
+import authHeader from '../services/auth-header';
 
 const setContent = (type, payload) => ({ type, payload });
 
-// Methods
-
-export const getUsers = () => async dispatch => {
+const getUsers = () => async dispatch =>
   await axios
     .get(API_URL + 'users/', { headers: authHeader() })
-    .then(({ data }) => dispatch(setContent('SET_USERS', data.users)));
-};
+    .then(({ data: users }) => dispatch(setContent('SET_USERS', users)));
 
-export const getHolidays = () => async dispatch =>
+const getHolidays = () => async dispatch =>
   await axios
     .get(API_URL + 'holiday/', {
       headers: authHeader(),
@@ -21,7 +18,7 @@ export const getHolidays = () => async dispatch =>
       dispatch(setContent('SET_HOLIDAYS', holidays)),
     );
 
-export const getRequests = () => async dispatch =>
+const getRequests = () => async dispatch =>
   await axios
     .get(API_URL + 'requests/', {
       headers: authHeader(),
@@ -29,3 +26,5 @@ export const getRequests = () => async dispatch =>
     .then(({ data: { requests } }) =>
       dispatch(setContent('SET_REQUESTS', requests)),
     );
+
+export { getUsers, getHolidays, getRequests };

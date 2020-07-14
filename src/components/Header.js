@@ -1,14 +1,11 @@
 import React, { useState, useEffect } from 'react';
 
 import { Navbar, Nav } from 'react-bootstrap';
-import AuthService from '../services/auth.service';
+
+import { logOut } from '../actions';
 import { connect } from 'react-redux';
 
-const logOut = () => {
-  AuthService.logout();
-};
-
-const Navigation = ({ user }) => {
+const HeaderBase = ({ logOut: logOutRx, user }) => {
   const [showAdminBoard, setShowAdminBoard] = useState(false);
 
   useEffect(() => {
@@ -26,7 +23,7 @@ const Navigation = ({ user }) => {
   const rightNavigation = user ? (
     <>
       <Nav.Link href={'/profile'}>{user.username}</Nav.Link>
-      <Nav.Link href={'/login'} onClick={logOut}>
+      <Nav.Link href={'/login'} onClick={logOutRx}>
         Log Out
       </Nav.Link>
     </>
@@ -52,5 +49,10 @@ const Navigation = ({ user }) => {
 const mapStateToProps = state => ({
   user: state.authReducer.user,
 });
+const mapDispatchToProps = dispatch => ({
+  logOut: () => dispatch(logOut()),
+});
 
-export default connect(mapStateToProps)(Navigation);
+const Header = connect(mapStateToProps, mapDispatchToProps)(HeaderBase);
+
+export { Header };

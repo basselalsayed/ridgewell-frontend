@@ -1,8 +1,8 @@
 import React from 'react';
-import AuthService from '../services/auth.service';
+
 import { connect, useSelector } from 'react-redux';
 
-const Profile = ({ user }) => {
+const ProfileBase = ({ user }) => {
   return (
     <div className='container'>
       {user && (
@@ -37,4 +37,6 @@ const mapStateToProps = state => ({
   user: state.authReducer.user,
 });
 
-export default connect(mapStateToProps)(Profile);
+const Profile = connect(mapStateToProps)(ProfileBase);
+
+export { Profile };

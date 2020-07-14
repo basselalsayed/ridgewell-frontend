@@ -4,7 +4,7 @@ import { isEmail } from 'validator';
 
 import { Button, Card, Form } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { signUp } from '../store/actions/auth';
+import { signUp } from '../actions';
 import { useForm } from 'react-hook-form';
 
 const required = value => {

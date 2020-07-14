@@ -3,10 +3,9 @@ import Form from 'react-validation/build/form';
 import Input from 'react-validation/build/input';
 import CheckButton from 'react-validation/build/button';
 
-import AuthService from '../services/auth.service';
 import { Card } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { login } from '../store/actions/auth';
+import { login } from '../actions';
 
 const required = value =>
   !value && (
@@ -15,7 +14,7 @@ const required = value =>
     </div>
   );
 
-const Login = props => {
+const LoginBase = props => {
   const form = useRef();
   const checkBtn = useRef();
 
@@ -44,23 +43,8 @@ const Login = props => {
 
     if (checkBtn.current.context._errors.length === 0) {
       await props.login({ username, password });
-      // .then(
-      // () => {
+
       props.history.push('/profile');
-
-      // },
-      // error => {
-      //   const resMessage =
-      //     (error.response &&
-      //       error.response.data &&
-      //       error.response.data.message) ||
-      //     error.message ||
-      //     error.toString();
-
-      //   setLoading(false);
-      //   setMessage(resMessage);
-      // },
-      // );
     } else {
       setLoading(false);
     }
@@ -129,4 +113,6 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(Login);
+const Login = connect(null, mapDispatchToProps)(LoginBase);
+
+export { Login };
