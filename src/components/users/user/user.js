@@ -1,14 +1,12 @@
 import React from 'react';
 import { Card } from 'react-bootstrap';
 
-const User = ({ email, id, password, updatedAt, username }) => (
+const User = ({ email, updatedAt, username }) => (
   <Card>
     <Card.Title>{username}</Card.Title>
     <Card.Body>
-      <p> {id} </p>
-      <p> {email} </p>
-      <p> {password} </p>
-      <p> {updatedAt} </p>
+      <p> Email: {email} </p>
+      <p> Updated: {updatedAt} </p>
     </Card.Body>
   </Card>
 );
