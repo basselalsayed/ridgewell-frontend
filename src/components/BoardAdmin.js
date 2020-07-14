@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-import { Holidays, Users } from './';
-import classes from './admin.module.css';
+import { Holidays, Requests, Users } from './';
+
 import { Tab, Row, Col, ListGroup } from 'react-bootstrap';
 
 const BoardAdmin = () => {
@@ -10,7 +10,7 @@ const BoardAdmin = () => {
   return (
     <Tab.Container id='admin-dash' defaultActiveKey='#requests'>
       <Row>
-        <Col sm={5}>
+        <Col>
           <ListGroup horizontal>
             <ListGroup.Item action href='#requests' children='Requests' />
             <ListGroup.Item action href='#users' children='Users' />
@@ -20,10 +20,10 @@ const BoardAdmin = () => {
         </Col>
       </Row>
       <Row>
-        <Col sm={80}>
+        <Col>
           <Tab.Content>
             <Tab.Pane eventKey='#requests'>
-              <Holidays />
+              <Requests />
             </Tab.Pane>
             <Tab.Pane eventKey='#users'>
               <Users />

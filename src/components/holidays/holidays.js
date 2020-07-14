@@ -10,7 +10,12 @@ const HolidaysBase = ({ holidays, getHolidays }) => {
   }, []);
 
   return holidays ? (
-    <div>
+    <div
+      style={{
+        maxHeight: window.innerHeight - 150,
+        overflow: 'auto',
+      }}
+    >
       {holidays.map(hol => (
         <Holiday key={hol.id} {...hol} />
       ))}
