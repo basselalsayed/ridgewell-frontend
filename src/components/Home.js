@@ -1,10 +1,25 @@
 import React, { useState, useEffect } from 'react';
 
-import UserService from '../services/user.service';
 import { Card } from 'react-bootstrap';
+import { getUsers } from '../store/actions/content';
+import { connect, useSelector } from 'react-redux';
+import authHeader from '../store/actions/auth-header';
+import axios from 'axios';
 
-const Users = ({ users }) =>
-  users.length ? users.forEach(user => <User key={user.id} {...user} />) : null;
+const UsersBase = ({ users }) =>
+  users && (
+    <div>
+      {users.map(user => (
+        <User key={user.id} {...user} />
+      ))}
+    </div>
+  );
+
+const mapStateToProps = state => ({
+  users: state.contentReducer.users,
+});
+
+const Users = connect(mapStateToProps)(UsersBase);
 
 const User = ({ email, id, password, updatedAt, username }) => (
   <Card>
@@ -18,33 +33,22 @@ const User = ({ email, id, password, updatedAt, username }) => (
   </Card>
 );
 
-const Home = () => {
-  const [content, setContent] = useState([]);
-
+const Home = ({ getUsers }) => {
   useEffect(() => {
-    UserService.getPublicContent()
-      .then(response => {
-        setContent(response.data);
-      })
-      .catch(error => {
-        const _content =
-          (error.response && error.response.data) ||
-          error.message ||
-          error.toString();
-
-        setContent(_content);
-      });
+    getUsers();
   }, []);
 
   return (
     <div>
       {/* <header className='jumbotron'> */}
-      {content.length &&
-        content.forEach(user => <User key={user.id} {...user} />)}
-      {content && console.log(content, content.length)}
+      <Users />
       {/* </header> */}
     </div>
   );
 };
 
-export default Home;
+const mapDispatchToProps = dispatch => ({
+  getUsers: () => dispatch(getUsers()),
+});
+
+export default connect(null, mapDispatchToProps)(Home);

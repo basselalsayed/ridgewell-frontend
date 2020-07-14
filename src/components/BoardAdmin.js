@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 
-import HolidayService from '../services/holiday.service';
-import { getHolidyas } from '../store/actions/content';
+import { getHolidays } from '../store/actions/content';
 import { connect } from 'react-redux';
+import { Card, Spinner } from 'react-bootstrap';
 
 const BoardAdmin = ({ holidays, getHolidays }) => {
   useEffect(() => {
@@ -12,7 +12,13 @@ const BoardAdmin = ({ holidays, getHolidays }) => {
   return (
     <div className='container'>
       <header className='jumbotron'>
-        <div>{holidays && holidays.forEach(hol => <p>{hol.from}</p>)}</div>
+        <div>
+          {holidays ? (
+            holidays.map(hol => <p>{hol.from}</p>)
+          ) : (
+            <Spinner animation='border' />
+          )}
+        </div>
       </header>
     </div>
   );
@@ -23,7 +29,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  getHolidays: () => dispatch(getHolidyas()),
+  getHolidays: () => dispatch(getHolidays()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(BoardAdmin);
