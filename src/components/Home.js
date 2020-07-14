@@ -1,46 +1,26 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 
-import UserService from '../services/user.service';
-import { Card } from 'react-bootstrap';
+import { getUsers } from '../store/actions/content';
+import { connect } from 'react-redux';
 
-const Home = () => {
-  const [content, setContent] = useState([]);
+import Users from './users';
 
+const Home = ({ getUsers }) => {
   useEffect(() => {
-    UserService.getPublicContent().then(
-      response => {
-        setContent(response.data);
-      },
-      error => {
-        const _content =
-          (error.response && error.response.data) ||
-          error.message ||
-          error.toString();
-
-        setContent(_content);
-      },
-    );
+    getUsers();
   }, []);
-
-  const User = ({ email, id, password, updatedAt, username }) => (
-    <Card>
-      <Card.Title>{username}</Card.Title>
-      <Card.Body>
-        <p> {id} </p>
-        <p> {email} </p>
-        <p> {password} </p>
-        <p> {updatedAt} </p>
-      </Card.Body>
-    </Card>
-  );
 
   return (
     <div>
       {/* <header className='jumbotron'> */}
-      {content && content.forEach(user => <User key={user.id} {...user} />)}
+      <Users />
       {/* </header> */}
     </div>
   );
 };
 
-export default Home;
+const mapDispatchToProps = dispatch => ({
+  getUsers: () => dispatch(getUsers()),
+});
+
+export default connect(null, mapDispatchToProps)(Home);

@@ -2,23 +2,18 @@ import React, { useState, useEffect } from 'react';
 
 import { Navbar, Nav } from 'react-bootstrap';
 import AuthService from '../services/auth.service';
+import { connect } from 'react-redux';
 
 const logOut = () => {
   AuthService.logout();
 };
 
-const Navigation = () => {
+const Navigation = ({ user }) => {
   const [showAdminBoard, setShowAdminBoard] = useState(false);
-  const [currentUser, setCurrentUser] = useState(null);
 
   useEffect(() => {
-    const user = AuthService.getCurrentUser();
-
-    if (user) {
-      setCurrentUser(user);
-      setShowAdminBoard(user.roles.includes('ROLE_ADMIN'));
-    }
-  }, []);
+    user && setShowAdminBoard(user.roles.includes('ROLE_ADMIN'));
+  }, [user]);
 
   const adminNavigation = <Nav.Link href={'/admin'}>Admin Board</Nav.Link>;
 
@@ -28,9 +23,9 @@ const Navigation = () => {
       <Nav.Link href={'/user'}>User</Nav.Link>
     </>
   );
-  const rightNavigation = currentUser ? (
+  const rightNavigation = user ? (
     <>
-      <Nav.Link href={'/profile'}>{currentUser.username}</Nav.Link>
+      <Nav.Link href={'/profile'}>{user.username}</Nav.Link>
       <Nav.Link href={'/login'} onClick={logOut}>
         Log Out
       </Nav.Link>
@@ -54,4 +49,8 @@ const Navigation = () => {
   );
 };
 
-export default Navigation;
+const mapStateToProps = state => ({
+  user: state.authReducer.user,
+});
+
+export default connect(mapStateToProps)(Navigation);
