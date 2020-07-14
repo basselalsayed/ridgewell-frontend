@@ -8,7 +8,7 @@ const logOut = () => {
   AuthService.logout();
 };
 
-const Navigation = ({ user }) => {
+const HeaderBase = ({ user }) => {
   const [showAdminBoard, setShowAdminBoard] = useState(false);
 
   useEffect(() => {
@@ -53,4 +53,6 @@ const mapStateToProps = state => ({
   user: state.authReducer.user,
 });
 
-export default connect(mapStateToProps)(Navigation);
+const Header = connect(mapStateToProps)(HeaderBase);
+
+export { Header };

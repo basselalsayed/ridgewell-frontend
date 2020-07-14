@@ -48,7 +48,7 @@ const vpassword = value => {
   }
 };
 
-const Register = props => {
+const RegisterBase = props => {
   const form = useRef();
   const checkBtn = useRef();
 
@@ -184,4 +184,6 @@ const mapDispatchToProps = dispatch => ({
   signUp: userInfo => dispatch(signUp(userInfo)),
 });
 
-export default connect(null, mapDispatchToProps)(Register);
+const Register = connect(null, mapDispatchToProps)(RegisterBase);
+
+export { Register };

@@ -10,4 +10,4 @@ const BoardAdmin = () => (
   </div>
 );
 
-export default BoardAdmin;
+export { BoardAdmin };

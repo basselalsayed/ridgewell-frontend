@@ -32,4 +32,4 @@ const BoardUser = () => {
   );
 };
 
-export default BoardUser;
+export { BoardUser };
