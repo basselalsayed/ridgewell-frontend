@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { User } from './user';
-import { getUsers } from '../../store/actions/content';
+import { getUsers } from '../../actions';
 
 const UsersBase = ({ users, getUsers }) => {
   useEffect(() => {
@@ -19,13 +19,12 @@ const UsersBase = ({ users, getUsers }) => {
   );
 };
 
-const mapDispatchToProps = dispatch => ({
-  getUsers: () => dispatch(getUsers()),
-});
 const mapStateToProps = state => ({
   users: state.contentReducer.users,
 });
-
+const mapDispatchToProps = dispatch => ({
+  getUsers: () => dispatch(getUsers()),
+});
 const Users = connect(mapStateToProps, mapDispatchToProps)(UsersBase);
 
 export { Users };

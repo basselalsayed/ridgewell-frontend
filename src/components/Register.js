@@ -6,7 +6,7 @@ import { isEmail } from 'validator';
 
 import { Card } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { signUp } from '../store/actions/auth';
+import { signUp } from '../actions';
 
 const required = value => {
   if (!value) {

@@ -1,5 +1,5 @@
 import React from 'react';
-import AuthService from '../services/auth.service';
+
 import { connect, useSelector } from 'react-redux';
 
 const ProfileBase = ({ user }) => {

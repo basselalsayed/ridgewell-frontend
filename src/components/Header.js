@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import { Navbar, Nav } from 'react-bootstrap';
 
-import { logOut } from '../store/actions/auth';
+import { logOut } from '../actions';
 import { connect } from 'react-redux';
 
 const HeaderBase = ({ logOut: logOutRx, user }) => {

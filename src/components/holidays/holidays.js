@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Holiday } from './holiday';
 import { Spinner } from 'react-bootstrap';
-import { getHolidays } from '../../store/actions/content';
+import { getHolidays } from '../../actions';
 
 const HolidaysBase = ({ holidays, getHolidays }) => {
   useEffect(() => {
