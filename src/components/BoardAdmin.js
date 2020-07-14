@@ -3,8 +3,9 @@ import React, { useEffect } from 'react';
 import { getHolidays } from '../store/actions/content';
 import { connect } from 'react-redux';
 import { Card, Spinner } from 'react-bootstrap';
+import Holidays from './holidays';
 
-const BoardAdmin = ({ holidays, getHolidays }) => {
+const BoardAdmin = ({ getHolidays }) => {
   useEffect(() => {
     getHolidays();
   }, []);
@@ -12,13 +13,7 @@ const BoardAdmin = ({ holidays, getHolidays }) => {
   return (
     <div className='container'>
       <header className='jumbotron'>
-        <div>
-          {holidays ? (
-            holidays.map(hol => <p>{hol.from}</p>)
-          ) : (
-            <Spinner animation='border' />
-          )}
-        </div>
+        <Holidays />
       </header>
     </div>
   );
