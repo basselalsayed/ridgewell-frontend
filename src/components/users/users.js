@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { User } from './user';
 import { getUsers } from '../../actions';
+import { CardColumns } from 'react-bootstrap';
 
 const UsersBase = ({ users, getUsers }) => {
   useEffect(() => {
@@ -10,7 +11,12 @@ const UsersBase = ({ users, getUsers }) => {
 
   return (
     users && (
-      <div>
+      <div
+        style={{
+          maxHeight: window.innerHeight - 150,
+          overflow: 'auto',
+        }}
+      >
         {users.map(user => (
           <User key={user.id} {...user} />
         ))}
