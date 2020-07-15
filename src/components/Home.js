@@ -17,8 +17,7 @@ const Home = () => {
     dispatch(getHolidays());
   }, []);
 
-  const getEvents = () =>
-    holidays &&
+  const getHolidayEvents = () =>
     holidays.map(({ from, until, user: { username } }) => ({
       title: username,
       start: new Date(from),
@@ -26,7 +25,27 @@ const Home = () => {
       style: { backgroundColor: 'orange' },
     }));
 
-  let events = useMemo(() => getEvents(), [holidays]);
+  const requestHandler = holReqs =>
+    holReqs.map(({ type, from, until, resolved }) => ({
+      title: `${type}, Resolved: ${resolved}`,
+      start: from && new Date(from),
+      end: until && new Date(until),
+      style: { backgroundColor: 'orange' },
+    }));
+
+  const getRequestEvents = () => {
+    let array = [];
+
+    holidays.forEach(
+      holReq => (array = [...array, ...requestHandler(holReq.holidayRequests)]),
+    );
+    return array;
+  };
+
+  let events = useMemo(
+    () => holidays && [...getHolidayEvents(), ...getRequestEvents()],
+    [holidays],
+  );
 
   return (
     <div>
