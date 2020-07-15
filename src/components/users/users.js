@@ -1,12 +1,14 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { User } from './user';
 import { getUsers } from '../../actions';
-import { CardColumns } from 'react-bootstrap';
 
-const UsersBase = ({ users, getUsers }) => {
+const Users = () => {
+  const { users } = useSelector(state => state.contentReducer);
+  const dispatch = useDispatch();
+
   useEffect(() => {
-    getUsers();
+    dispatch(getUsers());
   }, []);
 
   return (
@@ -24,13 +26,5 @@ const UsersBase = ({ users, getUsers }) => {
     )
   );
 };
-
-const mapStateToProps = state => ({
-  users: state.contentReducer.users,
-});
-const mapDispatchToProps = dispatch => ({
-  getUsers: () => dispatch(getUsers()),
-});
-const Users = connect(mapStateToProps, mapDispatchToProps)(UsersBase);
 
 export { Users };

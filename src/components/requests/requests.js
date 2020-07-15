@@ -1,12 +1,15 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Request } from './request';
 import { Spinner } from 'react-bootstrap';
 import { getRequests } from '../../actions';
 
-const RequestsBase = ({ requests, getRequests }) => {
+const Requests = () => {
+  const { requests } = useSelector(state => state.contentReducer);
+  const dispatch = useDispatch();
+
   useEffect(() => {
-    getRequests();
+    dispatch(getRequests());
   }, []);
 
   return requests ? (
@@ -24,13 +27,5 @@ const RequestsBase = ({ requests, getRequests }) => {
     <Spinner animation='border' />
   );
 };
-const mapStateToProps = state => ({
-  requests: state.contentReducer.requests,
-});
-const mapDispatchToProps = dispatch => ({
-  getRequests: () => dispatch(getRequests()),
-});
-
-const Requests = connect(mapStateToProps, mapDispatchToProps)(RequestsBase);
 
 export { Requests };
