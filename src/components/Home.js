@@ -1,6 +1,5 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 
-import { Users } from './users';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 import { Calendar, momentLocalizer } from 'react-big-calendar';
@@ -18,21 +17,23 @@ const Home = () => {
     dispatch(getHolidays());
   }, []);
 
-  let array = [];
+  const getEvents = () =>
+    holidays &&
+    holidays.map(({ from, until, user: { username } }) => ({
+      title: username,
+      start: new Date(from),
+      end: new Date(until),
+      style: { backgroundColor: 'orange' },
+    }));
 
-  holidays &&
-    holidays.forEach(({ from, until, owner }) =>
-      array.push({ title: owner, start: new Date(from), end: new Date(until) }),
-    );
+  let events = useMemo(() => getEvents(), [holidays]);
 
   return (
     <div>
       <Calendar
         localizer={localizer}
-        events={array}
-        startAccessor='start'
-        endAccessor='end'
-        style={{ height: 500 }}
+        events={events || []}
+        style={{ height: 800 }}
       />
     </div>
   );
