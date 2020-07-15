@@ -4,7 +4,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
 import {
-  Burger,
   Login,
   Register,
   Home,
@@ -23,7 +22,6 @@ const App = () => {
       <Header />
 
       <div>
-        {/* <Burger /> */}
         <div className='container mt-3'>
           <Switch>
             <Route exact path={['/', '/home']} component={Home} />
