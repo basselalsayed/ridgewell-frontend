@@ -42,9 +42,9 @@ const Home = () => {
   const eventStyleGetter = (event, start, end, isSelected) => {
     // console.log(event);
     // let backgroundColor = '#' + event.hexColor;
-    let backgroundColor = 'red';
+    let { confirmed, resolved } = event;
     let style = {
-      backgroundColor,
+      backgroundColor: confirmed || resolved ? 'green' : 'red',
       borderRadius: '0px',
       opacity: 0.8,
       color: 'black',

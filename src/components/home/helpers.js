@@ -1,10 +1,13 @@
 const requestHandler = holReqs =>
-  holReqs.map(({ type, from, until, resolved }) => ({
-    title: `${type}, Resolved: ${resolved}`,
-    start: from && new Date(from),
-    end: until && new Date(until),
-    resolved,
-  }));
+  holReqs.map(
+    ({ type, from, resolved, until }) =>
+      type === 'update' && {
+        title: `${type}, Resolved: ${resolved}`,
+        start: from && new Date(from),
+        end: until && new Date(until),
+        resolved,
+      },
+  );
 
 const holidayEvents = holidays =>
   holidays.map(
