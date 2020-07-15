@@ -45,9 +45,9 @@ const Event = ({ event: { holidayRequests, style }, title }) => {
           </Popover>
         }
       >
-        <span onClick={handleShow} style={style}>
+        <div onClick={handleShow} style={style}>
           <strong> {title} </strong>
-        </span>
+        </div>
       </OverlayTrigger>
       <Modal show={show} onHide={handleShow}>
         <Modal.Header closeButton>

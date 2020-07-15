@@ -1,4 +1,4 @@
-import API_URL from '../constants/api';
+import { API_URL } from '../constants';
 import axios from 'axios';
 
 const ENDPOINT = API_URL + 'session/';

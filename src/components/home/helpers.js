@@ -1,3 +1,32 @@
+import { colors } from '../../constants';
+
+const eventStyleGetter = (event, start, end, isSelected) => {
+  let { confirmed, holidayRequests } = event;
+  const hasPendingDelete =
+    holidayRequests &&
+    holidayRequests.filter(hol => hol.type === 'delete').length;
+  const hasPendingUpdate =
+    holidayRequests &&
+    holidayRequests.filter(hol => hol.type === 'update').length;
+
+  let style = {
+    backgroundColor: hasPendingDelete
+      ? colors.hasDelete
+      : hasPendingUpdate
+      ? colors.hasUpdate
+      : confirmed
+      ? colors.confirmed
+      : colors.notConfirmed,
+    borderRadius: '5px',
+    opacity: 0.8,
+    color: 'black',
+    border: '0px',
+    display: 'block',
+  };
+  return {
+    style,
+  };
+};
 const requestHandler = holReqs =>
   holReqs.map(
     ({ type, from, resolved, until }) =>
@@ -17,7 +46,7 @@ const holidayEvents = holidays =>
       title: username,
       start: new Date(from),
       end: new Date(until),
-      style: { backgroundColor: 'orange' },
+      // style: { backgroundColor: 'orange' },
     }),
   );
 
@@ -31,4 +60,4 @@ const requestEvents = holidays => {
   return array;
 };
 
-export { holidayEvents, requestEvents };
+export { eventStyleGetter, holidayEvents, requestEvents };

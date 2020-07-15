@@ -4,7 +4,7 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
-import { holidayEvents, requestEvents } from './helpers';
+import { eventStyleGetter, holidayEvents, requestEvents } from './helpers';
 import { Event } from './Event';
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -37,23 +37,6 @@ const Home = () => {
           end,
         },
       ]);
-  };
-
-  const eventStyleGetter = (event, start, end, isSelected) => {
-    // console.log(event);
-    // let backgroundColor = '#' + event.hexColor;
-    let { confirmed, resolved } = event;
-    let style = {
-      backgroundColor: confirmed || resolved ? 'green' : 'red',
-      borderRadius: '0px',
-      opacity: 0.8,
-      color: 'black',
-      border: '0px',
-      display: 'block',
-    };
-    return {
-      style,
-    };
   };
 
   return (
