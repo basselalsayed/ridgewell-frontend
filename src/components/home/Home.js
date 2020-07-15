@@ -70,6 +70,7 @@ const Home = () => {
           event: Event,
         }}
         eventPropGetter={eventStyleGetter}
+        tooltipAccessor={null}
       />
     </div>
   );
