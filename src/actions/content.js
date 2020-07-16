@@ -1,4 +1,4 @@
-import API_URL from '../constants/api';
+import { API_URL } from '../constants';
 import axios from 'axios';
 import authHeader from '../services/auth-header';
 
@@ -26,5 +26,8 @@ const getRequests = () => async dispatch =>
     .then(({ data: { requests } }) =>
       dispatch(setContent('SET_REQUESTS', requests)),
     );
+const postHolidays = params => {};
 
-export { getUsers, getHolidays, getRequests };
+const postRequests = params => {};
+
+export { getUsers, getHolidays, getRequests, postHolidays, postRequests };

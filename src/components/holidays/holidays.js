@@ -1,12 +1,15 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Holiday } from './holiday';
 import { Spinner } from 'react-bootstrap';
 import { getHolidays } from '../../actions';
 
-const HolidaysBase = ({ holidays, getHolidays }) => {
+const Holidays = () => {
+  const { holidays } = useSelector(state => state.contentReducer);
+  const dispatch = useDispatch();
+
   useEffect(() => {
-    getHolidays();
+    dispatch(getHolidays());
   }, []);
 
   return holidays ? (
@@ -24,13 +27,5 @@ const HolidaysBase = ({ holidays, getHolidays }) => {
     <Spinner animation='border' />
   );
 };
-const mapStateToProps = state => ({
-  holidays: state.contentReducer.holidays,
-});
-const mapDispatchToProps = dispatch => ({
-  getHolidays: () => dispatch(getHolidays()),
-});
-
-const Holidays = connect(mapStateToProps, mapDispatchToProps)(HolidaysBase);
 
 export { Holidays };

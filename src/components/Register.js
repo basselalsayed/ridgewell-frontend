@@ -3,9 +3,9 @@ import Form from 'react-validation/build/form';
 import Input from 'react-validation/build/input';
 import CheckButton from 'react-validation/build/button';
 import { isEmail } from 'validator';
+import { useDispatch } from 'react-redux';
 
 import { Card } from 'react-bootstrap';
-import { connect } from 'react-redux';
 import { signUp } from '../actions';
 
 const required = value => {
@@ -48,10 +48,11 @@ const vpassword = value => {
   }
 };
 
-const RegisterBase = props => {
+const Register = () => {
+  const dispatch = useDispatch();
+
   const form = useRef();
   const checkBtn = useRef();
-
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
@@ -82,7 +83,7 @@ const RegisterBase = props => {
     form.current.validateAll();
 
     if (checkBtn.current.context._errors.length === 0) {
-      props.signUp({ username, email, password });
+      dispatch(signUp({ username, email, password }));
 
       //   response => {
       //     setMessage(response.data.message);
@@ -176,14 +177,8 @@ const RegisterBase = props => {
   );
 };
 
-const mapStateToProps = state => ({
-  serverResponse: state.serverResponse,
-});
-
-const mapDispatchToProps = dispatch => ({
-  signUp: userInfo => dispatch(signUp(userInfo)),
-});
-
-const Register = connect(null, mapDispatchToProps)(RegisterBase);
+// const mapStateToProps = state => ({
+//   serverResponse: state.serverResponse,
+// });
 
 export { Register };

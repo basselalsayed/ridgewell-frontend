@@ -4,7 +4,7 @@ import Input from 'react-validation/build/input';
 import CheckButton from 'react-validation/build/button';
 
 import { Card } from 'react-bootstrap';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { login } from '../actions';
 
 const required = value =>
@@ -14,7 +14,9 @@ const required = value =>
     </div>
   );
 
-const LoginBase = props => {
+const Login = ({ history }) => {
+  const dispatch = useDispatch();
+
   const form = useRef();
   const checkBtn = useRef();
 
@@ -33,7 +35,7 @@ const LoginBase = props => {
     setPassword(password);
   };
 
-  const handleLogin = async e => {
+  const handleLogin = e => {
     e.preventDefault();
 
     setMessage('');
@@ -42,9 +44,9 @@ const LoginBase = props => {
     form.current.validateAll();
 
     if (checkBtn.current.context._errors.length === 0) {
-      await props.login({ username, password });
+      dispatch(login({ username, password }));
 
-      props.history.push('/profile');
+      history.push('/profile');
     } else {
       setLoading(false);
     }
@@ -106,13 +108,5 @@ const LoginBase = props => {
     </div>
   );
 };
-
-const mapDispatchToProps = dispatch => {
-  return {
-    login: userInfo => dispatch(login(userInfo)),
-  };
-};
-
-const Login = connect(null, mapDispatchToProps)(LoginBase);
 
 export { Login };

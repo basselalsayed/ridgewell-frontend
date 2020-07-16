@@ -1,38 +1,42 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
 import { Navbar, Nav } from 'react-bootstrap';
 
 import { logOut } from '../actions';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
-const HeaderBase = ({ logOut: logOutRx, user }) => {
-  const [showAdminBoard, setShowAdminBoard] = useState(false);
+const Header = () => {
+  const { user } = useSelector(state => state.authReducer);
+  const dispatch = useDispatch();
 
-  useEffect(() => {
-    user && setShowAdminBoard(user.roles.includes('ROLE_ADMIN'));
-  }, [user]);
+  const showAdminBoard = user && user.roles.includes('ROLE_ADMIN');
 
   const adminNavigation = <Nav.Link href={'/admin'}>Admin Board</Nav.Link>;
 
-  const leftNavigation = (
+  const leftNavigation = user && (
     <>
       {showAdminBoard && adminNavigation}
       <Nav.Link href={'/user'}>User</Nav.Link>
     </>
   );
-  const rightNavigation = user ? (
+
+  const auth = user && (
     <>
       <Nav.Link href={'/profile'}>{user.username}</Nav.Link>
-      <Nav.Link href={'/login'} onClick={logOutRx}>
+      <Nav.Link href={'/login'} onClick={() => dispatch(logOut())}>
         Log Out
       </Nav.Link>
     </>
-  ) : (
+  );
+
+  const noAuth = (
     <>
       <Nav.Link href={'/login'}>Login</Nav.Link>
       <Nav.Link href={'/register'}>Sign Up</Nav.Link>
     </>
   );
+
+  const rightNavigation = user ? auth : noAuth;
 
   return (
     <Navbar bg='dark' variant='dark' expand='lg'>
@@ -45,14 +49,5 @@ const HeaderBase = ({ logOut: logOutRx, user }) => {
     </Navbar>
   );
 };
-
-const mapStateToProps = state => ({
-  user: state.authReducer.user,
-});
-const mapDispatchToProps = dispatch => ({
-  logOut: () => dispatch(logOut()),
-});
-
-const Header = connect(mapStateToProps, mapDispatchToProps)(HeaderBase);
 
 export { Header };
