@@ -17,9 +17,9 @@ const RequestsTable = ({ requests }) => (
       <tr key={idx}>
         <td>{idx + 1}</td>
 
-        <td>{type && ` ${capitalize(type)}`}</td>
-        {<td> {from && format(new Date(from), 'd/mm/yy')}</td>}
-        {<td> {until && format(new Date(until), 'd/mm/yy')}</td>}
+        <td>{type && `${capitalize(type)}`}</td>
+        {<td>{from && format(new Date(from), 'd/MM/yy')}</td>}
+        {<td>{until && format(new Date(until), 'd/MM/yy')}</td>}
       </tr>
     ))}
   </Table>
