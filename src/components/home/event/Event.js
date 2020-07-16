@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { OverlayTrigger, Popover } from 'react-bootstrap';
-import { EventModal } from './EventModal';
-import { RequestsTable } from './RequestsTable';
+import { EventModal, RequestsTable } from './components';
 
 const Event = ({ event: { id, holidayRequests, style }, title }) => {
   const [show, setShow] = useState(false);
