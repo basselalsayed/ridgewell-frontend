@@ -24,45 +24,55 @@ const RequestsTable = ({ requests }) => (
     ))}
   </Table>
 );
-const Event = ({ event: { holidayRequests, style }, title }) => {
+const Event = ({ event: { id, holidayRequests, style }, title }) => {
   const [show, setShow] = useState(false);
 
   const handleShow = () => setShow(!show);
 
+  const banner = (
+    <div onClick={handleShow} style={style}>
+      <strong> {title} </strong>
+    </div>
+  );
+
+  const withTooltip = (
+    <OverlayTrigger
+      trigger='hover'
+      placement={'top'}
+      overlay={
+        <Popover id={`hol-${id}-popover`}>
+          <Popover.Title as='h3'>Pending Requests</Popover.Title>
+          <Popover.Content>
+            <RequestsTable requests={holidayRequests} />
+          </Popover.Content>
+        </Popover>
+      }
+    >
+      {banner}
+    </OverlayTrigger>
+  );
+
+  const modal = (
+    <Modal show={show} onHide={handleShow}>
+      <Modal.Header closeButton>
+        <Modal.Title>{title}</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
+      <Modal.Footer>
+        <Button variant='secondary' onClick={handleShow}>
+          Close
+        </Button>
+        <Button variant='primary' onClick={handleShow}>
+          Save Changes
+        </Button>
+      </Modal.Footer>
+    </Modal>
+  );
+
   return (
     <>
-      <OverlayTrigger
-        trigger='hover'
-        placement={'top'}
-        overlay={
-          <Popover id={`popover-positioned-top`}>
-            <Popover.Title as='h3'>
-              {holidayRequests ? 'Requests' : 'None'}
-            </Popover.Title>
-            <Popover.Content>
-              {holidayRequests && <RequestsTable requests={holidayRequests} />}
-            </Popover.Content>
-          </Popover>
-        }
-      >
-        <div onClick={handleShow} style={style}>
-          <strong> {title} </strong>
-        </div>
-      </OverlayTrigger>
-      <Modal show={show} onHide={handleShow}>
-        <Modal.Header closeButton>
-          <Modal.Title>{title}</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
-        <Modal.Footer>
-          <Button variant='secondary' onClick={handleShow}>
-            Close
-          </Button>
-          <Button variant='primary' onClick={handleShow}>
-            Save Changes
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      {holidayRequests ? withTooltip : banner}
+      {modal}
     </>
   );
 };
