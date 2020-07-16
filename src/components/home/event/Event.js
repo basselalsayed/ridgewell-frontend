@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { OverlayTrigger, Popover, Table, Modal, Button } from 'react-bootstrap';
-import { capitalize } from '../../services';
+import { capitalize } from '../../../services';
 import { format } from 'date-fns';
+import { EventModal } from './EventModal';
 
 const RequestsTable = ({ requests }) => (
   <Table striped bordered hover size='sm'>
@@ -52,27 +53,16 @@ const Event = ({ event: { id, holidayRequests, style }, title }) => {
     </OverlayTrigger>
   );
 
-  const modal = (
-    <Modal show={show} onHide={handleShow}>
-      <Modal.Header closeButton>
-        <Modal.Title>{title}</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
-      <Modal.Footer>
-        <Button variant='secondary' onClick={handleShow}>
-          Close
-        </Button>
-        <Button variant='primary' onClick={handleShow}>
-          Save Changes
-        </Button>
-      </Modal.Footer>
-    </Modal>
-  );
+  const modalProps = {
+    handleShow,
+    show,
+    title,
+  };
 
   return (
     <>
       {holidayRequests ? withTooltip : banner}
-      {modal}
+      <EventModal {...modalProps} />
     </>
   );
 };
