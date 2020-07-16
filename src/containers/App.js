@@ -11,7 +11,7 @@ import {
   BoardUser,
   BoardAdmin,
   Header,
-} from './components';
+} from '../components';
 
 import { useSelector } from 'react-redux';
 
@@ -37,4 +37,4 @@ const App = () => {
   );
 };
 
-export default App;
+export { App };
