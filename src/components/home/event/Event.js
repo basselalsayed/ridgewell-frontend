@@ -1,30 +1,8 @@
 import React, { useState } from 'react';
-import { OverlayTrigger, Popover, Table, Modal, Button } from 'react-bootstrap';
-import { capitalize } from '../../../services';
-import { format } from 'date-fns';
+import { OverlayTrigger, Popover } from 'react-bootstrap';
 import { EventModal } from './EventModal';
+import { RequestsTable } from './RequestsTable';
 
-const RequestsTable = ({ requests }) => (
-  <Table striped bordered hover size='sm'>
-    <thead>
-      <tr>
-        <th>#</th>
-        <th>Type</th>
-        <th>From</th>
-        <th>Until</th>
-      </tr>
-    </thead>
-    {requests.map(({ type, from, until }, idx) => (
-      <tr key={idx}>
-        <td>{idx + 1}</td>
-
-        <td>{type && `${capitalize(type)}`}</td>
-        {<td>{from && format(new Date(from), 'd/MM/yy')}</td>}
-        {<td>{until && format(new Date(until), 'd/MM/yy')}</td>}
-      </tr>
-    ))}
-  </Table>
-);
 const Event = ({ event: { id, holidayRequests, style }, title }) => {
   const [show, setShow] = useState(false);
 
@@ -36,6 +14,12 @@ const Event = ({ event: { id, holidayRequests, style }, title }) => {
     </div>
   );
 
+  const modalProps = {
+    handleShow,
+    show,
+    title,
+  };
+
   const withTooltip = (
     <OverlayTrigger
       trigger='hover'
@@ -43,21 +27,15 @@ const Event = ({ event: { id, holidayRequests, style }, title }) => {
       overlay={
         <Popover id={`hol-${id}-popover`}>
           <Popover.Title as='h3'>Pending Requests</Popover.Title>
-          <Popover.Content>
-            <RequestsTable requests={holidayRequests} />
-          </Popover.Content>
+          <Popover.Content
+            children={<RequestsTable requests={holidayRequests} />}
+          />
         </Popover>
       }
     >
       {banner}
     </OverlayTrigger>
   );
-
-  const modalProps = {
-    handleShow,
-    show,
-    title,
-  };
 
   return (
     <>
