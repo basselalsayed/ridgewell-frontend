@@ -1,13 +1,19 @@
 import { colors } from '../../constants';
 
-const eventStyleGetter = (event, start, end, isSelected) => {
-  let { confirmed, holidayRequests } = event;
+const eventStyleGetter = (
+  { confirmed, holidayRequests },
+  start,
+  end,
+  isSelected,
+) => {
+  const filterRequests = (reqs, type) =>
+    reqs.filter(hol => hol.type === type).length;
+
   const hasPendingDelete =
-    holidayRequests &&
-    holidayRequests.filter(hol => hol.type === 'delete').length;
+    holidayRequests && filterRequests(holidayRequests, 'delete');
+
   const hasPendingUpdate =
-    holidayRequests &&
-    holidayRequests.filter(hol => hol.type === 'update').length;
+    holidayRequests && filterRequests(holidayRequests, 'update');
 
   let style = {
     backgroundColor: hasPendingDelete
