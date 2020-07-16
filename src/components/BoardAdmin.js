@@ -4,6 +4,7 @@ import { Holidays, Requests, Users } from './';
 
 import { Tab, Row, Col, ListGroup } from 'react-bootstrap';
 
+import { tabBtn } from './admin.module.css';
 const BoardAdmin = () => {
   //  <div className='container'>
   // <header className='jumbotron'>
@@ -12,10 +13,25 @@ const BoardAdmin = () => {
       <Row>
         <Col>
           <ListGroup horizontal>
-            <ListGroup.Item action href='#requests' children='Requests' />
-            <ListGroup.Item action href='#users' children='Users' />
+            <ListGroup.Item
+              action
+              className={tabBtn}
+              href='#requests'
+              children='Requests'
+            />
+            <ListGroup.Item
+              action
+              className={tabBtn}
+              href='#users'
+              children='Users'
+            />
 
-            <ListGroup.Item action href='#holidays' children='Holidays' />
+            <ListGroup.Item
+              action
+              className={tabBtn}
+              href='#holidays'
+              children='Holidays'
+            />
           </ListGroup>
         </Col>
       </Row>
@@ -35,7 +51,7 @@ const BoardAdmin = () => {
         </Col>
       </Row>
     </Tab.Container>
-    //     {/* <Holidays /> */}
+
     //   {/* </header> */}
     // {/* </div> */}
   );
