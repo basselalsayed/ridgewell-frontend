@@ -2,7 +2,10 @@ import React, { useState } from 'react';
 import { OverlayTrigger, Popover } from 'react-bootstrap';
 import { EventModal, RequestsTable } from './components';
 
-const Event = ({ event: { id, holidayRequests, style }, title }) => {
+const Event = ({
+  event: { end, holidayRequests, id, start, style },
+  title,
+}) => {
   const [show, setShow] = useState(false);
 
   const handleShow = () => setShow(!show);
@@ -14,14 +17,16 @@ const Event = ({ event: { id, holidayRequests, style }, title }) => {
   );
 
   const modalProps = {
+    end,
     handleShow,
     show,
+    start,
     title,
   };
 
   const withTooltip = (
     <OverlayTrigger
-      trigger='hover'
+      trigger={['hover', 'focus']}
       placement={'top'}
       overlay={
         <Popover id={`hol-${id}-popover`}>

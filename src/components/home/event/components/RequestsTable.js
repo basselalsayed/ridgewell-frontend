@@ -1,6 +1,6 @@
 import React from 'react';
 import { Table } from 'react-bootstrap';
-import { capitalize } from '../../../services';
+import { capitalize } from '../../../../services';
 import { format } from 'date-fns';
 
 const RequestsTable = ({ requests }) => {
