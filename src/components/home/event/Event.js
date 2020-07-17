@@ -10,19 +10,20 @@ const Event = ({
 
   const handleShow = () => setShow(!show);
 
-  const banner = (
-    <div onClick={handleShow} style={style}>
-      <strong> {title} </strong>
-    </div>
-  );
-
   const modalProps = {
     end,
     handleShow,
     show,
     start,
     title,
+    update: true,
   };
+
+  const banner = (
+    <div onClick={handleShow} style={style}>
+      <strong> {title} </strong>
+    </div>
+  );
 
   const withTooltip = (
     <OverlayTrigger

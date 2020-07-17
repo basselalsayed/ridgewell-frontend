@@ -1,6 +1,7 @@
 export * from './BoardAdmin';
 export * from './BoardUser';
 export * from './burger';
+export * from './forms';
 export * from './Header';
 export * from './holidays';
 export * from './home';
