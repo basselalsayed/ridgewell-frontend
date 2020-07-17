@@ -2,17 +2,8 @@ import React from 'react';
 import { Formik } from 'formik';
 import { Form, Button, Col } from 'react-bootstrap';
 import * as yup from 'yup';
-import { format, addMonths } from 'date-fns';
 
-let today = new Date();
-today.setHours(0, 0, 0, 0);
-
-const formats = { form: 'yyyy-MM-dd' };
-const formatted = (date, type) => format(new Date(date), formats[type]);
-const plusTwoMonths = date => addMonths(new Date(date), 2);
-
-const getMin = (update, date) =>
-  update ? formatted(today, 'form') : formatted(plusTwoMonths(date), 'form');
+import { getMin } from '../../helpers';
 
 const RequestForm = ({ from, until, update }) => {
   const min = getMin(update, from);
@@ -55,7 +46,7 @@ const RequestForm = ({ from, until, update }) => {
               <Form.Control
                 type='date'
                 name='from'
-                min={min}
+                // min={min}
                 value={values.from}
                 onChange={handleChange}
                 isInvalid={errors.from}

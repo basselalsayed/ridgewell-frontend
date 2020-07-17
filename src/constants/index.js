@@ -7,4 +7,10 @@ const colors = {
   notConfirmed: 'yellow',
   hasUpdate: 'azureblue',
 };
-export { API_URL, colors };
+
+const formats = { form: 'yyyy-MM-dd' };
+
+let today = new Date();
+today.setHours(0, 0, 0, 0);
+
+export { API_URL, colors, formats, today };
