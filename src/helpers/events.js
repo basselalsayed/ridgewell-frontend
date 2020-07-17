@@ -1,4 +1,8 @@
-import { colors } from '../../constants';
+import { colors } from '../constants';
+const filterRequests = (reqs, type) =>
+  reqs && reqs.filter(hol => hol.type === type).length;
+
+const hasPending = (type, reqs) => filterRequests(reqs, type);
 
 const eventStyleGetter = (
   { confirmed, holidayRequests },
@@ -6,19 +10,10 @@ const eventStyleGetter = (
   end,
   isSelected,
 ) => {
-  const filterRequests = (reqs, type) =>
-    reqs.filter(hol => hol.type === type).length;
-
-  const hasPendingDelete =
-    holidayRequests && filterRequests(holidayRequests, 'delete');
-
-  const hasPendingUpdate =
-    holidayRequests && filterRequests(holidayRequests, 'update');
-
   let style = {
-    backgroundColor: hasPendingDelete
+    backgroundColor: hasPending('delete', holidayRequests)
       ? colors.hasDelete
-      : hasPendingUpdate
+      : hasPending('update', holidayRequests)
       ? colors.hasUpdate
       : confirmed
       ? colors.confirmed

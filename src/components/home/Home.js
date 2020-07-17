@@ -4,7 +4,7 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
-import { eventStyleGetter, holidayEvents, requestEvents } from './helpers';
+import { eventStyleGetter, holidayEvents, requestEvents } from '../../helpers';
 import { Event } from './event';
 
 import { useSelector, useDispatch } from 'react-redux';
