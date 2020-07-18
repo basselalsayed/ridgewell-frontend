@@ -1,7 +1,8 @@
 import React from 'react';
 import { Table } from 'react-bootstrap';
 import { capitalize } from '../../../../services';
-import { format } from 'date-fns';
+
+import { formatted } from '../../../../helpers';
 
 const RequestsTable = ({ requests }) => {
   const headerRow = (
@@ -19,8 +20,8 @@ const RequestsTable = ({ requests }) => {
     <tr key={id}>
       <td>{idx + 1}</td>
       <td>{type && `${capitalize(type)}`}</td>
-      {<td>{from && format(new Date(from), 'd/MM/yy')}</td>}
-      {<td>{until && format(new Date(until), 'd/MM/yy')}</td>}
+      {<td>{from && formatted(from, 'popover')}</td>}
+      {<td>{until && formatted(until, 'popover')}</td>}
     </tr>
   ));
 

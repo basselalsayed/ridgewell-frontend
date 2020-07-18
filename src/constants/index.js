@@ -8,7 +8,10 @@ const colors = {
   hasUpdate: 'azureblue',
 };
 
-const formats = { form: 'yyyy-MM-dd' };
+const formats = {
+  form: 'yyyy-MM-dd',
+  popover: 'd/MM/yy',
+};
 
 let today = new Date();
 today.setHours(0, 0, 0, 0);

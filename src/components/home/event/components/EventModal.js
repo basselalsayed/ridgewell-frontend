@@ -1,11 +1,11 @@
 import React from 'react';
 import { Modal, Button, Col, Row, Form } from 'react-bootstrap';
 
-import { format } from 'date-fns';
 import { useState } from 'react';
 import { RequestForm } from '../../../.';
+import { formatted } from '../../../../helpers';
 
-const EventModal = ({ handleShow, show, start, end, title, update }) => {
+const EventModal = ({ id, handleShow, show, start, end, title, update }) => {
   const [annualLeave, setAnnualLeave] = useState(false);
 
   return (
@@ -28,8 +28,9 @@ const EventModal = ({ handleShow, show, start, end, title, update }) => {
       </Modal.Header>
       <Modal.Body>
         <RequestForm
-          from={format(new Date(start), 'yyyy-MM-dd')}
-          until={format(new Date(end), 'yyyy-MM-dd')}
+          id={id}
+          from={formatted(start, 'form')}
+          until={formatted(end, 'form')}
           update={update}
         />
       </Modal.Body>
