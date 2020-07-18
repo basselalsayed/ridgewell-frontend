@@ -18,7 +18,7 @@ const Home = () => {
 
   useEffect(() => {
     dispatch(getHolidays());
-  }, []);
+  }, [dispatch, holidays]);
 
   let events = useMemo(
     () => holidays && [...holidayEvents(holidays), ...requestEvents(holidays)],

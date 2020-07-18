@@ -13,6 +13,7 @@ const Event = ({
   const modalProps = {
     end,
     handleShow,
+    id,
     show,
     start,
     title,

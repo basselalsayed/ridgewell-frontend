@@ -1,13 +1,18 @@
 import React from 'react';
 import { Formik } from 'formik';
-import { Form, Button, Col } from 'react-bootstrap';
+import { Form, Button, Col, Alert } from 'react-bootstrap';
 import * as yup from 'yup';
 
 import { getMin } from '../../helpers';
+import axios from 'axios';
+import { API_URL } from '../../constants';
+import authHeader from '../../services/auth-header';
+import { useDispatch } from 'react-redux';
+import { getHolidays } from '../../actions';
 
-const RequestForm = ({ from, until, update }) => {
+const RequestForm = ({ id, from, until, update }) => {
   const min = getMin(update, from);
-
+  const dispatch = useDispatch();
   const schema = yup.object({
     from: yup
       .date()
@@ -24,21 +29,20 @@ const RequestForm = ({ from, until, update }) => {
   return (
     <Formik
       validationSchema={schema}
-      onSubmit={console.log}
+      onSubmit={(data, { setStatus }) => {
+        axios
+          .post(API_URL + `requests/upd/${10}`, data, { headers: authHeader() })
+          .then(res => res && setStatus('Success'))
+          .catch(err => setStatus(err.message));
+
+        dispatch(getHolidays());
+      }}
       initialValues={{
         from,
         until,
       }}
     >
-      {({
-        handleSubmit,
-        handleChange,
-        handleBlur,
-        values,
-        touched,
-        isValid,
-        errors,
-      }) => (
+      {({ errors, handleChange, handleSubmit, status, touched, values }) => (
         <Form noValidate onSubmit={handleSubmit}>
           <Form.Row>
             <Form.Group as={Col} controlId='validationFormik01'>
@@ -46,13 +50,13 @@ const RequestForm = ({ from, until, update }) => {
               <Form.Control
                 type='date'
                 name='from'
-                // min={min}
+                min={min}
                 value={values.from}
                 onChange={handleChange}
+                isValid={touched.from && !errors.from}
                 isInvalid={errors.from}
               />
               <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-
               <Form.Control.Feedback type='invalid'>
                 {errors.from}
               </Form.Control.Feedback>
@@ -65,9 +69,9 @@ const RequestForm = ({ from, until, update }) => {
                 min={values.from}
                 value={values.until}
                 onChange={handleChange}
+                isValid={touched.until && !errors.until}
                 isInvalid={errors.until}
               />
-
               <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
               <Form.Control.Feedback type='invalid'>
                 {errors.until}
@@ -76,6 +80,14 @@ const RequestForm = ({ from, until, update }) => {
           </Form.Row>
 
           <Button type='submit'>Submit form</Button>
+          {status && (
+            <Alert
+              style={{ marginTop: 10 }}
+              variant={status === 'success' ? 'success' : 'danger'}
+            >
+              {status}
+            </Alert>
+          )}
         </Form>
       )}
     </Formik>
