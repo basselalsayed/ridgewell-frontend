@@ -1,8 +1,9 @@
 import { colors } from '../constants';
-const filterRequests = (reqs, type) =>
-  reqs && reqs.filter(hol => hol.type === type).length;
 
-const hasPending = (type, reqs) => filterRequests(reqs, type);
+const filterRequests = (type, reqs) =>
+  reqs ? reqs.filter(hol => hol.type === type) : [];
+
+const hasPending = (type, reqs) => filterRequests(type, reqs).length;
 
 const eventStyleGetter = (
   { confirmed, holidayRequests },
@@ -28,16 +29,14 @@ const eventStyleGetter = (
     style,
   };
 };
+
 const requestHandler = holReqs =>
-  holReqs.map(
-    ({ type, from, resolved, until }) =>
-      type === 'update' && {
-        title: `${type}, Resolved: ${resolved}`,
-        start: from && new Date(from),
-        end: until && new Date(until),
-        resolved,
-      },
-  );
+  filterRequests('update', holReqs).map(({ type, from, resolved, until }) => ({
+    title: `${type}, Resolved: ${resolved}`,
+    start: from && new Date(from),
+    end: until && new Date(until),
+    resolved,
+  }));
 
 const holidayEvents = holidays =>
   holidays.map(
