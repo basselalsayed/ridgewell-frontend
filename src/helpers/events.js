@@ -1,4 +1,9 @@
-import { colors } from '../../constants';
+import { colors } from '../constants';
+
+const filterRequests = (type, reqs) =>
+  reqs ? reqs.filter(hol => hol.type === type) : [];
+
+const hasPending = (type, reqs) => filterRequests(type, reqs).length;
 
 const eventStyleGetter = (
   { confirmed, holidayRequests },
@@ -6,19 +11,10 @@ const eventStyleGetter = (
   end,
   isSelected,
 ) => {
-  const filterRequests = (reqs, type) =>
-    reqs.filter(hol => hol.type === type).length;
-
-  const hasPendingDelete =
-    holidayRequests && filterRequests(holidayRequests, 'delete');
-
-  const hasPendingUpdate =
-    holidayRequests && filterRequests(holidayRequests, 'update');
-
   let style = {
-    backgroundColor: hasPendingDelete
+    backgroundColor: hasPending('delete', holidayRequests)
       ? colors.hasDelete
-      : hasPendingUpdate
+      : hasPending('update', holidayRequests)
       ? colors.hasUpdate
       : confirmed
       ? colors.confirmed
@@ -33,16 +29,14 @@ const eventStyleGetter = (
     style,
   };
 };
+
 const requestHandler = holReqs =>
-  holReqs.map(
-    ({ type, from, resolved, until }) =>
-      type === 'update' && {
-        title: `${type}, Resolved: ${resolved}`,
-        start: from && new Date(from),
-        end: until && new Date(until),
-        resolved,
-      },
-  );
+  filterRequests('update', holReqs).map(({ type, from, resolved, until }) => ({
+    title: `${type}, Resolved: ${resolved}`,
+    start: from && new Date(from),
+    end: until && new Date(until),
+    resolved,
+  }));
 
 const holidayEvents = holidays =>
   holidays.map(

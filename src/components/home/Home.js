@@ -1,24 +1,29 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
-import { eventStyleGetter, holidayEvents, requestEvents } from './helpers';
+import { eventStyleGetter, holidayEvents, requestEvents } from '../../helpers';
 import { Event } from './event';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { getHolidays } from '../../actions';
+import { EventModal } from './event/components';
 
 const localizer = momentLocalizer(moment);
 
 const Home = () => {
+  const [date, setDate] = useState(null);
+  const [show, setShow] = useState(false);
+  const handleShow = () => setShow(!show);
+
   const { holidays } = useSelector(state => state.contentReducer);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getHolidays());
-  }, []);
+  }, [dispatch, holidays]);
 
   let events = useMemo(
     () => holidays && [...holidayEvents(holidays), ...requestEvents(holidays)],
@@ -26,17 +31,16 @@ const Home = () => {
   );
 
   const handleSelect = ({ start, end }) => {
-    const title = window.prompt('New Event name');
+    setDate({ start, end });
+    handleShow();
+  };
 
-    if (title)
-      return (events = [
-        ...events,
-        {
-          title,
-          start,
-          end,
-        },
-      ]);
+  const modalProps = {
+    ...date,
+    handleShow,
+    show,
+    title: 'New Holiday',
+    update: false,
   };
 
   return (
@@ -48,13 +52,13 @@ const Home = () => {
         events={events || []}
         style={{ height: 800 }}
         onSelectSlot={handleSelect}
-        // onSelectEvent={event => alert(event.title)}
         components={{
           event: Event,
         }}
         eventPropGetter={eventStyleGetter}
         tooltipAccessor={null}
       />
+      {date && <EventModal {...modalProps} />}
     </div>
   );
 };
