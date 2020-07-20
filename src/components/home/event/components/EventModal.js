@@ -1,12 +1,14 @@
 import React from 'react';
-import { Modal, Button, Col, Row, Form } from 'react-bootstrap';
+import { Modal, Col, Row, Form } from 'react-bootstrap';
 
 import { useState } from 'react';
 import { RequestForm } from '../../../.';
 import { formatted } from '../../../../helpers';
 
 const EventModal = ({ id, handleShow, show, start, end, title, update }) => {
-  const [annualLeave, setAnnualLeave] = useState(false);
+  const [annualLeave, setAnnualLeave] = useState(!update);
+
+  const handleChange = () => setAnnualLeave(!annualLeave);
 
   return (
     <Modal show={show} onHide={handleShow}>
@@ -20,7 +22,8 @@ const EventModal = ({ id, handleShow, show, start, end, title, update }) => {
               <Form.Switch
                 id='annualLeave-switch'
                 label='Annual Leave'
-                onChange={() => setAnnualLeave(!annualLeave)}
+                checked={annualLeave}
+                onChange={handleChange}
               />
             )}
           </Col>
@@ -35,14 +38,7 @@ const EventModal = ({ id, handleShow, show, start, end, title, update }) => {
           annualLeave={annualLeave}
         />
       </Modal.Body>
-      <Modal.Footer>
-        <Button variant='secondary' onClick={handleShow}>
-          Close
-        </Button>
-        <Button variant='primary' onClick={handleShow}>
-          Save Changes
-        </Button>
-      </Modal.Footer>
+      <Modal.Footer></Modal.Footer>
     </Modal>
   );
 };

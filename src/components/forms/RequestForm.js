@@ -3,7 +3,7 @@ import { Formik } from 'formik';
 import { Form, Button, Col, Alert } from 'react-bootstrap';
 import * as yup from 'yup';
 
-import { getMin } from '../../helpers';
+import { getMin, getMax } from '../../helpers';
 import axios from 'axios';
 import { API_URL } from '../../constants';
 import authHeader from '../../services/auth-header';
@@ -11,7 +11,6 @@ import { useDispatch } from 'react-redux';
 import { getHolidays } from '../../actions';
 
 const RequestForm = ({ annualLeave, id, from, until, update }) => {
-  // const min = getMin(annualLeave, from, update);
   const min = useMemo(() => getMin(annualLeave, from, update), [
     from,
     update,
@@ -73,6 +72,7 @@ const RequestForm = ({ annualLeave, id, from, until, update }) => {
                 type='date'
                 name='until'
                 min={values.from}
+                max={getMax(annualLeave, values.from, update)}
                 value={values.until}
                 onChange={handleChange}
                 isValid={touched.until && !errors.until}
