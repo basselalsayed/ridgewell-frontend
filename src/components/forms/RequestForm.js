@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Formik } from 'formik';
 import { Form, Button, Col, Alert } from 'react-bootstrap';
 import * as yup from 'yup';
@@ -10,9 +10,14 @@ import authHeader from '../../services/auth-header';
 import { useDispatch } from 'react-redux';
 import { getHolidays } from '../../actions';
 
-const RequestForm = ({ id, from, until, update }) => {
-  const min = getMin(update, from);
-  const dispatch = useDispatch();
+const RequestForm = ({ annualLeave, id, from, until, update }) => {
+  // const min = getMin(annualLeave, from, update);
+  const min = useMemo(() => getMin(annualLeave, from, update), [
+    from,
+    update,
+    annualLeave,
+  ]);
+  // const dispatch = useDispatch();
   const schema = yup.object({
     from: yup
       .date()
@@ -25,17 +30,18 @@ const RequestForm = ({ id, from, until, update }) => {
         yup.date().min(st, 'Date cannot be behind start'),
       ),
   });
+  const ENDPOINT = API_URL + (update ? `requests/upd/${id}` : `holidays/`);
 
   return (
     <Formik
       validationSchema={schema}
       onSubmit={(data, { setStatus }) => {
         axios
-          .post(API_URL + `requests/upd/${10}`, data, { headers: authHeader() })
+          .post(ENDPOINT, data, { headers: authHeader() })
           .then(res => res && setStatus('Success'))
           .catch(err => setStatus(err.message));
 
-        dispatch(getHolidays());
+        // dispatch(getHolidays());
       }}
       initialValues={{
         from,
@@ -83,7 +89,7 @@ const RequestForm = ({ id, from, until, update }) => {
           {status && (
             <Alert
               style={{ marginTop: 10 }}
-              variant={status === 'success' ? 'success' : 'danger'}
+              variant={status === 'Success' ? 'success' : 'danger'}
             >
               {status}
             </Alert>

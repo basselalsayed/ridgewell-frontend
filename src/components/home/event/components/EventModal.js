@@ -32,6 +32,7 @@ const EventModal = ({ id, handleShow, show, start, end, title, update }) => {
           from={formatted(start, 'form')}
           until={formatted(end, 'form')}
           update={update}
+          annualLeave={annualLeave}
         />
       </Modal.Body>
       <Modal.Footer>

@@ -11,7 +11,7 @@ const getUsers = () => async dispatch =>
 
 const getHolidays = () => async dispatch =>
   await axios
-    .get(API_URL + 'holiday/', {
+    .get(API_URL + 'holidays/', {
       headers: authHeader(),
     })
     .then(({ data: { holidays } }) =>

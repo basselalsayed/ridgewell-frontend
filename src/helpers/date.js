@@ -5,7 +5,9 @@ const formatted = (date, type) => format(new Date(date), formats[type]);
 
 const plusTwoMonths = date => addMonths(new Date(date), 2);
 
-const getMin = (update, date) =>
-  update ? formatted(today, 'form') : formatted(plusTwoMonths(date), 'form');
+const getMin = (annualLeave, date, update) =>
+  !update && annualLeave
+    ? formatted(plusTwoMonths(today), 'form')
+    : formatted(today, 'form');
 
 export { formatted, getMin };
