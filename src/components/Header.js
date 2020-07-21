@@ -4,12 +4,13 @@ import { Navbar, Nav } from 'react-bootstrap';
 
 import { logOut } from '../actions';
 import { useSelector, useDispatch } from 'react-redux';
+import { isAdmin } from '../helpers';
 
 const Header = () => {
   const { user } = useSelector(state => state.authReducer);
   const dispatch = useDispatch();
 
-  const showAdminBoard = user && user.roles.includes('ROLE_ADMIN');
+  const showAdminBoard = user && isAdmin(user);
 
   const adminNavigation = <Nav.Link href={'/admin'}>Admin Board</Nav.Link>;
 

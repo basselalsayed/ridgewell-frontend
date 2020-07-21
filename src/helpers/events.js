@@ -40,10 +40,19 @@ const requestHandler = holReqs =>
 
 const holidayEvents = holidays =>
   holidays.map(
-    ({ confirmed, from, holidayRequests, id, until, user: { username } }) => ({
+    ({
+      confirmed,
+      from,
+      holidayRequests,
+      id,
+      until,
+      user: { username },
+      userId,
+    }) => ({
       confirmed,
       holidayRequests,
       id,
+      userId,
       title: username,
       start: new Date(from),
       end: new Date(until),
