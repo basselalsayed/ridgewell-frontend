@@ -85,7 +85,9 @@ const RequestForm = ({ annualLeave, id, from, until, update }) => {
             </Form.Group>
           </Form.Row>
 
-          <Button type='submit'>Submit form</Button>
+          <Button type='submit' style={{ width: '100%' }}>
+            Submit form
+          </Button>
           {status && (
             <Alert
               style={{ marginTop: 10 }}

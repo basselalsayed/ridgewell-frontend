@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
 import { OverlayTrigger, Popover } from 'react-bootstrap';
 import { EventModal, RequestsTable } from './components';
+import { useSelector } from 'react-redux';
+import { hasEditAcces } from '../../../helpers';
 
 const Event = ({
-  event: { end, holidayRequests, id, start, style },
+  event: { end, holidayRequests, id, start, style, userId },
   title,
 }) => {
   const [show, setShow] = useState(false);
+  const { user } = useSelector(state => state.authReducer);
 
-  const handleShow = () => setShow(!show);
+  const handleShow = () => hasEditAcces(user, userId) && setShow(!show);
 
   const modalProps = {
     end,
@@ -26,16 +29,28 @@ const Event = ({
     </div>
   );
 
+  const noAuthToolTip = (
+    <Popover.Title as='h3'>
+      Only owners and managers can make update requests.
+    </Popover.Title>
+  );
+
   const withTooltip = (
     <OverlayTrigger
       trigger={['hover', 'focus']}
       placement={'top'}
       overlay={
         <Popover id={`hol-${id}-popover`}>
-          <Popover.Title as='h3'>Pending Requests</Popover.Title>
-          <Popover.Content
-            children={<RequestsTable requests={holidayRequests} />}
-          />
+          <Popover.Content>
+            {hasEditAcces(user, userId) ? (
+              <>
+                <Popover.Title as='h3'>Pending Requests</Popover.Title>
+                <RequestsTable requests={holidayRequests} />
+              </>
+            ) : (
+              noAuthToolTip
+            )}
+          </Popover.Content>
         </Popover>
       }
     >
