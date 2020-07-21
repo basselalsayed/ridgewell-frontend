@@ -31,7 +31,7 @@ const Event = ({
 
   const noAuthToolTip = (
     <Popover.Title as='h3'>
-      Only owners and managers can edit this
+      Only owners and managers can make update requests.
     </Popover.Title>
   );
 
