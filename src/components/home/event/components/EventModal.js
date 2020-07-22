@@ -1,15 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Modal, Col, Row, Form, Button } from 'react-bootstrap';
+import axios from 'axios';
+import { useDispatch } from 'react-redux';
 
-import { useState } from 'react';
 import { RequestForm } from '../../../.';
 import { formatted } from '../../../../helpers';
-import axios from 'axios';
+import { getHolidays } from '../../../../actions';
 import { API_URL } from '../../../../constants';
 import authHeader from '../../../../services/auth-header';
 
+import { dangerBtn } from '../../../index.module.css';
+
 const EventModal = ({ id, handleShow, show, start, end, title, update }) => {
   const [annualLeave, setAnnualLeave] = useState(!update);
+
+  const dispatch = useDispatch();
 
   const handleChange = () => setAnnualLeave(!annualLeave);
 
@@ -50,16 +55,10 @@ const EventModal = ({ id, handleShow, show, start, end, title, update }) => {
               .post(ENDPOINT, {}, { headers: authHeader() })
               .then(res => console.log('res', res))
               .catch(err => console.log(err.message));
+
+            dispatch(getHolidays());
           }}
-          variant='danger'
-          style={{
-            backgroundColor: '#f8d7da',
-            borderColor: '#f5c6cb',
-            color: '#721c24',
-            cursor: 'pointer',
-            textAlign: 'center',
-            width: '100%',
-          }}
+          className={dangerBtn}
         >
           Delete Holiday
         </Button>

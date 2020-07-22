@@ -2,6 +2,7 @@ import React from 'react';
 import { Card, Button, Row, Col } from 'react-bootstrap';
 import { capitalize } from '../../../services';
 import { formatted } from '../../../helpers';
+import { dangerBtn, successBtn } from '../../index.module.css';
 
 const Request = ({
   createdAt,
@@ -26,10 +27,10 @@ const Request = ({
     <Card.Footer>
       <Row>
         <Col>
-          <Button style={{ width: '100%' }}>Refuse</Button>
+          <Button className={dangerBtn}>Refuse</Button>
         </Col>
         <Col>
-          <Button style={{ width: '100%' }}>Confirm</Button>
+          <Button className={successBtn}>Confirm</Button>
         </Col>
       </Row>
     </Card.Footer>

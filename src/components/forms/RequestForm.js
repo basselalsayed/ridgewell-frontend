@@ -7,6 +7,8 @@ import { getMin, getMax } from '../../helpers';
 import axios from 'axios';
 import { API_URL } from '../../constants';
 import authHeader from '../../services/auth-header';
+
+import { successBtn } from '../index.module.css';
 import { useDispatch } from 'react-redux';
 import { getHolidays } from '../../actions';
 
@@ -16,7 +18,8 @@ const RequestForm = ({ annualLeave, id, from, until, update }) => {
     update,
     annualLeave,
   ]);
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
+
   const schema = yup.object({
     from: yup
       .date()
@@ -40,7 +43,7 @@ const RequestForm = ({ annualLeave, id, from, until, update }) => {
           .then(res => res && setStatus('Success'))
           .catch(err => setStatus(err.message));
 
-        // dispatch(getHolidays());
+        dispatch(getHolidays());
       }}
       initialValues={{
         from,
@@ -85,7 +88,7 @@ const RequestForm = ({ annualLeave, id, from, until, update }) => {
             </Form.Group>
           </Form.Row>
 
-          <Button type='submit' style={{ width: '100%' }}>
+          <Button type='submit' className={successBtn}>
             Submit form
           </Button>
           {status && (

@@ -4,7 +4,8 @@ import { Holidays, Requests, Users } from './';
 
 import { Tab, Row, Col, ListGroup } from 'react-bootstrap';
 
-import { tabBtn } from './admin.module.css';
+import { tabBtn } from './index.module.css';
+
 const BoardAdmin = () => {
   //  <div className='container'>
   // <header className='jumbotron'>
