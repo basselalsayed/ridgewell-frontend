@@ -10,7 +10,7 @@ const Request = ({
   resolved,
   type,
   until,
-  user: { email, username },
+  User: { email, username },
 }) => (
   <Card border={resolved ? 'success' : 'warning'}>
     <Card.Title>

@@ -43,14 +43,14 @@ const holidayEvents = holidays =>
     ({
       confirmed,
       from,
-      holidayRequests,
+      HolidayRequests,
       id,
       until,
-      user: { username },
+      User: { username },
       userId,
     }) => ({
       confirmed,
-      holidayRequests,
+      holidayRequests: HolidayRequests,
       id,
       userId,
       title: username,
