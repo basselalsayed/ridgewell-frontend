@@ -41,7 +41,7 @@ const RequestForm = ({ annualLeave, id, from, until, update }) => {
         axios
           .post(ENDPOINT, data, { headers: authHeader() })
           .then(res => res && setStatus('Success'))
-          .catch(err => setStatus(err.message));
+          .catch(err => setStatus(err.response.data.message));
 
         dispatch(getHolidays());
       }}
