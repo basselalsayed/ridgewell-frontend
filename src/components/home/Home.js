@@ -16,7 +16,10 @@ const localizer = momentLocalizer(moment);
 const Home = () => {
   const [date, setDate] = useState(null);
   const [show, setShow] = useState(false);
-  const handleShow = () => setShow(!show);
+  const handleShow = () => {
+    setShow(!show);
+    show && setDate(null);
+  };
 
   const { holidays } = useSelector(state => state.contentReducer);
   const dispatch = useDispatch();
