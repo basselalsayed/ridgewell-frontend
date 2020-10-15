@@ -18,6 +18,7 @@ const RequestForm = ({ annualLeave, id, from, until, update }) => {
     update,
     annualLeave,
   ]);
+
   const dispatch = useDispatch();
 
   const schema = yup.object({
@@ -37,13 +38,14 @@ const RequestForm = ({ annualLeave, id, from, until, update }) => {
   return (
     <Formik
       validationSchema={schema}
-      onSubmit={(data, { setStatus }) => {
-        axios
+      onSubmit={async (data, { setStatus }) => {
+        await axios
           .post(ENDPOINT, data, { headers: authHeader() })
-          .then(res => res && setStatus('Success'))
+          .then(res => {
+            res && setStatus('Success');
+            dispatch(getHolidays());
+          })
           .catch(err => setStatus(err.response.data.message));
-
-        dispatch(getHolidays());
       }}
       initialValues={{
         from,
