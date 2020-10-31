@@ -33,20 +33,23 @@ const RequestForm = ({ annualLeave, id, from, until, update }) => {
         yup.date().min(st, 'Date cannot be behind start'),
       ),
   });
-  const ENDPOINT = API_URL + (update ? `requests/upd/${id}` : `holidays/`);
+  const ENDPOINT = API_URL + (update ? 'requests' : 'holidays');
+  const updateData = { type: 'update', holidayId: id };
 
   return (
     <Formik
       validationSchema={schema}
-      onSubmit={async (data, { setStatus }) => {
+      onSubmit={async (data, { setStatus }) =>
         await axios
-          .post(ENDPOINT, data, { headers: authHeader() })
+          .post(ENDPOINT, update ? { ...data, ...updateData } : data, {
+            headers: authHeader(),
+          })
           .then(res => {
             res && setStatus('Success');
             dispatch(getHolidays());
           })
-          .catch(err => setStatus(err.response.data.message));
-      }}
+          .catch(err => setStatus(err.response.data.message))
+      }
       initialValues={{
         from,
         until,
