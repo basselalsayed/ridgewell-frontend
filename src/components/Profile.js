@@ -1,8 +1,9 @@
 import React from 'react';
 
-import { connect, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
-const ProfileBase = ({ user }) => {
+const Profile = () => {
+  const { user } = useSelector(state => state.authReducer);
   return (
     <div className='container'>
       {user && (
@@ -24,16 +25,16 @@ const ProfileBase = ({ user }) => {
             {user.roles &&
               user.roles.map((role, index) => <li key={index}>{role}</li>)}
           </ul>
+          <ul>
+            {user.notifications &&
+              user.notifications.map((role, index) => (
+                <li key={index}>{role.message}</li>
+              ))}
+          </ul>
         </>
       )}
     </div>
   );
 };
-
-const mapStateToProps = state => ({
-  user: state.authReducer.user,
-});
-
-const Profile = connect(mapStateToProps)(ProfileBase);
 
 export { Profile };
