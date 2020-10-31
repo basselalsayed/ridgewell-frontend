@@ -17,4 +17,10 @@ const decrypt = encrypted => {
   return decrypted;
 };
 
-export { decrypt };
+const decryptUser = user => ({
+  ...user,
+  email: decrypt(user.email),
+  username: decrypt(user.username),
+});
+
+export { decryptUser };
