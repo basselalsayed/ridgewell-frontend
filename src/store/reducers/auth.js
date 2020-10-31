@@ -1,5 +1,10 @@
+import { decryptUser } from '../../helpers';
+
 const initialState = {
-  user: JSON.parse(localStorage.getItem('user')) || null,
+  get user() {
+    const user = JSON.parse(localStorage.getItem('user'));
+    return user ? decryptUser(user) : null;
+  },
 };
 
 export default (state = initialState, { type, payload }) => {
