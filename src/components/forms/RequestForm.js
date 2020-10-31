@@ -25,7 +25,12 @@ const RequestForm = ({ annualLeave, id, from, until, update }) => {
     from: yup
       .date()
       .required('Required')
-      .min(min, 'Date cannot be in the past'),
+      .min(
+        min,
+        annualLeave
+          ? 'Annual Leave must be booked two months in advance'
+          : 'Date cannot be in the past',
+      ),
     until: yup
       .date()
       .required('Required')
