@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { User } from './user';
-import { getUsers } from '../../actions';
+import { getUsers } from '../../store/actions';
 
 const Users = () => {
   const { users } = useSelector(state => state.contentReducer);

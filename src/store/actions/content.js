@@ -1,6 +1,6 @@
-import { API_URL } from '../constants';
+import { API_URL } from '../../constants';
 import axios from 'axios';
-import authHeader from '../services/auth-header';
+import authHeader from '../../services/auth-header';
 
 const setContent = (type, payload) => ({ type, payload });
 

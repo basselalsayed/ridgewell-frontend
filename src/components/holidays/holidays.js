@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Holiday } from './holiday';
 import { Spinner } from 'react-bootstrap';
-import { getHolidays } from '../../actions';
+import { getHolidays } from '../../store/actions';
 
 const Holidays = () => {
   const { holidays } = useSelector(state => state.contentReducer);
