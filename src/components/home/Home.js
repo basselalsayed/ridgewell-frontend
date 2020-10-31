@@ -8,7 +8,7 @@ import { eventStyleGetter, holidayEvents, requestEvents } from '../../helpers';
 import { Event } from './event';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { getHolidays } from '../../actions';
+import { getHolidays } from '../../store/actions';
 import { EventModal } from './event/components';
 
 const localizer = momentLocalizer(moment);

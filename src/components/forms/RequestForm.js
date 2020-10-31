@@ -10,7 +10,7 @@ import authHeader from '../../services/auth-header';
 
 import { successBtn } from '../index.module.css';
 import { useDispatch } from 'react-redux';
-import { getHolidays } from '../../actions';
+import { getHolidays } from '../../store/actions';
 
 const RequestForm = ({ annualLeave, id, from, until, update }) => {
   const min = useMemo(() => getMin(annualLeave, from, update), [

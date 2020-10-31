@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 
 import { RequestForm } from '../../../.';
 import { formatted } from '../../../../helpers';
-import { getHolidays } from '../../../../actions';
+import { getHolidays } from '../../../../store/actions';
 import { API_URL } from '../../../../constants';
 import authHeader from '../../../../services/auth-header';
 
