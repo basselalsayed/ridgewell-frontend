@@ -18,7 +18,7 @@ const EventModal = ({ id, handleShow, show, start, end, title, update }) => {
 
   const handleChange = () => setAnnualLeave(!annualLeave);
 
-  const ENDPOINT = API_URL + `requests/del/${id}`;
+  const ENDPOINT = API_URL + `requests`;
 
   return (
     <Modal show={show} onHide={handleShow} centered>
@@ -50,11 +50,15 @@ const EventModal = ({ id, handleShow, show, start, end, title, update }) => {
       </Modal.Body>
       <Modal.Footer>
         <Button
-          onClick={() => {
-            axios
-              .post(ENDPOINT, {}, { headers: authHeader() })
+          onClick={async () => {
+            await axios
+              .post(
+                ENDPOINT,
+                { holidayId: id, type: 'delete' },
+                { headers: authHeader() },
+              )
               .then(res => console.log('res', res))
-              .catch(err => console.log(err.message));
+              .catch(err => console.log(err.response));
 
             dispatch(getHolidays());
           }}
