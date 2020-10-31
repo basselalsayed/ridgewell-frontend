@@ -1,8 +1,6 @@
 import { API_URL } from '../constants';
 import axios from 'axios';
 
-const ENDPOINT = API_URL + 'session/';
-
 const setUser = payload => ({ type: 'SET_USER', payload });
 
 const logOut = () => ({ type: 'LOG_OUT' });
@@ -10,7 +8,7 @@ const logOut = () => ({ type: 'LOG_OUT' });
 // Methods
 
 const signUp = userInfo => async dispatch => {
-  await axios.post(ENDPOINT + 'signup', userInfo).then(({ data: { user } }) => {
+  await axios.post(API_URL + 'users', userInfo).then(({ data: { user } }) => {
     user.accessToken && localStorage.setItem('user', JSON.stringify(user));
 
     dispatch(setUser(user));
@@ -18,15 +16,13 @@ const signUp = userInfo => async dispatch => {
 };
 
 const login = userInfo => async dispatch => {
-  const response = await axios.post(ENDPOINT + 'signin', userInfo);
+  const response = await axios.post(API_URL + 'session', userInfo);
 
   const {
     data: { user },
   } = response;
 
   user.accessToken && localStorage.setItem('user', JSON.stringify(user));
-
-  console.log(user, 'data');
 
   dispatch(setUser(user));
 };
