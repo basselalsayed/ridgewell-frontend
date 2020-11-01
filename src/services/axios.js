@@ -3,8 +3,8 @@ import { API_URL } from '../constants';
 import { decryptUser } from '../helpers';
 import authHeader from './auth-header';
 
-const holidayInstance = axios.create({
-  url: API_URL + 'holidays',
+const decryptorInstance = axios.create({
+  baseURL: API_URL,
   headers: authHeader(),
 });
 
@@ -27,11 +27,21 @@ function decryptNestedHolidays(obj) {
   }
 }
 
-holidayInstance.interceptors.response.use(res => {
+decryptorInstance.interceptors.response.use(res => {
   res.data.forEach(holiday => {
-    decryptNestedHolidays(holiday, 'User');
+    decryptNestedHolidays(holiday);
   });
   return res;
 });
 
-export { holidayInstance };
+const usersInstance = axios.create({
+  baseURL: API_URL + 'users',
+  headers: authHeader(),
+});
+
+usersInstance.interceptors.response.use(res => {
+  res.data = res.data.map(user => decryptUser(user));
+  return res;
+});
+
+export { decryptorInstance, usersInstance };
