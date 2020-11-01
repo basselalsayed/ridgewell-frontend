@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { API_URL } from '../constants';
-import { decrypt } from '../helpers';
+import { decryptUser } from '../helpers';
 import authHeader from './auth-header';
 
 const holidayInstance = axios.create({
@@ -8,38 +8,30 @@ const holidayInstance = axios.create({
   headers: authHeader(),
 });
 
-function decryptNestedUsers(obj) {
+const decryptManagerId = array =>
+  array.length > 0 ? array.map(managerObj => decryptUser(managerObj)) : array;
+
+function decryptNestedHolidays(obj) {
   for (const property in obj) {
     if (obj.hasOwnProperty(property)) {
       if (property === 'managerId') {
-        obj[property].length > 0 &&
-          obj[property].forEach(managerObj => {
-            let { email, username } = managerObj;
-
-            managerObj.email = decrypt(email);
-            managerObj.username = decrypt(username);
-          });
+        obj[property] = decryptManagerId(obj[property]);
       }
-
       if (property === 'User') {
-        let { email, username } = obj.User;
-
-        obj.User.email = decrypt(email);
-        obj.User.username = decrypt(username);
+        obj[property] = decryptUser(obj[property]);
       }
       if (typeof obj[property] === 'object') {
-        decryptNestedUsers(obj[property]);
+        decryptNestedHolidays(obj[property]);
       }
     }
   }
 }
 
-holidayInstance.interceptors.response.use(({ data }) => {
-  data.forEach(holiday => {
-    decryptNestedUsers(holiday, 'User');
+holidayInstance.interceptors.response.use(res => {
+  res.data.forEach(holiday => {
+    decryptNestedHolidays(holiday, 'User');
   });
-
-  return data;
+  return res;
 });
 
 export { holidayInstance };
