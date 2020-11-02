@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { decryptorInstance, usersInstance } from '../../services/axios';
 
 const setContent = (type, payload) => ({ type, payload });
