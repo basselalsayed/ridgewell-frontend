@@ -52,11 +52,7 @@ const EventModal = ({ id, handleShow, show, start, end, title, update }) => {
         <Button
           onClick={async () => {
             await axios
-              .post(
-                ENDPOINT,
-                { holidayId: id, type: 'delete' },
-                { headers: authHeader() },
-              )
+              .post('requests', { holidayId: id, type: 'delete' })
               .then(res => console.log('res', res))
               .catch(err => console.log(err.response));
 
