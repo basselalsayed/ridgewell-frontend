@@ -1,19 +1,13 @@
 import React, { useState } from 'react';
-import { Modal, Col, Row, Form, Button } from 'react-bootstrap';
-import axios from 'axios';
-import { useDispatch } from 'react-redux';
+import { Modal, Col, Row, Form } from 'react-bootstrap';
 
 import { RequestForm } from '../../../.';
 import { formatted } from '../../../../helpers';
-import { getHolidays } from '../../../../store/actions';
-import { API_URL } from '../../../../constants';
 
-import { dangerBtn } from '../../../index.module.css';
+import { API_URL } from '../../../../constants';
 
 const EventModal = ({ id, handleShow, show, start, end, title, update }) => {
   const [annualLeave, setAnnualLeave] = useState(!update);
-
-  const dispatch = useDispatch();
 
   const handleChange = () => setAnnualLeave(!annualLeave);
 
@@ -47,23 +41,6 @@ const EventModal = ({ id, handleShow, show, start, end, title, update }) => {
           annualLeave={annualLeave}
         />
       </Modal.Body>
-      <Modal.Footer>
-        {id && (
-          <Button
-            onClick={async () => {
-              await axios
-                .post('requests', { holidayId: id, type: 'delete' })
-                .then(res => console.log('res', res))
-                .catch(err => console.log(err.response));
-
-              dispatch(getHolidays());
-            }}
-            className={dangerBtn}
-          >
-            Delete Holiday
-          </Button>
-        )}
-      </Modal.Footer>
     </Modal>
   );
 };

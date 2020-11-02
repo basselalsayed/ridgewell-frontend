@@ -9,6 +9,7 @@ import axios from 'axios';
 import { successBtn } from '../index.module.css';
 import { useDispatch } from 'react-redux';
 import { getHolidays } from '../../store/actions';
+import { dangerBtn } from '../index.module.css';
 
 const RequestForm = ({ annualLeave, id, from, until, update }) => {
   const min = useMemo(() => getMin(annualLeave, from, update), [
@@ -39,6 +40,26 @@ const RequestForm = ({ annualLeave, id, from, until, update }) => {
   const ENDPOINT = update ? 'requests' : 'holidays';
   const updateData = { type: 'update', holidayId: id };
 
+  const newDeleteRequest = setStatus => (
+    <Button
+      onClick={async () => {
+        await axios
+          .post('requests', { holidayId: id, type: 'delete' })
+          .then(({ data: { message } }) => setStatus(message))
+          .catch(err => {
+            setStatus(
+              `${err.response.statusText}: ${err.response.data.message}`,
+            );
+          });
+
+        dispatch(getHolidays());
+      }}
+      className={dangerBtn}
+    >
+      Delete Holiday
+    </Button>
+  );
+
   return (
     <Formik
       validationSchema={schema}
@@ -60,7 +81,15 @@ const RequestForm = ({ annualLeave, id, from, until, update }) => {
         until,
       }}
     >
-      {({ errors, handleChange, handleSubmit, status, touched, values }) => (
+      {({
+        errors,
+        handleChange,
+        handleSubmit,
+        setStatus,
+        status,
+        touched,
+        values,
+      }) => (
         <Form noValidate onSubmit={handleSubmit}>
           <Form.Row>
             <Form.Group as={Col} controlId='validationFormik01'>
@@ -97,17 +126,21 @@ const RequestForm = ({ annualLeave, id, from, until, update }) => {
               </Form.Control.Feedback>
             </Form.Group>
           </Form.Row>
-
-          <Button type='submit' className={successBtn}>
-            Submit form
-          </Button>
+          <Form.Row>
+            <Button type='submit' className={successBtn}>
+              Submit form
+            </Button>
+          </Form.Row>
+          {id && <Form.Row>{newDeleteRequest(setStatus)}</Form.Row>}
           {status && (
-            <Alert
-              style={{ marginTop: 10 }}
-              variant={status === 'Success' ? 'success' : 'danger'}
-            >
-              {status}
-            </Alert>
+            <Form.Row>
+              <Alert
+                style={{ marginTop: 10, width: '100%', textAlign: 'center' }}
+                variant={status === 'Success' ? 'success' : 'danger'}
+              >
+                {status}
+              </Alert>
+            </Form.Row>
           )}
         </Form>
       )}
