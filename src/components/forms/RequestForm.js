@@ -5,8 +5,6 @@ import * as yup from 'yup';
 
 import { getMin, getMax } from '../../helpers';
 import axios from 'axios';
-import { API_URL } from '../../constants';
-import authHeader from '../../services/auth-header';
 
 import { successBtn } from '../index.module.css';
 import { useDispatch } from 'react-redux';
@@ -38,7 +36,7 @@ const RequestForm = ({ annualLeave, id, from, until, update }) => {
         yup.date().min(st, 'Date cannot be behind start'),
       ),
   });
-  const ENDPOINT = API_URL + (update ? 'requests' : 'holidays');
+  const ENDPOINT = update ? 'requests' : 'holidays';
   const updateData = { type: 'update', holidayId: id };
 
   return (
@@ -46,14 +44,16 @@ const RequestForm = ({ annualLeave, id, from, until, update }) => {
       validationSchema={schema}
       onSubmit={async (data, { setStatus }) =>
         await axios
-          .post(ENDPOINT, update ? { ...data, ...updateData } : data, {
-            headers: authHeader(),
-          })
+          .post(ENDPOINT, update ? { ...data, ...updateData } : data)
           .then(res => {
             res && setStatus('Success');
             dispatch(getHolidays());
           })
-          .catch(err => setStatus(err.response.data.message))
+          .catch(err =>
+            setStatus(
+              `${err.response.statusText}: ${err.response.data.message}`,
+            ),
+          )
       }
       initialValues={{
         from,
