@@ -8,7 +8,7 @@ import { eventStyleGetter, holidayEvents, requestEvents } from '../../helpers';
 import { Event } from './event';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { getHolidays } from '../../actions';
+import { getHolidays } from '../../store/actions';
 import { EventModal } from './event/components';
 
 const localizer = momentLocalizer(moment);
@@ -16,14 +16,17 @@ const localizer = momentLocalizer(moment);
 const Home = () => {
   const [date, setDate] = useState(null);
   const [show, setShow] = useState(false);
-  const handleShow = () => setShow(!show);
+  const handleShow = () => {
+    setShow(!show);
+    show && setDate(null);
+  };
 
   const { holidays } = useSelector(state => state.contentReducer);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getHolidays());
-  }, [dispatch, holidays]);
+  }, [dispatch]);
 
   let events = useMemo(
     () => holidays && [...holidayEvents(holidays), ...requestEvents(holidays)],

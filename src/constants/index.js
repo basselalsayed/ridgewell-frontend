@@ -11,6 +11,8 @@ const colors = {
 const formats = {
   form: 'yyyy-MM-dd',
   popover: 'd/MM/yy',
+  panel: 'do LLL y',
+  panelTime: 'do LLL y, hh:mm aaaa',
 };
 
 let today = new Date();

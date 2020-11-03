@@ -5,7 +5,7 @@ import CheckButton from 'react-validation/build/button';
 
 import { Card } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
-import { login } from '../actions';
+import { login } from '../store/actions';
 
 const required = value =>
   !value && (

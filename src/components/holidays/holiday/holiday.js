@@ -1,21 +1,22 @@
 import React from 'react';
 import { Card } from 'react-bootstrap';
+import { formatted } from '../../../helpers';
 
 const Holiday = ({
   confirmed,
   createdAt,
   from,
   until,
-  user: { email, username },
+  User: { email, username },
 }) => (
   <Card border={confirmed ? 'success' : 'warning'}>
     <Card.Title>
       Owner: {username}, {email}
     </Card.Title>
     <Card.Body>
-      <p> From: {from} </p>
-      <p> Until: {until} </p>
-      <p> Request made: {createdAt} </p>
+      <p> From: {formatted(from, 'panel')} </p>
+      <p> Until: {formatted(until, 'panel')} </p>
+      <p> Request made: {formatted(createdAt, 'panelTime')} </p>
     </Card.Body>
     <Card.Footer>{`Confirmed: ${confirmed}`}</Card.Footer>
   </Card>

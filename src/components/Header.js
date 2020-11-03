@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Navbar, Nav } from 'react-bootstrap';
 
-import { logOut } from '../actions';
+import { logOut } from '../store/actions';
 import { useSelector, useDispatch } from 'react-redux';
 import { isAdmin } from '../helpers';
 
