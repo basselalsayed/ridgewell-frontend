@@ -6,6 +6,7 @@ import authHeader from './auth-header';
 const decryptorInstance = axios.create({
   baseURL: API_URL,
   headers: authHeader(),
+  timeout: 4000,
 });
 
 const decryptManagerId = array =>
@@ -37,6 +38,7 @@ decryptorInstance.interceptors.response.use(res => {
 const usersInstance = axios.create({
   baseURL: API_URL + 'users',
   headers: authHeader(),
+  timeout: 4000,
 });
 
 usersInstance.interceptors.response.use(res => {
