@@ -5,16 +5,25 @@ import { RequestForm } from '../../../.';
 import { formatted } from '../../../../helpers';
 
 import { API_URL } from '../../../../constants';
+import { useDispatch } from 'react-redux';
+import { endCountdown } from '../../../../store/actions/countdown';
 
 const EventModal = ({ id, handleShow, show, start, end, title, update }) => {
   const [annualLeave, setAnnualLeave] = useState(!update);
+  const dispatch = useDispatch();
 
   const handleChange = () => setAnnualLeave(!annualLeave);
-
   const ENDPOINT = API_URL + `requests`;
 
   return (
-    <Modal show={show} onHide={handleShow} centered>
+    <Modal
+      show={show}
+      onHide={() => {
+        handleShow();
+        dispatch(endCountdown());
+      }}
+      centered
+    >
       <Modal.Header closeButton>
         <Row style={{ width: '80%' }}>
           <Col>

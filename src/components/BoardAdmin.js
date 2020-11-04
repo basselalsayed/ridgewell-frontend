@@ -1,12 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { Holidays, Requests, Users } from './';
 
 import { Tab, Row, Col, ListGroup } from 'react-bootstrap';
 
 import { tabBtn } from './index.module.css';
+import { useDispatch } from 'react-redux';
+import { getAll } from '../store/actions';
 
 const BoardAdmin = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getAll());
+  }, []);
+
   //  <div className='container'>
   // <header className='jumbotron'>
   const tabButtons = (
