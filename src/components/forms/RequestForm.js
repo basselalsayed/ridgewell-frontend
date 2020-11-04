@@ -11,6 +11,9 @@ import { useDispatch } from 'react-redux';
 import { getHolidays } from '../../store/actions';
 import { dangerBtn } from '../index.module.css';
 
+import { startCountdown } from '../../store/actions/countdown';
+import { CountdownCancel } from './CountdownCancel';
+
 const RequestForm = ({ annualLeave, id, from, until, update }) => {
   const min = useMemo(() => getMin(annualLeave, from, update), [
     from,
@@ -127,9 +130,13 @@ const RequestForm = ({ annualLeave, id, from, until, update }) => {
             </Form.Group>
           </Form.Row>
           <Form.Row>
-            <Button type='submit' className={successBtn}>
-              Submit form
+            <Button
+              onClick={() => dispatch(startCountdown())}
+              className={successBtn}
+            >
+              Submit
             </Button>
+            <CountdownCancel />
           </Form.Row>
           {id && <Form.Row>{newDeleteRequest(setStatus)}</Form.Row>}
           {status && (
