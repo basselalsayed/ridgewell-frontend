@@ -11,10 +11,10 @@ const CountdownCancel = () => {
   const dispatch = useDispatch();
   const { submitForm } = useFormikContext();
 
-  const { isPlaying, show } = useSelector(state => state.countdownReducer);
+  const { isPlaying } = useSelector(state => state.countdownReducer);
 
   return (
-    show && (
+    isPlaying && (
       <div className='countdownWrp'>
         <CountdownCircleTimer
           children={
