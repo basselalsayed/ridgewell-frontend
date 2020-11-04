@@ -136,6 +136,8 @@ const RequestForm = ({ annualLeave, id, from, until, update }) => {
             >
               Submit
             </Button>
+          </Form.Row>
+          <Form.Row>
             <CountdownCancel />
           </Form.Row>
           {id && <Form.Row>{newDeleteRequest(setStatus)}</Form.Row>}

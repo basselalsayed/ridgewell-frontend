@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { CountdownCircleTimer } from 'react-countdown-circle-timer';
 import { endCountdown } from '../../store/actions/countdown';
+import './countdown.css';
 
 const CountdownCancel = () => {
   const dispatch = useDispatch();
@@ -14,21 +15,27 @@ const CountdownCancel = () => {
 
   return (
     show && (
-      <CountdownCircleTimer
-        isPlaying={isPlaying}
-        duration={5}
-        colors={[['#004777', 0.33], ['#F7B801', 0.33], ['#A30000']]}
-        onComplete={() => {
-          submitForm();
-          dispatch(endCountdown());
-        }}
-      >
-        <div className='timer'>
-          <button className='text' onClick={() => dispatch(endCountdown())}>
-            Cancel
-          </button>
-        </div>
-      </CountdownCircleTimer>
+      <div className='countdownWrp'>
+        <CountdownCircleTimer
+          children={
+            <button
+              className='countdownBtn'
+              onClick={() => dispatch(endCountdown())}
+            >
+              <div className='countdownText'>X</div>
+            </button>
+          }
+          isPlaying={isPlaying}
+          duration={5}
+          size={90}
+          strokeWidth={5}
+          colors={[['#004777', 0.33], ['#F7B801', 0.33], ['#A30000']]}
+          onComplete={() => {
+            submitForm();
+            dispatch(endCountdown());
+          }}
+        />
+      </div>
     )
   );
 };
