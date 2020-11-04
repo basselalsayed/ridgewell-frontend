@@ -20,8 +20,22 @@ const getRequests = () => async dispatch =>
     .then(({ data }) => dispatch(setContent('SET_REQUESTS', data)))
     .catch(error => console.log(error, error.response));
 
+const getAll = () => async dispatch =>
+  await Promise.all([
+    dispatch(getRequests()),
+    dispatch(getHolidays()),
+    dispatch(getUsers()),
+  ]);
+
 const postHolidays = params => {};
 
 const postRequests = params => {};
 
-export { getUsers, getHolidays, getRequests, postHolidays, postRequests };
+export {
+  getAll,
+  getUsers,
+  getHolidays,
+  getRequests,
+  postHolidays,
+  postRequests,
+};
