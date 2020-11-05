@@ -7,7 +7,7 @@ const plusTwoMonths = date => addMonths(new Date(date), 2);
 
 const plusTwoDays = date => addDays(new Date(date), 2);
 
-const getMin = (annualLeave, date, update) =>
+const getMin = (annualLeave, update) =>
   !update && annualLeave
     ? formatted(plusTwoMonths(today), 'form')
     : formatted(today, 'form');
@@ -15,4 +15,4 @@ const getMin = (annualLeave, date, update) =>
 const getMax = (annualLeave, date, update) =>
   !update && !annualLeave && formatted(plusTwoDays(date), 'form');
 
-export { formatted, getMin, getMax };
+export { formatted, getMin, getMax, plusTwoMonths, plusTwoDays };

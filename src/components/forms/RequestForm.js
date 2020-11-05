@@ -1,6 +1,6 @@
 import React from 'react';
 import { Formik } from 'formik';
-import { Form, Button, Col, Alert, Spinner } from 'react-bootstrap';
+import { Form, Button, Col, Alert } from 'react-bootstrap';
 import * as yup from 'yup';
 
 import { getMin, getMax } from '../../helpers';
@@ -15,6 +15,7 @@ import { startCountdown } from '../../store/actions/countdown';
 import { CountdownCancel } from './CountdownCancel';
 import { plusTwoMonths, plusTwoDays } from '../../helpers';
 import { today } from '../../constants';
+import { CenteredSpinner } from '../Spinner';
 
 const RequestForm = ({ id, from, until, update }) => {
   const { isPlaying } = useSelector(state => state.countdownReducer);
@@ -95,6 +96,7 @@ const RequestForm = ({ id, from, until, update }) => {
         errors,
         handleChange,
         handleSubmit,
+        isSubmitting,
         setFieldValue,
         setStatus,
         status,
@@ -155,7 +157,9 @@ const RequestForm = ({ id, from, until, update }) => {
           </Form.Row>
 
           <Form.Row>
-            {isPlaying ? (
+            {isSubmitting ? (
+              <CenteredSpinner />
+            ) : isPlaying ? (
               <CountdownCancel />
             ) : (
               <Button
