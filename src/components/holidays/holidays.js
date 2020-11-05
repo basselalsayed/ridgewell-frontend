@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Holiday } from './holiday';
-import { Spinner } from 'react-bootstrap';
+import { CenteredSpinner } from '../Spinner';
 
 const Holidays = () => {
   const { holidays } = useSelector(state => state.contentReducer);
@@ -18,7 +18,7 @@ const Holidays = () => {
       ))}
     </div>
   ) : (
-    <Spinner animation='border' />
+    <CenteredSpinner />
   );
 };
 
