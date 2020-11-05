@@ -1,6 +1,6 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { Formik } from 'formik';
-import { Form, Button, Col, Alert } from 'react-bootstrap';
+import { Form, Button, Col, Alert, Spinner } from 'react-bootstrap';
 import * as yup from 'yup';
 
 import { getMin, getMax } from '../../helpers';
@@ -13,32 +13,36 @@ import { dangerBtn } from '../index.module.css';
 
 import { startCountdown } from '../../store/actions/countdown';
 import { CountdownCancel } from './CountdownCancel';
+import { plusTwoMonths, plusTwoDays } from '../../helpers';
+import { today } from '../../constants';
 
-const RequestForm = ({ annualLeave, id, from, until, update }) => {
-  const min = useMemo(() => getMin(annualLeave, from, update), [
-    from,
-    update,
-    annualLeave,
-  ]);
-
+const RequestForm = ({ id, from, until, update }) => {
   const { isPlaying } = useSelector(state => state.countdownReducer);
   const dispatch = useDispatch();
 
   const schema = yup.object({
+    annualLeave: yup.boolean(),
     from: yup
       .date()
       .required('Required')
-      .min(
-        min,
-        annualLeave
-          ? 'Annual Leave must be booked two months in advance'
-          : 'Date cannot be in the past',
+      .when('annualLeave', (annualLeave, schema) =>
+        !update && annualLeave
+          ? schema.min(
+              plusTwoMonths(today),
+              'Annual Leave must start two months in advance',
+            )
+          : schema.min(today, 'Date cannot be in the past'),
       ),
     until: yup
       .date()
       .required('Required')
-      .when('from', (st, schema) =>
-        yup.date().min(st, 'Date cannot be behind start'),
+      .when('from', (from, schema) =>
+        schema.min(from, 'Date cannot be behind start'),
+      )
+      .when(['annualLeave', 'from'], (annualLeave, from, schema) =>
+        !annualLeave
+          ? schema.max(plusTwoDays(from), 'Maximum sick leave is two days')
+          : schema,
       ),
   });
   const ENDPOINT = update ? 'requests' : 'holidays';
@@ -84,12 +88,14 @@ const RequestForm = ({ annualLeave, id, from, until, update }) => {
       initialValues={{
         from,
         until,
+        annualLeave: true,
       }}
     >
       {({
         errors,
         handleChange,
         handleSubmit,
+        setFieldValue,
         setStatus,
         status,
         touched,
@@ -97,12 +103,28 @@ const RequestForm = ({ annualLeave, id, from, until, update }) => {
       }) => (
         <Form noValidate onSubmit={handleSubmit}>
           <Form.Row>
+            {!update && (
+              <Form.Group as={Col} controlId='validationFormik03'>
+                <Form.Switch
+                  id='annualLeave-switch'
+                  label='Annual Leave'
+                  name='annualLeave'
+                  checked={values.annualLeave}
+                  onChange={() => {
+                    setFieldValue('annualLeave', !values.annualLeave);
+                    // !values.annualLeave && setFieldValue('from', min);
+                  }}
+                />
+              </Form.Group>
+            )}
+          </Form.Row>
+          <Form.Row>
             <Form.Group as={Col} controlId='validationFormik01'>
               <Form.Label>From</Form.Label>
               <Form.Control
                 type='date'
                 name='from'
-                min={min}
+                min={getMin(values.annualLeave, update)}
                 value={values.from}
                 onChange={handleChange}
                 isValid={touched.from && !errors.from}
@@ -119,7 +141,7 @@ const RequestForm = ({ annualLeave, id, from, until, update }) => {
                 type='date'
                 name='until'
                 min={values.from}
-                max={getMax(annualLeave, values.from, update)}
+                max={getMax(values.annualLeave, values.from, update)}
                 value={values.until}
                 onChange={handleChange}
                 isValid={touched.until && !errors.until}
@@ -146,7 +168,9 @@ const RequestForm = ({ annualLeave, id, from, until, update }) => {
               </Button>
             )}
           </Form.Row>
-          {id && <Form.Row>{newDeleteRequest(setStatus)}</Form.Row>}
+          {id && !isPlaying && (
+            <Form.Row>{newDeleteRequest(setStatus)}</Form.Row>
+          )}
           {status && (
             <Form.Row>
               <Alert
