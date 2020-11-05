@@ -9,10 +9,9 @@ import axios from 'axios';
 import { successBtn } from '../index.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { getHolidays } from '../../store/actions';
-import { dangerBtn } from '../index.module.css';
 
 import { startCountdown } from '../../store/actions/countdown';
-import { CountdownCancel } from './CountdownCancel';
+import { CountdownCancel, NewDeleteRequest } from './';
 import { plusTwoMonths, plusTwoDays } from '../../helpers';
 import { today } from '../../constants';
 import { CenteredSpinner } from '../Spinner';
@@ -49,26 +48,6 @@ const RequestForm = ({ id, from, until, update }) => {
   const ENDPOINT = update ? 'requests' : 'holidays';
   const updateData = { type: 'update', holidayId: id };
 
-  const newDeleteRequest = setStatus => (
-    <Button
-      onClick={async () => {
-        await axios
-          .post('requests', { holidayId: id, type: 'delete' })
-          .then(({ data: { message } }) => setStatus(message))
-          .catch(err => {
-            setStatus(
-              `${err.response.statusText}: ${err.response.data.message}`,
-            );
-          });
-
-        dispatch(getHolidays());
-      }}
-      className={dangerBtn}
-    >
-      Delete Holiday
-    </Button>
-  );
-
   return (
     <Formik
       validationSchema={schema}
@@ -98,7 +77,6 @@ const RequestForm = ({ id, from, until, update }) => {
         handleSubmit,
         isSubmitting,
         setFieldValue,
-        setStatus,
         status,
         submitCount,
         touched,
@@ -173,8 +151,10 @@ const RequestForm = ({ id, from, until, update }) => {
               </Button>
             ) : null}
           </Form.Row>
-          {submitCount < 1 && id && !isPlaying && (
-            <Form.Row>{newDeleteRequest(setStatus)}</Form.Row>
+          {submitCount < 1 && id && !isPlaying && !isSubmitting && (
+            <Form.Row>
+              <NewDeleteRequest holidayId={id} />
+            </Form.Row>
           )}
           {status && (
             <Form.Row>
