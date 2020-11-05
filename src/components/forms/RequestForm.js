@@ -80,6 +80,7 @@ const RequestForm = ({ annualLeave, id, from, until, update }) => {
             ),
           )
       }
+      validateOnMount={true}
       initialValues={{
         from,
         until,
@@ -136,7 +137,9 @@ const RequestForm = ({ annualLeave, id, from, until, update }) => {
               <CountdownCancel />
             ) : (
               <Button
-                onClick={() => dispatch(startCountdown())}
+                onClick={() =>
+                  !errors.from && !errors.until && dispatch(startCountdown())
+                }
                 className={successBtn}
               >
                 Submit
