@@ -10,15 +10,14 @@
 }
 .countdownBtn {
   color: inherit;
-  font-size: 3rem;
+  font-size: 1rem;
   border: none;
   background-color: inherit;
 }
 .countdownBtn:focus { 
   outline: none
  }
-
 .countdownText {
-  font-weight: 270;
+  font-weight: bold;
   color: inherit;
 }
