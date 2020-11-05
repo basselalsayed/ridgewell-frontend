@@ -7,7 +7,7 @@ import { getMin, getMax } from '../../helpers';
 import axios from 'axios';
 
 import { successBtn } from '../index.module.css';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getHolidays } from '../../store/actions';
 import { dangerBtn } from '../index.module.css';
 
@@ -21,6 +21,7 @@ const RequestForm = ({ annualLeave, id, from, until, update }) => {
     annualLeave,
   ]);
 
+  const { isPlaying } = useSelector(state => state.countdownReducer);
   const dispatch = useDispatch();
 
   const schema = yup.object({
@@ -129,16 +130,18 @@ const RequestForm = ({ annualLeave, id, from, until, update }) => {
               </Form.Control.Feedback>
             </Form.Group>
           </Form.Row>
+
           <Form.Row>
-            <Button
-              onClick={() => dispatch(startCountdown())}
-              className={successBtn}
-            >
-              Submit
-            </Button>
-          </Form.Row>
-          <Form.Row>
-            <CountdownCancel />
+            {isPlaying ? (
+              <CountdownCancel />
+            ) : (
+              <Button
+                onClick={() => dispatch(startCountdown())}
+                className={successBtn}
+              >
+                Submit
+              </Button>
+            )}
           </Form.Row>
           {id && <Form.Row>{newDeleteRequest(setStatus)}</Form.Row>}
           {status && (
