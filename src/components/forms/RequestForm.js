@@ -100,6 +100,7 @@ const RequestForm = ({ id, from, until, update }) => {
         setFieldValue,
         setStatus,
         status,
+        submitCount,
         touched,
         values,
       }) => (
@@ -161,7 +162,7 @@ const RequestForm = ({ id, from, until, update }) => {
               <CenteredSpinner />
             ) : isPlaying ? (
               <CountdownCancel />
-            ) : (
+            ) : submitCount < 1 ? (
               <Button
                 onClick={() =>
                   !errors.from && !errors.until && dispatch(startCountdown())
@@ -170,9 +171,9 @@ const RequestForm = ({ id, from, until, update }) => {
               >
                 Submit
               </Button>
-            )}
+            ) : null}
           </Form.Row>
-          {id && !isPlaying && (
+          {submitCount < 1 && id && !isPlaying && (
             <Form.Row>{newDeleteRequest(setStatus)}</Form.Row>
           )}
           {status && (
