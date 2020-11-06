@@ -17,7 +17,7 @@
 .countdownBtn:focus { 
   outline: none
  }
-.countdownText {
+.countdownTxt {
   font-weight: bold;
   color: inherit;
 }

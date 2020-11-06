@@ -5,7 +5,11 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { CountdownCircleTimer } from 'react-countdown-circle-timer';
 import { endCountdown } from '../../store/actions';
-import './countdown.css';
+import {
+  countdownWrp,
+  countdownBtn,
+  countdownTxt,
+} from './countdown.module.css';
 
 const CountdownCancel = ({ id }) => {
   const dispatch = useDispatch();
@@ -15,14 +19,14 @@ const CountdownCancel = ({ id }) => {
   );
 
   const cancelButton = (
-    <button className='countdownBtn' onClick={() => dispatch(endCountdown())}>
-      <div className='countdownText'>Cancel</div>
+    <button className={countdownBtn} onClick={() => dispatch(endCountdown())}>
+      <div className={countdownTxt}>Cancel</div>
     </button>
   );
 
   return (
     id === reduxId && (
-      <div className='countdownWrp'>
+      <div className={countdownWrp}>
         <CountdownCircleTimer
           children={cancelButton}
           isPlaying={isPlaying}
