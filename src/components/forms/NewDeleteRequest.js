@@ -1,38 +1,26 @@
 import React from 'react';
-import { useFormikContext } from 'formik';
 import { Button } from 'react-bootstrap';
 
-import axios from 'axios';
-
-import { useDispatch } from 'react-redux';
-import { getHolidays } from '../../store/actions';
+import { useDispatch, useSelector } from 'react-redux';
+import { startDeleteCountdown } from '../../store/actions';
 import { dangerBtn } from '../index.module.css';
+import { CountdownCancel } from './CountdownCancel';
 
 const NewDeleteRequest = ({ holidayId }) => {
   const dispatch = useDispatch();
-  const { setStatus, setSubmitting } = useFormikContext();
 
-  return (
+  const { isDelete, isPlaying } = useSelector(state => state.countdownReducer);
+
+  return isPlaying && isDelete ? (
+    <CountdownCancel holidayId={holidayId} />
+  ) : !isPlaying ? (
     <Button
-      onClick={async () => {
-        setSubmitting(true);
-        await axios
-          .post('requests', { holidayId, type: 'delete' })
-          .then(({ data: { message } }) => setStatus(message))
-          .catch(err => {
-            setStatus(
-              `${err.response.statusText}: ${err.response.data.message}`,
-            );
-          })
-          .finally(() => setSubmitting(false));
-
-        dispatch(getHolidays());
-      }}
+      onClick={async () => dispatch(startDeleteCountdown())}
       className={dangerBtn}
     >
       Delete Holiday
     </Button>
-  );
+  ) : null;
 };
 
 export { NewDeleteRequest };
