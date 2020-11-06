@@ -1,8 +1,8 @@
 import React from 'react';
-import { Card, Button, Row, Col, Form } from 'react-bootstrap';
+import { Card, Row, Col, Form, Alert } from 'react-bootstrap';
 import { capitalize } from '../../../services';
 import { formatted } from '../../../helpers';
-import { dangerBtn, successBtn } from '../../index.module.css';
+
 import { CountdownCancel, NegativeButton, SuccessButton } from '../../forms';
 import { Formik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
@@ -31,7 +31,7 @@ const FormBase = ({ id }) => {
           )
       }
     >
-      {({ handleSubmit, isSubmitting }) => (
+      {({ handleSubmit, isSubmitting, status }) => (
         <Form onSubmit={handleSubmit}>
           <Form.Group as={Row}>
             {isSubmitting ? (
@@ -49,6 +49,16 @@ const FormBase = ({ id }) => {
               </>
             )}
           </Form.Group>
+          {status && (
+            <Form.Row>
+              <Alert
+                style={{ marginTop: 10, width: '100%', textAlign: 'center' }}
+                variant={status === 'Success' ? 'success' : 'danger'}
+              >
+                {status}
+              </Alert>
+            </Form.Row>
+          )}
         </Form>
       )}
     </Formik>
