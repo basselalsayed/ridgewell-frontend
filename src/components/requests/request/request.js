@@ -1,8 +1,22 @@
 import React from 'react';
-import { Card, Button, Row, Col } from 'react-bootstrap';
+import { Card, Button, Row, Col, Form } from 'react-bootstrap';
 import { capitalize } from '../../../services';
 import { formatted } from '../../../helpers';
 import { dangerBtn, successBtn } from '../../index.module.css';
+import { NegativeButton, SuccessButton } from '../../forms';
+
+const FormBase = ({ errors, handleSubmit }) => (
+  <Form onSubmit={handleSubmit}>
+    <Form.Group as={Row}>
+      <Col>
+        <NegativeButton title={'Deny Request'} />
+      </Col>
+      <Col>
+        <SuccessButton title={'Confirm Request'} errors={errors} />
+      </Col>
+    </Form.Group>
+  </Form>
+);
 
 const Request = ({
   createdAt,
@@ -24,6 +38,9 @@ const Request = ({
       <p>Resolved: {resolved ? 'True' : 'False'}</p>
     </Card.Body>
 
+    <Card.Footer>
+      <FormBase />
+    </Card.Footer>
     <Card.Footer>
       <Row>
         <Col>
