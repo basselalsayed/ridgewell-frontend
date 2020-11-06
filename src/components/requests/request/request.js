@@ -35,7 +35,9 @@ const FormBase = ({ id }) => {
         <Form onSubmit={handleSubmit}>
           <Form.Group as={Row}>
             {isSubmitting ? (
-              <CenteredSpinner />
+              <div style={{ width: '100%' }}>
+                <CenteredSpinner />
+              </div>
             ) : isPlaying ? (
               <CountdownCancel id={id} />
             ) : (
