@@ -1,7 +1,7 @@
 import React from 'react';
-import { Form, Button, Col, Alert } from 'react-bootstrap';
+import { Form, Col, Alert } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { CountdownCancel, NewDeleteRequest } from './';
+import { CountdownCancel, NegativeButton, SuccessButton } from './';
 import { CenteredSpinner } from '../';
 
 import { Formik } from 'formik';
@@ -10,13 +10,12 @@ import axios from 'axios';
 
 import { getMin, getMax, plusTwoMonths, plusTwoDays } from '../../helpers';
 
-import { successBtn } from '../index.module.css';
-import { getHolidays, startCountdown } from '../../store/actions';
+import { getHolidays } from '../../store/actions';
 
 import { today } from '../../constants';
 
 const RequestForm = ({ id, from, until, update }) => {
-  const { isPlaying } = useSelector(state => state.countdownReducer);
+  const { isDelete, isPlaying } = useSelector(state => state.countdownReducer);
   const dispatch = useDispatch();
 
   const schema = yup.object({
@@ -50,19 +49,21 @@ const RequestForm = ({ id, from, until, update }) => {
   return (
     <Formik
       validationSchema={schema}
-      onSubmit={async (data, { setStatus }) =>
-        await axios
-          .post(ENDPOINT, update ? { ...data, ...updateData } : data)
-          .then(res => {
-            res && setStatus('Success');
-            dispatch(getHolidays());
-          })
-          .catch(err =>
-            setStatus(
-              `${err.response.statusText}: ${err.response.data.message}`,
-            ),
-          )
-      }
+      onSubmit={async (data, { setStatus }) => {
+        try {
+          const response = isDelete
+            ? await axios.post('requests', { holidayId: id, type: 'delete' })
+            : await axios.post(
+                ENDPOINT,
+                update ? { ...data, ...updateData } : data,
+              );
+
+          response && setStatus('Success');
+          dispatch(getHolidays());
+        } catch (err) {
+          setStatus(`${err.response.statusText}: ${err.response.data.message}`);
+        }
+      }}
       validateOnMount={true}
       initialValues={{
         from,
@@ -140,21 +141,14 @@ const RequestForm = ({ id, from, until, update }) => {
             ) : isPlaying ? (
               <CountdownCancel />
             ) : submitCount < 1 ? (
-              <Button
-                onClick={() =>
-                  !errors.from && !errors.until && dispatch(startCountdown())
-                }
-                className={successBtn}
-              >
-                Submit
-              </Button>
+              <>
+                <SuccessButton title={'Success'} errors={errors} />
+                {id && (
+                  <NegativeButton title={'Delete Holiday'} holidayId={id} />
+                )}
+              </>
             ) : null}
           </Form.Row>
-          {submitCount < 1 && id && !isPlaying && !isSubmitting && (
-            <Form.Row>
-              <NewDeleteRequest holidayId={id} />
-            </Form.Row>
-          )}
           {status && (
             <Form.Row>
               <Alert
