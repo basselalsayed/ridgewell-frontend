@@ -35,22 +35,18 @@ const CountdownCancel = ({ holidayId }) => {
               className='countdownBtn'
               onClick={() => {
                 dispatch(endCountdown());
-                isDelete && setSubmitting(false);
               }}
             >
               <div className='countdownText'>Cancel</div>
             </button>
           }
           isPlaying={isPlaying}
-          duration={5}
+          duration={1}
           size={90}
           strokeWidth={5}
           colors={[['#004777', 0.33], ['#F7B801', 0.33], ['#A30000']]}
           onComplete={() => {
-            if (isDelete) {
-              setSubmitting(true);
-              handleDelete();
-            } else submitForm();
+            submitForm();
             dispatch(endCountdown());
           }}
         />

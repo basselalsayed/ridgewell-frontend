@@ -4,23 +4,22 @@ import { Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { startDeleteCountdown } from '../../store/actions';
 import { dangerBtn } from '../index.module.css';
-import { CountdownCancel } from './CountdownCancel';
 
-const NewDeleteRequest = ({ holidayId }) => {
+const NewDeleteRequest = () => {
   const dispatch = useDispatch();
 
-  const { isDelete, isPlaying } = useSelector(state => state.countdownReducer);
+  const { isPlaying } = useSelector(state => state.countdownReducer);
 
-  return isPlaying && isDelete ? (
-    <CountdownCancel holidayId={holidayId} />
-  ) : !isPlaying ? (
-    <Button
-      onClick={async () => dispatch(startDeleteCountdown())}
-      className={dangerBtn}
-    >
-      Delete Holiday
-    </Button>
-  ) : null;
+  return (
+    !isPlaying && (
+      <Button
+        onClick={() => dispatch(startDeleteCountdown())}
+        className={dangerBtn}
+      >
+        Delete Holiday
+      </Button>
+    )
+  );
 };
 
 export { NewDeleteRequest };
