@@ -1,7 +1,7 @@
 import React from 'react';
 import { Form, Col, Alert } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { CountdownCancel, NewDeleteRequest, SuccessButton } from './';
+import { CountdownCancel, NegativeButton, SuccessButton } from './';
 import { CenteredSpinner } from '../';
 
 import { Formik } from 'formik';
@@ -144,7 +144,7 @@ const RequestForm = ({ id, from, until, update }) => {
               <>
                 <SuccessButton title={'Success'} errors={errors} />
                 {id && (
-                  <NewDeleteRequest title={'Delete Holiday'} holidayId={id} />
+                  <NegativeButton title={'Delete Holiday'} holidayId={id} />
                 )}
               </>
             ) : null}

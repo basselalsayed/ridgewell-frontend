@@ -22,7 +22,7 @@ const SuccessButton = ({ errors, title }) => {
   );
 };
 
-const NewDeleteRequest = ({ title }) => {
+const NegativeButton = ({ title }) => {
   const dispatch = useDispatch();
 
   const { isPlaying } = useSelector(state => state.countdownReducer);
@@ -38,4 +38,4 @@ const NewDeleteRequest = ({ title }) => {
   );
 };
 
-export { NewDeleteRequest, SuccessButton };
+export { NegativeButton, SuccessButton };
