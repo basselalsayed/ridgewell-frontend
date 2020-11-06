@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from 'react-bootstrap';
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import {
   startConfirmCountdown,
   startDeleteCountdown,
@@ -25,16 +25,12 @@ const SuccessButton = ({ errors, title }) => {
 const NegativeButton = ({ title }) => {
   const dispatch = useDispatch();
 
-  const { isPlaying } = useSelector(state => state.countdownReducer);
-
   return (
-    !isPlaying && (
-      <Button
-        onClick={() => dispatch(startDeleteCountdown())}
-        className={dangerBtn}
-        children={title}
-      />
-    )
+    <Button
+      onClick={() => dispatch(startDeleteCountdown())}
+      className={dangerBtn}
+      children={title}
+    />
   );
 };
 
