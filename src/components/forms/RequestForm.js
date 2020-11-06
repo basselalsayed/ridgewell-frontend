@@ -142,8 +142,10 @@ const RequestForm = ({ id, from, until, update }) => {
               <CountdownCancel />
             ) : submitCount < 1 ? (
               <>
-                <SuccessButton errors={errors} />
-                {id && <NewDeleteRequest holidayId={id} />}
+                <SuccessButton title={'Success'} errors={errors} />
+                {id && (
+                  <NewDeleteRequest title={'Delete Holiday'} holidayId={id} />
+                )}
               </>
             ) : null}
           </Form.Row>

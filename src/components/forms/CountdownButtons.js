@@ -8,7 +8,7 @@ import {
 } from '../../store/actions';
 import { dangerBtn, successBtn } from '../index.module.css';
 
-const SuccessButton = ({ errors }) => {
+const SuccessButton = ({ errors, title }) => {
   const dispatch = useDispatch();
 
   return (
@@ -17,13 +17,12 @@ const SuccessButton = ({ errors }) => {
         !errors.from && !errors.until && dispatch(startConfirmCountdown())
       }
       className={successBtn}
-    >
-      Submit
-    </Button>
+      children={title}
+    />
   );
 };
 
-const NewDeleteRequest = () => {
+const NewDeleteRequest = ({ title }) => {
   const dispatch = useDispatch();
 
   const { isPlaying } = useSelector(state => state.countdownReducer);
@@ -33,9 +32,8 @@ const NewDeleteRequest = () => {
       <Button
         onClick={() => dispatch(startDeleteCountdown())}
         className={dangerBtn}
-      >
-        Delete Holiday
-      </Button>
+        children={title}
+      />
     )
   );
 };
