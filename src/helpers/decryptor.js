@@ -1,10 +1,13 @@
 import crypto from 'crypto';
+import runtimeEnv from '@mars/heroku-js-runtime-env';
+
+const env = runtimeEnv();
 
 const [algorithm, hex, iv, key, utf8] = [
   'aes-256-cbc',
   'hex',
-  process.env.REACT_APP_MY_IV,
-  process.env.REACT_APP_MY_SECRET_KEY,
+  env.REACT_APP_MY_IV,
+  env.REACT_APP_MY_SECRET_KEY,
   'utf-8',
 ];
 
