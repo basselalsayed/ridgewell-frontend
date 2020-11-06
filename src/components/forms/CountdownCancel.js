@@ -22,7 +22,7 @@ const CountdownCancel = () => {
               className='countdownBtn'
               onClick={() => dispatch(endCountdown())}
             >
-              <div className='countdownText'>X</div>
+              <div className='countdownText'>Cancel</div>
             </button>
           }
           isPlaying={isPlaying}
