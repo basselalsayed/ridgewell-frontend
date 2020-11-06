@@ -37,14 +37,14 @@ const FormBase = ({ id }) => {
             {isSubmitting ? (
               <CenteredSpinner />
             ) : isPlaying ? (
-              <CountdownCancel />
+              <CountdownCancel id={id} />
             ) : (
               <>
                 <Col>
-                  <NegativeButton title={'Deny Request'} />
+                  <NegativeButton id={id} title={'Deny Request'} />
                 </Col>
                 <Col>
-                  <SuccessButton title={'Confirm Request'} />
+                  <SuccessButton id={id} title={'Confirm Request'} />
                 </Col>
               </>
             )}
