@@ -1,5 +1,6 @@
 const initialState = {
   isPlaying: false,
+  isDelete: false,
 };
 
 export default (state = initialState, { type }) => {
@@ -7,6 +8,11 @@ export default (state = initialState, { type }) => {
     case 'SET_COUNTDOWN_SHOW':
       return {
         isPlaying: true,
+      };
+    case 'SET_DELETE_COUNTDOWN_SHOW':
+      return {
+        isPlaying: true,
+        isDelete: true,
       };
     case 'SET_COUNTDOWN_END':
       return initialState;
