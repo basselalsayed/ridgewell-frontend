@@ -1,7 +1,7 @@
 import React from 'react';
-import { Form, Button, Col, Alert } from 'react-bootstrap';
+import { Form, Col, Alert } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { CountdownCancel, NewDeleteRequest } from './';
+import { CountdownCancel, NewDeleteRequest, SuccessButton } from './';
 import { CenteredSpinner } from '../';
 
 import { Formik } from 'formik';
@@ -10,8 +10,7 @@ import axios from 'axios';
 
 import { getMin, getMax, plusTwoMonths, plusTwoDays } from '../../helpers';
 
-import { successBtn } from '../index.module.css';
-import { getHolidays, startConfirmCountdown } from '../../store/actions';
+import { getHolidays } from '../../store/actions';
 
 import { today } from '../../constants';
 
@@ -143,16 +142,7 @@ const RequestForm = ({ id, from, until, update }) => {
               <CountdownCancel />
             ) : submitCount < 1 ? (
               <>
-                <Button
-                  onClick={() =>
-                    !errors.from &&
-                    !errors.until &&
-                    dispatch(startConfirmCountdown())
-                  }
-                  className={successBtn}
-                >
-                  Submit
-                </Button>
+                <SuccessButton errors={errors} />
                 {id && <NewDeleteRequest holidayId={id} />}
               </>
             ) : null}
