@@ -4,14 +4,27 @@ import { useFormikContext } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { CountdownCircleTimer } from 'react-countdown-circle-timer';
-import { endCountdown } from '../../store/actions';
+import { endCountdown, getHolidays } from '../../store/actions';
 import './countdown.css';
+import axios from 'axios';
 
-const CountdownCancel = () => {
+const CountdownCancel = ({ holidayId }) => {
   const dispatch = useDispatch();
-  const { submitForm } = useFormikContext();
+  const { setStatus, setSubmitting, submitForm } = useFormikContext();
 
-  const { isPlaying } = useSelector(state => state.countdownReducer);
+  const { isPlaying, isDelete } = useSelector(state => state.countdownReducer);
+
+  const handleDelete = async () => {
+    await axios
+      .post('requests', { holidayId, type: 'delete' })
+      .then(({ data: { message } }) => setStatus(message))
+      .catch(err => {
+        setStatus(`${err.response.statusText}: ${err.response.data.message}`);
+      })
+      .finally(() => setSubmitting(false));
+
+    dispatch(getHolidays());
+  };
 
   return (
     isPlaying && (
@@ -20,7 +33,10 @@ const CountdownCancel = () => {
           children={
             <button
               className='countdownBtn'
-              onClick={() => dispatch(endCountdown())}
+              onClick={() => {
+                dispatch(endCountdown());
+                isDelete && setSubmitting(false);
+              }}
             >
               <div className='countdownText'>Cancel</div>
             </button>
@@ -31,7 +47,10 @@ const CountdownCancel = () => {
           strokeWidth={5}
           colors={[['#004777', 0.33], ['#F7B801', 0.33], ['#A30000']]}
           onComplete={() => {
-            submitForm();
+            if (isDelete) {
+              setSubmitting(true);
+              handleDelete();
+            } else submitForm();
             dispatch(endCountdown());
           }}
         />
