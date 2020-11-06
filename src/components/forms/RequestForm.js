@@ -1,20 +1,19 @@
 import React from 'react';
-import { Formik } from 'formik';
 import { Form, Button, Col, Alert } from 'react-bootstrap';
-import * as yup from 'yup';
+import { useDispatch, useSelector } from 'react-redux';
+import { CountdownCancel, NewDeleteRequest } from './';
+import { CenteredSpinner } from '../';
 
-import { getMin, getMax } from '../../helpers';
+import { Formik } from 'formik';
+import * as yup from 'yup';
 import axios from 'axios';
 
-import { successBtn } from '../index.module.css';
-import { useDispatch, useSelector } from 'react-redux';
-import { getHolidays } from '../../store/actions';
+import { getMin, getMax, plusTwoMonths, plusTwoDays } from '../../helpers';
 
-import { startCountdown } from '../../store/actions/countdown';
-import { CountdownCancel, NewDeleteRequest } from './';
-import { plusTwoMonths, plusTwoDays } from '../../helpers';
+import { successBtn } from '../index.module.css';
+import { getHolidays, startCountdown } from '../../store/actions';
+
 import { today } from '../../constants';
-import { CenteredSpinner } from '../Spinner';
 
 const RequestForm = ({ id, from, until, update }) => {
   const { isPlaying } = useSelector(state => state.countdownReducer);

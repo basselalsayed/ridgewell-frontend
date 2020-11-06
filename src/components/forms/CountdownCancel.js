@@ -4,7 +4,7 @@ import { useFormikContext } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { CountdownCircleTimer } from 'react-countdown-circle-timer';
-import { endCountdown } from '../../store/actions/countdown';
+import { endCountdown } from '../../store/actions';
 import './countdown.css';
 
 const CountdownCancel = () => {

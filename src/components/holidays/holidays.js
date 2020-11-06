@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Holiday } from './holiday';
-import { CenteredSpinner } from '../Spinner';
+import { CenteredSpinner } from '../';
 
 const Holidays = () => {
   const { holidays } = useSelector(state => state.contentReducer);
