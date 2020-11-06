@@ -79,16 +79,6 @@ const Request = ({
     <Card.Footer>
       <FormBase id={id} />
     </Card.Footer>
-    <Card.Footer>
-      <Row>
-        <Col>
-          <Button className={dangerBtn}>Refuse</Button>
-        </Col>
-        <Col>
-          <Button className={successBtn}>Confirm</Button>
-        </Col>
-      </Row>
-    </Card.Footer>
   </Card>
 );
 
