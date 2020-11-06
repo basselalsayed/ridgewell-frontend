@@ -16,7 +16,7 @@ import { getHolidays, startCountdown } from '../../store/actions';
 import { today } from '../../constants';
 
 const RequestForm = ({ id, from, until, update }) => {
-  const { isPlaying } = useSelector(state => state.countdownReducer);
+  const { isDelete, isPlaying } = useSelector(state => state.countdownReducer);
   const dispatch = useDispatch();
 
   const schema = yup.object({
@@ -137,9 +137,9 @@ const RequestForm = ({ id, from, until, update }) => {
           <Form.Row>
             {isSubmitting ? (
               <CenteredSpinner />
-            ) : isPlaying ? (
+            ) : isPlaying && !isDelete ? (
               <CountdownCancel />
-            ) : submitCount < 1 ? (
+            ) : submitCount < 1 && !isDelete ? (
               <Button
                 onClick={() =>
                   !errors.from && !errors.until && dispatch(startCountdown())
@@ -150,7 +150,8 @@ const RequestForm = ({ id, from, until, update }) => {
               </Button>
             ) : null}
           </Form.Row>
-          {submitCount < 1 && id && !isPlaying && !isSubmitting && (
+
+          {!isSubmitting && submitCount < 1 && id && (
             <Form.Row>
               <NewDeleteRequest holidayId={id} />
             </Form.Row>
