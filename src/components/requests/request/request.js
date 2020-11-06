@@ -1,11 +1,73 @@
 import React from 'react';
-import { Card, Button, Row, Col } from 'react-bootstrap';
+import { Card, Row, Col, Form, Alert } from 'react-bootstrap';
 import { capitalize } from '../../../services';
 import { formatted } from '../../../helpers';
-import { dangerBtn, successBtn } from '../../index.module.css';
+
+import { CountdownCancel, NegativeButton, SuccessButton } from '../../forms';
+import { Formik } from 'formik';
+import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
+import { getAll } from '../../../store/actions';
+import { CenteredSpinner } from '../../Spinner';
+
+const FormBase = ({ id }) => {
+  const { isDelete, isPlaying } = useSelector(state => state.countdownReducer);
+  const dispatch = useDispatch();
+
+  return (
+    <Formik
+      initialValues={{ null: null }}
+      onSubmit={async (_, { setStatus }) =>
+        await axios
+          .put(`requests/${id}/${isDelete ? 'deny' : 'confirm'}`)
+          .then(res => {
+            res && setStatus(res.data.message);
+            dispatch(getAll());
+          })
+          .catch(err =>
+            setStatus(
+              `${err.response.statusText}: ${err.response.data.message}`,
+            ),
+          )
+      }
+    >
+      {({ handleSubmit, isSubmitting, status }) => (
+        <Form onSubmit={handleSubmit}>
+          <Form.Group as={Row}>
+            {isSubmitting ? (
+              <CenteredSpinner />
+            ) : isPlaying ? (
+              <CountdownCancel id={id} />
+            ) : (
+              <>
+                <Col>
+                  <NegativeButton id={id} title={'Deny Request'} />
+                </Col>
+                <Col>
+                  <SuccessButton id={id} title={'Confirm Request'} />
+                </Col>
+              </>
+            )}
+          </Form.Group>
+          {status && (
+            <Form.Row>
+              <Alert
+                style={{ marginTop: 10, width: '100%', textAlign: 'center' }}
+                variant={status === 'Success' ? 'success' : 'danger'}
+              >
+                {status}
+              </Alert>
+            </Form.Row>
+          )}
+        </Form>
+      )}
+    </Formik>
+  );
+};
 
 const Request = ({
   createdAt,
+  id,
   from,
   resolved,
   type,
@@ -25,14 +87,7 @@ const Request = ({
     </Card.Body>
 
     <Card.Footer>
-      <Row>
-        <Col>
-          <Button className={dangerBtn}>Refuse</Button>
-        </Col>
-        <Col>
-          <Button className={successBtn}>Confirm</Button>
-        </Col>
-      </Row>
+      <FormBase id={id} />
     </Card.Footer>
   </Card>
 );

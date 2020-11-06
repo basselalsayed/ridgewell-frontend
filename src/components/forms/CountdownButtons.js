@@ -8,13 +8,15 @@ import {
 } from '../../store/actions';
 import { dangerBtn, successBtn } from '../index.module.css';
 
-const SuccessButton = ({ errors, title }) => {
+const SuccessButton = ({ errors, id, title }) => {
   const dispatch = useDispatch();
 
   return (
     <Button
       onClick={() =>
-        !errors.from && !errors.until && dispatch(startConfirmCountdown())
+        errors
+          ? !errors.from && !errors.until && dispatch(startConfirmCountdown(id))
+          : dispatch(startConfirmCountdown(id))
       }
       className={successBtn}
       children={title}
@@ -22,12 +24,12 @@ const SuccessButton = ({ errors, title }) => {
   );
 };
 
-const NegativeButton = ({ title }) => {
+const NegativeButton = ({ id, title }) => {
   const dispatch = useDispatch();
 
   return (
     <Button
-      onClick={() => dispatch(startDeleteCountdown())}
+      onClick={() => dispatch(startDeleteCountdown(id))}
       className={dangerBtn}
       children={title}
     />

@@ -5,34 +5,42 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { CountdownCircleTimer } from 'react-countdown-circle-timer';
 import { endCountdown } from '../../store/actions';
-import './countdown.css';
+import {
+  countdownWrp,
+  countdownBtn,
+  countdownTxt,
+} from './countdown.module.css';
 
-const CountdownCancel = () => {
+const CountdownCancel = ({ id }) => {
   const dispatch = useDispatch();
   const { submitForm } = useFormikContext();
-  const { isPlaying } = useSelector(state => state.countdownReducer);
+  const { id: reduxId, isPlaying } = useSelector(
+    state => state.countdownReducer,
+  );
 
   const cancelButton = (
-    <button className='countdownBtn' onClick={() => dispatch(endCountdown())}>
-      <div className='countdownText'>Cancel</div>
+    <button className={countdownBtn} onClick={() => dispatch(endCountdown())}>
+      <div className={countdownTxt}>Cancel</div>
     </button>
   );
 
   return (
-    <div className='countdownWrp'>
-      <CountdownCircleTimer
-        children={cancelButton}
-        isPlaying={isPlaying}
-        duration={5}
-        size={90}
-        strokeWidth={5}
-        colors={[['#004777', 0.33], ['#F7B801', 0.33], ['#A30000']]}
-        onComplete={() => {
-          submitForm();
-          dispatch(endCountdown());
-        }}
-      />
-    </div>
+    id === reduxId && (
+      <div className={countdownWrp}>
+        <CountdownCircleTimer
+          children={cancelButton}
+          isPlaying={isPlaying}
+          duration={1}
+          size={90}
+          strokeWidth={5}
+          colors={[['#004777', 0.33], ['#F7B801', 0.33], ['#A30000']]}
+          onComplete={() => {
+            submitForm();
+            dispatch(endCountdown());
+          }}
+        />
+      </div>
+    )
   );
 };
 
