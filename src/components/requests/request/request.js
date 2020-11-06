@@ -3,11 +3,12 @@ import { Card, Button, Row, Col, Form } from 'react-bootstrap';
 import { capitalize } from '../../../services';
 import { formatted } from '../../../helpers';
 import { dangerBtn, successBtn } from '../../index.module.css';
-import { NegativeButton, SuccessButton } from '../../forms';
+import { CountdownCancel, NegativeButton, SuccessButton } from '../../forms';
 import { Formik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
-import { getRequests } from '../../../store/actions';
+import { getAll } from '../../../store/actions';
+import { CenteredSpinner } from '../../Spinner';
 
 const FormBase = ({ id }) => {
   const { isDelete, isPlaying } = useSelector(state => state.countdownReducer);
@@ -15,28 +16,38 @@ const FormBase = ({ id }) => {
 
   return (
     <Formik
-      onSubmit={async (_, { setStatus }) => {
-        try {
-          const response = isDelete
-            ? await axios.post(`requests/${id}/deny`)
-            : await axios.post(`requests/${id}/confirm`);
-
-          response && setStatus('Success');
-          dispatch(getRequests());
-        } catch (err) {
-          setStatus(`${err.response.statusText}: ${err.response.data.message}`);
-        }
-      }}
+      initialValues={{ null: null }}
+      onSubmit={async (_, { setStatus }) =>
+        await axios
+          .put(`requests/${id}/${isDelete ? 'deny' : 'confirm'}`)
+          .then(res => {
+            res && setStatus(res.data.message);
+            dispatch(getAll());
+          })
+          .catch(err =>
+            setStatus(
+              `${err.response.statusText}: ${err.response.data.message}`,
+            ),
+          )
+      }
     >
-      {({ handleSubmit }) => (
+      {({ handleSubmit, isSubmitting }) => (
         <Form onSubmit={handleSubmit}>
           <Form.Group as={Row}>
-            <Col>
-              <NegativeButton title={'Deny Request'} />
-            </Col>
-            <Col>
-              <SuccessButton title={'Confirm Request'} />
-            </Col>
+            {isSubmitting ? (
+              <CenteredSpinner />
+            ) : isPlaying ? (
+              <CountdownCancel />
+            ) : (
+              <>
+                <Col>
+                  <NegativeButton title={'Deny Request'} />
+                </Col>
+                <Col>
+                  <SuccessButton title={'Confirm Request'} />
+                </Col>
+              </>
+            )}
           </Form.Group>
         </Form>
       )}
@@ -66,7 +77,7 @@ const Request = ({
     </Card.Body>
 
     <Card.Footer>
-      <FormBase />
+      <FormBase id={id} />
     </Card.Footer>
     <Card.Footer>
       <Row>
