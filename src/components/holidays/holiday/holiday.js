@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card } from 'react-bootstrap';
 import { formatted } from '../../../helpers';
+import { capitalize } from '../../../services';
 
 const Holiday = ({
   confirmed,
@@ -26,7 +27,7 @@ const Holiday = ({
         <p> Until: {formatted(until, 'panel')} </p>
         <p> Request made: {formatted(createdAt, 'panelTime')} </p>
       </Card.Body>
-      <Card.Footer>{`Confirmed: ${confirmed}`}</Card.Footer>
+      <Card.Footer>{`Confirmed: ${capitalize(confirmed)}`}</Card.Footer>
       {approvedBy && approvedDate && (
         <Card.Footer>
           Confirmed by: <strong>{approvedBy + ' '}</strong> on

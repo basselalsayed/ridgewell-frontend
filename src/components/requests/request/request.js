@@ -95,8 +95,8 @@ const Request = ({
           {formatted(prevUntil, 'panel')})
         </p>
       )}
-      <p> Request made: {formatted(createdAt, 'panelTime')} </p>
-      <p>Resolved: {resolved ? 'True' : 'False'}</p>
+      <p>Request made: {formatted(createdAt, 'panelTime')}</p>
+      <p>Resolved: {capitalize(resolved)}</p>
     </Card.Body>
 
     <Card.Footer>
