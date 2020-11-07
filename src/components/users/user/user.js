@@ -1,14 +1,19 @@
 import React from 'react';
 import { Card } from 'react-bootstrap';
+import { formatted } from '../../../helpers';
+import { RequestsTable } from '../../home/event/components';
 
-const User = ({ email, updatedAt, username }) => (
-  <Card>
-    <Card.Title>{username}</Card.Title>
-    <Card.Body>
-      <p> Email: {email} </p>
-      <p> Updated: {updatedAt} </p>
-    </Card.Body>
-  </Card>
-);
+const User = ({ email, updatedAt, username, owner: requests }) => {
+  return (
+    <Card>
+      <Card.Title>{username}</Card.Title>
+      <Card.Body>
+        <p> Email: {email} </p>
+        <p> Updated: {formatted(updatedAt, 'panelTime')} </p>
+        <RequestsTable requests={requests} />
+      </Card.Body>
+    </Card>
+  );
+};
 
 export { User };
