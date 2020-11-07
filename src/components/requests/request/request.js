@@ -71,6 +71,7 @@ const Request = ({
   createdAt,
   id,
   from,
+  Holiday: { from: prevFrom, until: prevUntil },
   resolved,
   type,
   until,
@@ -82,8 +83,18 @@ const Request = ({
     </Card.Title>
     <Card.Body>
       <p> Type: {capitalize(type)} </p>
-      {from && <p> From: {formatted(from, 'panel')} </p>}
-      {until && <p> Until: {formatted(until, 'panel')} </p>}
+      {from && (
+        <p>
+          From: {formatted(from, 'panel')} (Previous:
+          {formatted(prevFrom, 'panel')})
+        </p>
+      )}
+      {until && (
+        <p>
+          Until: {formatted(until, 'panel')} (Previous:
+          {formatted(prevUntil, 'panel')})
+        </p>
+      )}
       <p> Request made: {formatted(createdAt, 'panelTime')} </p>
       <p>Resolved: {resolved ? 'True' : 'False'}</p>
     </Card.Body>
@@ -93,5 +104,4 @@ const Request = ({
     </Card.Footer>
   </Card>
 );
-
 export { Request };
