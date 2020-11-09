@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-import { Holidays, Requests } from './';
+import { Holidays, Notifications, Requests } from './';
 
 import { Tab, Row, Col, ListGroup } from 'react-bootstrap';
 
@@ -36,6 +36,12 @@ const BoardUser = () => {
             href='#holidays'
             children='Holidays'
           />
+          <ListGroup.Item
+            action
+            className={tabBtn}
+            href='#notifications'
+            children='Notifications'
+          />
         </ListGroup>
       </Col>
     </Row>
@@ -50,6 +56,9 @@ const BoardUser = () => {
           </Tab.Pane>
           <Tab.Pane eventKey='#holidays'>
             <Holidays holidays={holidays} />
+          </Tab.Pane>
+          <Tab.Pane eventKey='#notifications'>
+            <Notifications notifications={user.Notifications} />
           </Tab.Pane>
         </Tab.Content>
       </Col>
