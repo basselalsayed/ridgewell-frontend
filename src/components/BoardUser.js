@@ -7,23 +7,16 @@ import { Tab, Row, Col, ListGroup } from 'react-bootstrap';
 import { tabBtn } from './index.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAll } from '../store/actions';
-import { isOwner } from '../helpers';
 
 const BoardUser = () => {
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getAll());
-  }, []);
-
   const { user } = useSelector(state => state.authReducer);
 
-  let { holidays, requests } = useSelector(state => state.contentReducer);
+  useEffect(() => {
+    dispatch(getAll(user.id));
+  }, []);
 
-  if (user && requests && holidays) {
-    requests = requests.filter(({ User }) => isOwner(user, User.id));
-    holidays = holidays.filter(({ User }) => isOwner(user, User.id));
-  }
+  let { holidays, requests } = useSelector(state => state.contentReducer);
 
   //  <div className='container'>
   // <header className='jumbotron'>
@@ -65,6 +58,7 @@ const BoardUser = () => {
 
   return (
     <Tab.Container id='user-dash' defaultActiveKey='#requests'>
+      {console.log('requests', requests, 'holidays', holidays)}
       {tabButtons}
       {tabContent}
     </Tab.Container>
