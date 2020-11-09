@@ -18,7 +18,7 @@ const Notifications = ({ notifications }) => {
   const notificationRows =
     notifications &&
     notifications.map((notification, idx) => (
-      <Notification {...notification} index={idx} />
+      <Notification key={notification.id} {...notification} index={idx} />
     ));
 
   return (
