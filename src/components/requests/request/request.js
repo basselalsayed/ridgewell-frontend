@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, Row, Col, Form, Alert } from 'react-bootstrap';
-import { capitalize, formatted, isOwner } from '../../../helpers';
+import { capitalize, formatted, isAdmin } from '../../../helpers';
 
 import { CountdownCancel, NegativeButton, SuccessButton } from '../../forms';
 import { Formik } from 'formik';
@@ -101,7 +101,7 @@ const Request = ({
         <p>Resolved: {capitalize(resolved)}</p>
       </Card.Body>
 
-      {isOwner(user, userId) && (
+      {isAdmin(user) && (
         <Card.Footer>
           <FormBase id={id} />
         </Card.Footer>
