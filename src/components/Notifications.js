@@ -1,7 +1,38 @@
-import React from 'react';
-import { Button, Table } from 'react-bootstrap';
-import { formatted } from '../helpers';
+import React, { useState } from 'react';
 
+import { Button, Spinner, Table } from 'react-bootstrap';
+import { useDispatch } from 'react-redux';
+import { formatted } from '../helpers';
+import { getNotifications, updateNotification } from '../store/actions';
+
+const NotificationReadButton = ({ id, read }) => {
+  const [submitting, setSubmitting] = useState(false);
+  const dispatch = useDispatch();
+
+  const handleSubmit = () => {
+    setSubmitting(true);
+
+    dispatch(updateNotification(id, read)).then(() => {
+      dispatch(getNotifications());
+      setSubmitting(false);
+    });
+  };
+
+  return submitting ? (
+    <Spinner
+      style={{
+        color: 'green',
+        position: 'inherit',
+        left: '50%',
+        top: '50%',
+        marginTop: '0.5rem',
+      }}
+      animation='border'
+    />
+  ) : (
+    <Button onClick={handleSubmit}>{read ? 'Unread' : 'Read'}</Button>
+  );
+};
 const Notifications = ({ notifications }) => {
   const headerRow = (
     <thead>
@@ -23,7 +54,7 @@ const Notifications = ({ notifications }) => {
         {<td>{formatted(createdAt, 'panelTime')}</td>}
         {
           <td style={{ textAlign: 'center' }}>
-            <Button>{read ? 'Unread' : 'Read'}</Button>
+            <NotificationReadButton id={id} read={read} />
           </td>
         }
       </tr>
@@ -39,7 +70,7 @@ const Notifications = ({ notifications }) => {
     >
       <Table striped bordered hover size='sm'>
         {headerRow}
-        {notificationRows}
+        <tbody>{notificationRows}</tbody>
       </Table>
     </div>
   );
