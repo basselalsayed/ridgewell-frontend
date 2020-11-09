@@ -8,9 +8,9 @@ const getUsers = () => async dispatch =>
     .then(({ data }) => dispatch(setContent('SET_USERS', data)))
     .catch(error => console.log(error, error.response));
 
-const getHolidays = () => async dispatch =>
+const getHolidays = userId => async dispatch =>
   await decryptorInstance
-    .get('holidays')
+    .get(userId ? `holidays?userId=${userId}` : 'holidays')
     .then(({ data }) => dispatch(setContent('SET_HOLIDAYS', data)))
     .catch(error => console.log(error, error.response));
 
@@ -20,11 +20,11 @@ const getRequests = () => async dispatch =>
     .then(({ data }) => dispatch(setContent('SET_REQUESTS', data)))
     .catch(error => console.log(error, error.response));
 
-const getAll = () => async dispatch =>
+const getAll = userId => async dispatch =>
   await Promise.all([
     dispatch(getRequests()),
-    dispatch(getHolidays()),
-    dispatch(getUsers()),
+    dispatch(getHolidays(userId)),
+    !userId && dispatch(getUsers()),
   ]);
 
 const postHolidays = params => {};
