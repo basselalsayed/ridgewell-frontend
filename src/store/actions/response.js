@@ -2,10 +2,9 @@ const setContent = (type, payload) => ({ type, payload });
 
 const setError = error => dispatch => dispatch(setContent('SET_ERROR', error));
 
-const setMessage = message => dispatch =>
-  dispatch(setContent('SET_MESSAGE', message));
+const setSuccess = success => dispatch =>
+  dispatch(setContent('SET_SUCCESS', success));
 
-const hideAlert = message => dispatch =>
-  dispatch(setContent('HIDE_ALERT', message));
+const hideAlert = () => dispatch => dispatch(setContent('HIDE_ALERT'));
 
-export { hideAlert, setError, setMessage };
+export { hideAlert, setError, setSuccess };
