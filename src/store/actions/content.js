@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { decryptorInstance, usersInstance } from '../../services/axios';
 
 const setContent = (type, payload) => ({ type, payload });
@@ -20,11 +21,18 @@ const getRequests = userId => async dispatch =>
     .then(({ data }) => dispatch(setContent('SET_REQUESTS', data)))
     .catch(error => console.log(error, error.response));
 
+const getNotifications = () => async dispatch =>
+  await decryptorInstance
+    .get('notifications')
+    .then(({ data }) => dispatch(setContent('SET_NOTIFICATIONS', data)))
+    .catch(error => console.log(error, error.response));
+
 const getAll = userId => async dispatch =>
   await Promise.all([
     dispatch(getRequests(userId)),
     dispatch(getHolidays(userId)),
     !userId && dispatch(getUsers()),
+    dispatch(getNotifications()),
   ]);
 
 const postHolidays = params => {};
@@ -35,6 +43,7 @@ export {
   getAll,
   getUsers,
   getHolidays,
+  getNotifications,
   getRequests,
   postHolidays,
   postRequests,
