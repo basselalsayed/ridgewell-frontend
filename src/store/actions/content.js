@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { decryptorInstance, usersInstance } from '../../services/axios';
+import { setError, setSuccess } from './response';
 
 const setContent = (type, payload) => ({ type, payload });
 
@@ -35,6 +36,14 @@ const getAll = userId => async dispatch =>
     dispatch(getNotifications()),
   ]);
 
+const updateNotification = (id, read) => async dispatch =>
+  await axios
+    .put(`/notifications/${id}`, { read: !read })
+    .then(({ data: { message } }) => dispatch(setSuccess(message)))
+    .catch(error =>
+      dispatch(setError(`${error.statusText} + ${error.response.message}`)),
+    );
+
 const postHolidays = params => {};
 
 const postRequests = params => {};
@@ -47,4 +56,5 @@ export {
   getRequests,
   postHolidays,
   postRequests,
+  updateNotification,
 };
