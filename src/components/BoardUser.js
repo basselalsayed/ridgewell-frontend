@@ -1,34 +1,75 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 
-import UserService from '../services/user.service';
+import { Holidays, Requests } from './';
+
+import { Tab, Row, Col, ListGroup } from 'react-bootstrap';
+
+import { tabBtn } from './index.module.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAll } from '../store/actions';
 
 const BoardUser = () => {
-  const [content, setContent] = useState('');
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    UserService.getUserBoard().then(
-      response => {
-        setContent(response.data);
-      },
-      error => {
-        const _content =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-          error.message ||
-          error.toString();
-
-        setContent(_content);
-      },
-    );
+    dispatch(getAll());
   }, []);
 
+  const { user } = useSelector(state => state.authReducer);
+
+  let { holidays, requests } = useSelector(state => state.contentReducer);
+
+  if (user && requests && holidays) {
+    requests = requests.filter(req => req.owner === user.id);
+    holidays = holidays.filter(hol => hol.userId === user.id);
+  }
+
+  //  <div className='container'>
+  // <header className='jumbotron'>
+  const tabButtons = (
+    <Row>
+      <Col>
+        <ListGroup horizontal>
+          <ListGroup.Item
+            action
+            className={tabBtn}
+            href='#requests'
+            children='Requests'
+          />
+          <ListGroup.Item
+            action
+            className={tabBtn}
+            href='#holidays'
+            children='Holidays'
+          />
+        </ListGroup>
+      </Col>
+    </Row>
+  );
+
+  const tabContent = (
+    <Row>
+      <Col>
+        <Tab.Content>
+          <Tab.Pane eventKey='#requests'>
+            <Requests requests={requests} />
+          </Tab.Pane>
+          <Tab.Pane eventKey='#holidays'>
+            <Holidays holidays={holidays} />
+          </Tab.Pane>
+        </Tab.Content>
+      </Col>
+    </Row>
+  );
+
   return (
-    <div className='container'>
-      <header className='jumbotron'>
-        <h3>{content}</h3>
-      </header>
-    </div>
+    <Tab.Container id='user-dash' defaultActiveKey='#requests'>
+      {tabButtons}
+      {tabContent}
+    </Tab.Container>
+
+    //   {/* </header> */}
+    // {/* </div> */}
   );
 };
 
