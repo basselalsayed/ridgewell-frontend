@@ -14,8 +14,9 @@ const Notifications = ({ notifications }) => {
     </thead>
   );
 
-  const notificationRows = notifications.map(
-    ({ id, message, createdAt, read }, idx) => (
+  const notificationRows =
+    notifications &&
+    notifications.map(({ id, message, createdAt, read }, idx) => (
       <tr key={id}>
         <td>{idx + 1}</td>
         <td>{message}</td>
@@ -26,8 +27,7 @@ const Notifications = ({ notifications }) => {
           </td>
         }
       </tr>
-    ),
-  );
+    ));
 
   return (
     <div

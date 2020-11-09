@@ -16,7 +16,9 @@ const BoardUser = () => {
     dispatch(getAll(user.id));
   }, []);
 
-  let { holidays, requests } = useSelector(state => state.contentReducer);
+  let { holidays, notifications, requests } = useSelector(
+    state => state.contentReducer,
+  );
 
   //  <div className='container'>
   // <header className='jumbotron'>
@@ -58,7 +60,7 @@ const BoardUser = () => {
             <Holidays holidays={holidays} />
           </Tab.Pane>
           <Tab.Pane eventKey='#notifications'>
-            <Notifications notifications={user.Notifications} />
+            <Notifications notifications={notifications} />
           </Tab.Pane>
         </Tab.Content>
       </Col>
