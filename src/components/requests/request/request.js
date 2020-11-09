@@ -1,7 +1,6 @@
 import React from 'react';
 import { Card, Row, Col, Form, Alert } from 'react-bootstrap';
-import { capitalize } from '../../../services';
-import { formatted } from '../../../helpers';
+import { capitalize, formatted } from '../../../helpers';
 
 import { CountdownCancel, NegativeButton, SuccessButton } from '../../forms';
 import { Formik } from 'formik';

@@ -1,8 +1,6 @@
 import React from 'react';
 import { Table } from 'react-bootstrap';
-import { capitalize } from '../../../../services';
-
-import { formatted } from '../../../../helpers';
+import { capitalize, formatted } from '../../../../helpers';
 
 const RequestsTable = ({ requests }) => {
   const headerRow = (

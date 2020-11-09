@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card } from 'react-bootstrap';
 import { formatted } from '../../../helpers';
-import { capitalize } from '../../../services';
+import { capitalize } from '../../../helpers';
 
 const Holiday = ({
   confirmed,
