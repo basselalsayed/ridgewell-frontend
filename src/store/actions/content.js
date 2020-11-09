@@ -40,9 +40,13 @@ const updateNotification = (id, read) => async dispatch =>
   await axios
     .put(`/notifications/${id}`, { read: !read })
     .then(({ data: { message } }) => dispatch(setSuccess(message)))
-    .catch(error =>
-      dispatch(setError(`${error.statusText} + ${error.response.message}`)),
-    );
+    .catch(error => {
+      let errorText = '';
+      if (error.statusText) errorText += error.statusText;
+      if (error.response.message) errorText += ` ${error.response.message}`;
+      if (!error.statusText && !error.response.data.message) errorText = error;
+      dispatch(setError(errorText));
+    });
 
 const postHolidays = params => {};
 
