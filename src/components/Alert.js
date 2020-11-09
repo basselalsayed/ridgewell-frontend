@@ -5,26 +5,26 @@ import { hideAlert } from '../store/actions/response';
 
 const Alert = () => {
   const dispatch = useDispatch();
-  const { error, show, message } = useSelector(state => state.responseReducer);
+  const { error, show, success } = useSelector(state => state.responseReducer);
 
   return (
-    (message || error) && (
+    (success || error) && (
       <Toast
         style={{
           minWidth: '200px',
           position: 'absolute',
-          top: 0,
+          top: 56,
           right: 0,
+          borderColor: success ? 'green' : 'orange',
         }}
         show={show}
         onClose={() => dispatch(hideAlert())}
       >
         <Toast.Header>
-          <img src='holder.js/20x20?text=%20' className='rounded mr-2' alt='' />
           {/* <strong className='mr-auto'>Admin</strong> */}
-          {error && <small>Error</small>}
+          {<strong>{error ? 'Error' : 'Success'}</strong>}
         </Toast.Header>
-        <Toast.Body>{error || message}</Toast.Body>
+        <Toast.Body>{error || success}</Toast.Body>
       </Toast>
     )
   );

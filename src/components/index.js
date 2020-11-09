@@ -1,3 +1,4 @@
+export * from './Alert';
 export * from './BoardAdmin';
 export * from './BoardUser';
 export * from './burger';
