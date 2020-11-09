@@ -2,12 +2,11 @@ import React, { useEffect } from 'react';
 
 import { Holidays, Requests, Users } from './';
 
-import { Tab, Row, Col, ListGroup } from 'react-bootstrap';
+import { Tab, Row, Col, ListGroup, Spinner } from 'react-bootstrap';
 
 import { tabBtn } from './index.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAll } from '../store/actions';
-import { CenteredSpinner } from './Spinner';
 
 const BoardAdmin = () => {
   const dispatch = useDispatch();
@@ -66,7 +65,17 @@ const BoardAdmin = () => {
             </Tab.Pane>
           </Tab.Content>
         ) : (
-          <CenteredSpinner />
+          <Spinner
+            style={{
+              position: 'inherit',
+              color: 'green',
+              left: '50%',
+              top: '50%',
+              marginLeft: '-1rem',
+              marginTop: '1rem',
+            }}
+            animation='border'
+          />
         )}
       </Col>
     </Row>
