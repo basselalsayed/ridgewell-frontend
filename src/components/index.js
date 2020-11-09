@@ -7,7 +7,7 @@ export * from './Header';
 export * from './holidays';
 export * from './home';
 export * from './Login';
-export * from './Notifications';
+export * from './notifications';
 export * from './Profile';
 export * from './Register';
 export * from './requests';
