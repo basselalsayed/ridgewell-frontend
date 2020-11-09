@@ -7,6 +7,7 @@ import { Tab, Row, Col, ListGroup } from 'react-bootstrap';
 import { tabBtn } from './index.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAll } from '../store/actions';
+import { isOwner } from '../helpers';
 
 const BoardUser = () => {
   const dispatch = useDispatch();
@@ -20,8 +21,8 @@ const BoardUser = () => {
   let { holidays, requests } = useSelector(state => state.contentReducer);
 
   if (user && requests && holidays) {
-    requests = requests.filter(req => req.owner === user.id);
-    holidays = holidays.filter(hol => hol.userId === user.id);
+    requests = requests.filter(({ User }) => isOwner(user, User.id));
+    holidays = holidays.filter(({ User }) => isOwner(user, User.id));
   }
 
   //  <div className='container'>
