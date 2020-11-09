@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, Row, Col, Form, Alert } from 'react-bootstrap';
-import { capitalize, formatted } from '../../../helpers';
+import { capitalize, formatted, isOwner } from '../../../helpers';
 
 import { CountdownCancel, NegativeButton, SuccessButton } from '../../forms';
 import { Formik } from 'formik';
@@ -74,33 +74,39 @@ const Request = ({
   resolved,
   type,
   until,
-  User: { email, username },
-}) => (
-  <Card border={resolved ? 'success' : 'warning'}>
-    <Card.Title>
-      Owner: {username}, {email}
-    </Card.Title>
-    <Card.Body>
-      <p> Type: {capitalize(type)} </p>
-      {from && (
-        <p>
-          From: {formatted(from, 'panel')} (Previous:
-          {formatted(prevFrom, 'panel')})
-        </p>
-      )}
-      {until && (
-        <p>
-          Until: {formatted(until, 'panel')} (Previous:
-          {formatted(prevUntil, 'panel')})
-        </p>
-      )}
-      <p>Request made: {formatted(createdAt, 'panelTime')}</p>
-      <p>Resolved: {capitalize(resolved)}</p>
-    </Card.Body>
+  User: { email, id: userId, username },
+}) => {
+  const { user } = useSelector(state => state.authReducer);
 
-    <Card.Footer>
-      <FormBase id={id} />
-    </Card.Footer>
-  </Card>
-);
+  return (
+    <Card border={resolved ? 'success' : 'warning'}>
+      <Card.Title>
+        Owner: {username}, {email}
+      </Card.Title>
+      <Card.Body>
+        <p> Type: {capitalize(type)} </p>
+        {from && (
+          <p>
+            From: {formatted(from, 'panel')} (Previous:
+            {formatted(prevFrom, 'panel')})
+          </p>
+        )}
+        {until && (
+          <p>
+            Until: {formatted(until, 'panel')} (Previous:
+            {formatted(prevUntil, 'panel')})
+          </p>
+        )}
+        <p>Request made: {formatted(createdAt, 'panelTime')}</p>
+        <p>Resolved: {capitalize(resolved)}</p>
+      </Card.Body>
+
+      {isOwner(user, userId) && (
+        <Card.Footer>
+          <FormBase id={id} />
+        </Card.Footer>
+      )}
+    </Card>
+  );
+};
 export { Request };
