@@ -14,7 +14,7 @@ const BoardUser = () => {
 
   useEffect(() => {
     dispatch(getAll(user.id));
-  }, []);
+  }, [dispatch, user.id]);
 
   let { holidays, notifications, requests } = useSelector(
     state => state.contentReducer,
