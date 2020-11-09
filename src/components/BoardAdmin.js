@@ -17,7 +17,7 @@ const BoardAdmin = () => {
 
   useEffect(() => {
     dispatch(getAll());
-  }, []);
+  }, [dispatch]);
 
   //  <div className='container'>
   // <header className='jumbotron'>
