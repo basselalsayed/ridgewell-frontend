@@ -16,13 +16,15 @@ const Alert = () => {
           top: 56,
           right: 0,
           borderColor: success ? 'green' : 'orange',
+          zIndex: '1',
         }}
         show={show}
         onClose={() => dispatch(hideAlert())}
+        delay={10000}
+        autohide
       >
         <Toast.Header>
-          {/* <strong className='mr-auto'>Admin</strong> */}
-          {<strong>{error ? 'Error' : 'Success'}</strong>}
+          <strong className='mr-auto'>{error ? 'Error' : 'Success'}</strong>
         </Toast.Header>
         <Toast.Body>{error || success}</Toast.Body>
       </Toast>
