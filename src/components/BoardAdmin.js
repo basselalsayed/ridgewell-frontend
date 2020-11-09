@@ -5,11 +5,16 @@ import { Holidays, Requests, Users } from './';
 import { Tab, Row, Col, ListGroup } from 'react-bootstrap';
 
 import { tabBtn } from './index.module.css';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getAll } from '../store/actions';
+import { CenteredSpinner } from './Spinner';
 
 const BoardAdmin = () => {
   const dispatch = useDispatch();
+
+  let { holidays, requests, users } = useSelector(
+    state => state.contentReducer,
+  );
 
   useEffect(() => {
     dispatch(getAll());
@@ -48,17 +53,21 @@ const BoardAdmin = () => {
   const tabContent = (
     <Row>
       <Col>
-        <Tab.Content>
-          <Tab.Pane eventKey='#requests'>
-            <Requests />
-          </Tab.Pane>
-          <Tab.Pane eventKey='#users'>
-            <Users />
-          </Tab.Pane>
-          <Tab.Pane eventKey='#holidays'>
-            <Holidays />
-          </Tab.Pane>
-        </Tab.Content>
+        {holidays && requests && users ? (
+          <Tab.Content>
+            <Tab.Pane eventKey='#requests'>
+              <Requests requests={requests} />
+            </Tab.Pane>
+            <Tab.Pane eventKey='#users'>
+              <Users users={users} />
+            </Tab.Pane>
+            <Tab.Pane eventKey='#holidays'>
+              <Holidays holidays={holidays} />
+            </Tab.Pane>
+          </Tab.Content>
+        ) : (
+          <CenteredSpinner />
+        )}
       </Col>
     </Row>
   );
