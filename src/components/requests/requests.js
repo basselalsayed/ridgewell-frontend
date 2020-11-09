@@ -1,17 +1,18 @@
 import React from 'react';
 import { Request } from './request';
 
-const Requests = ({ requests }) => (
-  <div
-    style={{
-      maxHeight: window.innerHeight - 150,
-      overflow: 'auto',
-    }}
-  >
-    {requests.map(req => (
-      <Request key={req.id} {...req} />
-    ))}
-  </div>
-);
+const Requests = ({ requests }) =>
+  requests && (
+    <div
+      style={{
+        maxHeight: window.innerHeight - 150,
+        overflow: 'auto',
+      }}
+    >
+      {requests.map(req => (
+        <Request key={req.id} {...req} />
+      ))}
+    </div>
+  );
 
 export { Requests };
