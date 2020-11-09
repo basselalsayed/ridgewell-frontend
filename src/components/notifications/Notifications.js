@@ -1,38 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-import { Button, Spinner, Table } from 'react-bootstrap';
-import { useDispatch } from 'react-redux';
-import { formatted } from '../../helpers';
-import { getNotifications, updateNotification } from '../../store/actions';
+import { Table } from 'react-bootstrap';
+import { Notification } from './notification';
 
-const NotificationReadButton = ({ id, read }) => {
-  const [submitting, setSubmitting] = useState(false);
-  const dispatch = useDispatch();
-
-  const handleSubmit = () => {
-    setSubmitting(true);
-
-    dispatch(updateNotification(id, read)).then(() => {
-      dispatch(getNotifications());
-      setSubmitting(false);
-    });
-  };
-
-  return submitting ? (
-    <Spinner
-      style={{
-        color: 'green',
-        position: 'inherit',
-        left: '50%',
-        top: '50%',
-        marginTop: '0.5rem',
-      }}
-      animation='border'
-    />
-  ) : (
-    <Button onClick={handleSubmit}>{read ? 'Unread' : 'Read'}</Button>
-  );
-};
 const Notifications = ({ notifications }) => {
   const headerRow = (
     <thead>
@@ -47,17 +17,8 @@ const Notifications = ({ notifications }) => {
 
   const notificationRows =
     notifications &&
-    notifications.map(({ id, message, createdAt, read }, idx) => (
-      <tr key={id}>
-        <td>{idx + 1}</td>
-        <td>{message}</td>
-        {<td>{formatted(createdAt, 'panelTime')}</td>}
-        {
-          <td style={{ textAlign: 'center' }}>
-            <NotificationReadButton id={id} read={read} />
-          </td>
-        }
-      </tr>
+    notifications.map((notification, idx) => (
+      <Notification {...notification} index={idx} />
     ));
 
   return (
