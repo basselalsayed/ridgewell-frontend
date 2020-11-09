@@ -14,15 +14,15 @@ const getHolidays = userId => async dispatch =>
     .then(({ data }) => dispatch(setContent('SET_HOLIDAYS', data)))
     .catch(error => console.log(error, error.response));
 
-const getRequests = () => async dispatch =>
+const getRequests = userId => async dispatch =>
   await decryptorInstance
-    .get('requests')
+    .get(userId ? `requests?userId=${userId}` : 'requests')
     .then(({ data }) => dispatch(setContent('SET_REQUESTS', data)))
     .catch(error => console.log(error, error.response));
 
 const getAll = userId => async dispatch =>
   await Promise.all([
-    dispatch(getRequests()),
+    dispatch(getRequests(userId)),
     dispatch(getHolidays(userId)),
     !userId && dispatch(getUsers()),
   ]);
