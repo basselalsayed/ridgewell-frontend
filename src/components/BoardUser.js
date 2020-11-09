@@ -58,7 +58,6 @@ const BoardUser = () => {
 
   return (
     <Tab.Container id='user-dash' defaultActiveKey='#requests'>
-      {console.log('requests', requests, 'holidays', holidays)}
       {tabButtons}
       {tabContent}
     </Tab.Container>
