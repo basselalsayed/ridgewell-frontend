@@ -1,9 +1,11 @@
-const parseError = ({ message, response }) => {
+const parseError = error => {
   let errorText = '';
-  if (response.statusText)
-    errorText += `${response.statusText} (${response.status}): `;
-  if (response.data.message) errorText += response.data.message;
-  if (!response.statusText && !response.data.message) return message;
+  if (error.response) {
+    const { response } = error;
+    if (response.statusText && response.status)
+      errorText += `${response.statusText} (${response.status}): `;
+    if (response.data.message) errorText += response.data.message;
+  } else if (error.message) return error.message;
   return errorText;
 };
 
