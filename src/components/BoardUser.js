@@ -18,7 +18,7 @@ const BoardUser = () => {
 
   useEffect(() => {
     user ? dispatch(getAll(user.id)) : dispatch(setError('No User logged in'));
-  }, [dispatch, user]);
+  }, [dispatch]);
 
   let { holidays, notifications, requests } = useSelector(
     state => state.contentReducer,
