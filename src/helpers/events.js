@@ -54,7 +54,11 @@ const holidayEvents = holidays =>
       holidayRequests: HolidayRequests,
       id,
       userId,
-      title: username,
+      get title() {
+        return annualLeave
+          ? username + ': Annual Leave'
+          : username + ': Sick Leave';
+      },
       start: new Date(from),
       end: new Date(until),
       // style: { backgroundColor: 'orange' },
