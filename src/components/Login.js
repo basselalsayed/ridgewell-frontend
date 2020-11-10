@@ -25,11 +25,9 @@ const Login = ({ history }) => {
         { setStatus, validateForm },
       ) => {
         validateForm();
-        dispatch(
-          login({ email: loginCred, username: loginCred, password }),
-        ).catch(error => setStatus(parseError(error)));
-
-        history.push('/profile');
+        dispatch(login({ email: loginCred, username: loginCred, password }))
+          .then(() => history.push('/profile'))
+          .catch(error => setStatus(parseError(error)));
       }}
       initialValues={{
         login: '',

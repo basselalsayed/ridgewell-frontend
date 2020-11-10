@@ -45,10 +45,9 @@ const Register = ({ history }) => {
         { setStatus, validateForm },
       ) => {
         validateForm();
-        dispatch(signUp({ username, email, password })).catch(error =>
-          setStatus(parseError(error)),
-        );
-        history.push('/profile');
+        dispatch(signUp({ username, email, password }))
+          .then(() => history.push('/profile'))
+          .catch(error => setStatus(parseError(error)));
       }}
       initialValues={{
         email: '',
