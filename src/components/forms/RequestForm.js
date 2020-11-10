@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Col, Alert } from 'react-bootstrap';
+import { Form, Col } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { CountdownCancel, NegativeButton, SuccessButton } from './';
 import { CenteredSpinner } from '../';
@@ -13,6 +13,7 @@ import { getMin, getMax, plusTwoMonths, plusTwoDays } from '../../helpers';
 import { getHolidays } from '../../store/actions';
 
 import { today } from '../../constants';
+import { Status } from './Status';
 
 const RequestForm = ({ id, from, until, update }) => {
   const { isDelete, isPlaying } = useSelector(state => state.countdownReducer);
@@ -149,16 +150,7 @@ const RequestForm = ({ id, from, until, update }) => {
               </>
             ) : null}
           </Form.Row>
-          {status && (
-            <Form.Row>
-              <Alert
-                style={{ marginTop: 10, width: '100%', textAlign: 'center' }}
-                variant={status === 'Success' ? 'success' : 'danger'}
-              >
-                {status}
-              </Alert>
-            </Form.Row>
-          )}
+          {status && <Status status={status} />}
         </Form>
       )}
     </Formik>
