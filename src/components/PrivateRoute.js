@@ -1,14 +1,14 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import { Redirect, Route } from 'react-router-dom';
+import { useSession } from './hooks';
 
 export const PrivateRoute = ({ component: Component, ...rest }) => {
-  const { user } = useSelector(state => state.authReducer);
+  const { loggedIn } = useSession();
   return (
     <Route
       {...rest}
       render={props =>
-        user ? <Component {...props} /> : <Redirect to='/login' />
+        loggedIn ? <Component {...props} /> : <Redirect to='/login' />
       }
     />
   );
