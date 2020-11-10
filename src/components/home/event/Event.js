@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { hasEditAcces } from '../../../helpers';
 
 const Event = ({
-  event: { end, holidayRequests, id, start, style, userId },
+  event: { annualLeave, end, holidayRequests, id, start, style, userId },
   title,
 }) => {
   const [show, setShow] = useState(false);
@@ -14,6 +14,7 @@ const Event = ({
   const handleShow = () => hasEditAcces(user, userId) && setShow(!show);
 
   const modalProps = {
+    annualLeave,
     end,
     handleShow,
     id,
