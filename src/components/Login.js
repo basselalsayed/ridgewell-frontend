@@ -1,111 +1,99 @@
-import React, { useState, useRef } from 'react';
-import Form from 'react-validation/build/form';
-import Input from 'react-validation/build/input';
-import CheckButton from 'react-validation/build/button';
+import React from 'react';
 
-import { Card } from 'react-bootstrap';
+import * as yup from 'yup';
+import { Button, Card, Form } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { login } from '../store/actions';
-
-const required = value =>
-  !value && (
-    <div className='alert alert-danger' role='alert'>
-      This field is required!
-    </div>
-  );
+import { Formik } from 'formik';
+import { parseError } from '../helpers';
+import { Status } from './forms';
+import { CenteredSpinner } from './Spinner';
 
 const Login = ({ history }) => {
   const dispatch = useDispatch();
 
-  const form = useRef();
-  const checkBtn = useRef();
-
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState('');
-
-  const onChangeUsername = e => {
-    const username = e.target.value;
-    setUsername(username);
-  };
-
-  const onChangePassword = e => {
-    const password = e.target.value;
-    setPassword(password);
-  };
-
-  const handleLogin = e => {
-    e.preventDefault();
-
-    setMessage('');
-    setLoading(true);
-
-    form.current.validateAll();
-
-    if (checkBtn.current.context._errors.length === 0) {
-      dispatch(login({ username, password }));
-
-      history.push('/profile');
-    } else {
-      setLoading(false);
-    }
-  };
+  const schema = yup.object({
+    login: yup.string().required('Required').trim(),
+    password: yup.string().required('Required'),
+  });
 
   return (
-    <div className='col-md-12'>
-      <Card className='card-container'>
-        <img
-          src='//ssl.gstatic.com/accounts/ui/avatar_2x.png'
-          alt='profile-img'
-          className='profile-img-card'
-        />
+    <Formik
+      validationSchema={schema}
+      onSubmit={async (
+        { login: loginCred, password },
+        { setStatus, validateForm },
+      ) => {
+        validateForm();
+        dispatch(
+          login({ email: loginCred, username: loginCred, password }),
+        ).catch(error => setStatus(parseError(error)));
 
-        <Form onSubmit={handleLogin} ref={form}>
-          <div className='form-group'>
-            <label htmlFor='username'>Username</label>
-            <Input
-              type='text'
-              className='form-control'
-              name='username'
-              value={username}
-              onChange={onChangeUsername}
-              validations={[required]}
+        history.push('/profile');
+      }}
+      initialValues={{
+        login: '',
+        password: '',
+      }}
+    >
+      {({
+        errors,
+        handleChange,
+        handleSubmit,
+        isSubmitting,
+        status,
+        touched,
+      }) => (
+        <div className='col-md-12'>
+          <Card className='card-container'>
+            <img
+              src='//ssl.gstatic.com/accounts/ui/avatar_2x.png'
+              alt='profile-img'
+              className='profile-img-card'
             />
-          </div>
 
-          <div className='form-group'>
-            <label htmlFor='password'>Password</label>
-            <Input
-              type='password'
-              className='form-control'
-              name='password'
-              value={password}
-              onChange={onChangePassword}
-              validations={[required]}
-            />
-          </div>
-
-          <div className='form-group'>
-            <button className='btn btn-primary btn-block' disabled={loading}>
-              {loading && (
-                <span className='spinner-border spinner-border-sm'></span>
-              )}
-              <span>Login</span>
-            </button>
-          </div>
-
-          {message && (
-            <div className='form-group'>
-              <div className='alert alert-danger' role='alert'>
-                {message}
-              </div>
-            </div>
-          )}
-          <CheckButton style={{ display: 'none' }} ref={checkBtn} />
-        </Form>
-      </Card>
-    </div>
+            <Form onSubmit={handleSubmit}>
+              <Form.Group controlId='formLogin'>
+                <Form.Control
+                  name='login'
+                  type='text'
+                  autoComplete='username'
+                  placeholder='Enter username or email'
+                  onChange={handleChange}
+                  isValid={touched.login && !errors.login}
+                  isInvalid={errors.login}
+                />
+                <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                <Form.Control.Feedback type='invalid'>
+                  {errors.login}
+                </Form.Control.Feedback>
+              </Form.Group>
+              <Form.Group controlId='formPassword'>
+                <Form.Control
+                  name='password'
+                  autoComplete='current-password'
+                  type='password'
+                  placeholder='Enter password'
+                  onChange={handleChange}
+                  isValid={touched.password && !errors.password}
+                  isInvalid={errors.password}
+                />
+                <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                <Form.Control.Feedback type='invalid'>
+                  {errors.password}
+                </Form.Control.Feedback>
+              </Form.Group>
+              <Form.Row>
+                <Button type='submit' disabled={isSubmitting}>
+                  {isSubmitting ? <CenteredSpinner /> : 'Submit'}
+                </Button>
+              </Form.Row>
+              {status && <Status status={status} />}
+            </Form>
+          </Card>
+        </div>
+      )}
+    </Formik>
   );
 };
 
