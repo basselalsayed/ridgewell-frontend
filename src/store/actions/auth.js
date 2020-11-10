@@ -17,15 +17,11 @@ const signUp = userInfo => async dispatch => {
 };
 
 const login = userInfo => async dispatch => {
-  const response = await axios.post(API_URL + 'session', userInfo);
+  await axios.post(API_URL + 'session', userInfo).then(({ data: { user } }) => {
+    user.accessToken && localStorage.setItem('user', JSON.stringify(user));
 
-  const {
-    data: { user },
-  } = response;
-
-  user.accessToken && localStorage.setItem('user', JSON.stringify(user));
-
-  dispatch(setUser(decryptUser(user)));
+    dispatch(setUser(decryptUser(user)));
+  });
 };
 
 // export const autoLogin = () => dispatch => {
