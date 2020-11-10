@@ -80,6 +80,7 @@ const Register = ({ history }) => {
                 <Form.Control
                   name='username'
                   type='text'
+                  autoComplete='new_username'
                   placeholder='Enter username'
                   onChange={handleChange}
                   isValid={touched.username && !errors.username}
@@ -94,6 +95,7 @@ const Register = ({ history }) => {
                 <Form.Control
                   name='email'
                   type='email'
+                  autoComplete='email'
                   placeholder='Enter email'
                   onChange={handleChange}
                   isValid={touched.email && !errors.email}
@@ -109,6 +111,7 @@ const Register = ({ history }) => {
                 <Form.Control
                   name='password'
                   type='password'
+                  autoComplete='new_password'
                   placeholder='Password'
                   onChange={handleChange}
                   isValid={touched.password && !errors.password}
@@ -123,6 +126,7 @@ const Register = ({ history }) => {
                 <Form.Control
                   name='passwordConfirmation'
                   type='password'
+                  autoComplete='new_password'
                   placeholder='Confirm Password'
                   onChange={handleChange}
                   isValid={
