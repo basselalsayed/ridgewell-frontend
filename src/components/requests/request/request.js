@@ -1,8 +1,13 @@
 import React from 'react';
-import { Card, Row, Col, Form, Alert } from 'react-bootstrap';
+import { Card, Row, Col, Form } from 'react-bootstrap';
 import { capitalize, formatted, isAdmin } from '../../../helpers';
 
-import { CountdownCancel, NegativeButton, SuccessButton } from '../../forms';
+import {
+  CountdownCancel,
+  NegativeButton,
+  Status,
+  SuccessButton,
+} from '../../forms';
 import { Formik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
@@ -50,16 +55,7 @@ const FormBase = ({ id }) => {
               </>
             )}
           </Form.Group>
-          {status && (
-            <Form.Row>
-              <Alert
-                style={{ marginTop: 10, width: '100%', textAlign: 'center' }}
-                variant={status === 'Success' ? 'success' : 'danger'}
-              >
-                {status}
-              </Alert>
-            </Form.Row>
-          )}
+          {status && <Status status={status} />}
         </Form>
       )}
     </Formik>
