@@ -48,4 +48,4 @@ const login = userInfo => async dispatch => {
 //     });
 // };
 
-export { logOut, signUp, login };
+export { logOut, signUp, setUser, login };
