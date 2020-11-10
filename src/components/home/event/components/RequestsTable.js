@@ -1,8 +1,15 @@
 import React from 'react';
 import { Table } from 'react-bootstrap';
-import { capitalize } from '../../../../services';
+import { capitalize, formatted } from '../../../../helpers';
 
-import { formatted } from '../../../../helpers';
+const RequestRow = ({ from, index, type, until }) => (
+  <tr>
+    <td>{index + 1}</td>
+    <td>{type && capitalize(type)}</td>
+    {<td>{from && formatted(from, 'popover')}</td>}
+    {<td>{until && formatted(until, 'popover')}</td>}
+  </tr>
+);
 
 const RequestsTable = ({ requests }) => {
   const headerRow = (
@@ -16,19 +23,16 @@ const RequestsTable = ({ requests }) => {
     </thead>
   );
 
-  const requestRows = requests.map(({ id, type, from, until }, idx) => (
-    <tr key={id}>
-      <td>{idx + 1}</td>
-      <td>{type && `${capitalize(type)}`}</td>
-      {<td>{from && formatted(from, 'popover')}</td>}
-      {<td>{until && formatted(until, 'popover')}</td>}
-    </tr>
-  ));
+  const requestRows =
+    requests &&
+    requests.map((request, idx) => (
+      <RequestRow key={request.id} {...request} index={idx} />
+    ));
 
   return (
     <Table striped bordered hover size='sm'>
       {headerRow}
-      {requestRows}
+      <tbody>{requestRows}</tbody>
     </Table>
   );
 };

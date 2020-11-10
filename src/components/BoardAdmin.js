@@ -2,18 +2,22 @@ import React, { useEffect } from 'react';
 
 import { Holidays, Requests, Users } from './';
 
-import { Tab, Row, Col, ListGroup } from 'react-bootstrap';
+import { Tab, Row, Col, ListGroup, Spinner } from 'react-bootstrap';
 
 import { tabBtn } from './index.module.css';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getAll } from '../store/actions';
 
 const BoardAdmin = () => {
   const dispatch = useDispatch();
 
+  let { holidays, requests, users } = useSelector(
+    state => state.contentReducer,
+  );
+
   useEffect(() => {
     dispatch(getAll());
-  }, []);
+  }, [dispatch]);
 
   //  <div className='container'>
   // <header className='jumbotron'>
@@ -48,17 +52,31 @@ const BoardAdmin = () => {
   const tabContent = (
     <Row>
       <Col>
-        <Tab.Content>
-          <Tab.Pane eventKey='#requests'>
-            <Requests />
-          </Tab.Pane>
-          <Tab.Pane eventKey='#users'>
-            <Users />
-          </Tab.Pane>
-          <Tab.Pane eventKey='#holidays'>
-            <Holidays />
-          </Tab.Pane>
-        </Tab.Content>
+        {holidays && requests && users ? (
+          <Tab.Content>
+            <Tab.Pane eventKey='#requests'>
+              <Requests requests={requests} />
+            </Tab.Pane>
+            <Tab.Pane eventKey='#users'>
+              <Users users={users} />
+            </Tab.Pane>
+            <Tab.Pane eventKey='#holidays'>
+              <Holidays holidays={holidays} />
+            </Tab.Pane>
+          </Tab.Content>
+        ) : (
+          <Spinner
+            style={{
+              position: 'inherit',
+              color: 'green',
+              left: '50%',
+              top: '50%',
+              marginLeft: '-1rem',
+              marginTop: '1rem',
+            }}
+            animation='border'
+          />
+        )}
       </Col>
     </Row>
   );

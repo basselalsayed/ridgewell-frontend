@@ -1,12 +1,8 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import { Holiday } from './holiday';
-import { CenteredSpinner } from '../';
 
-const Holidays = () => {
-  const { holidays } = useSelector(state => state.contentReducer);
-
-  return holidays ? (
+const Holidays = ({ holidays }) =>
+  holidays && (
     <div
       style={{
         maxHeight: window.innerHeight - 150,
@@ -17,9 +13,6 @@ const Holidays = () => {
         <Holiday key={hol.id} {...hol} />
       ))}
     </div>
-  ) : (
-    <CenteredSpinner />
   );
-};
 
 export { Holidays };

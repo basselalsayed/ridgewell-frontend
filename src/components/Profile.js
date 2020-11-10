@@ -26,8 +26,8 @@ const Profile = () => {
               user.roles.map((role, index) => <li key={index}>{role}</li>)}
           </ul>
           <ul>
-            {user.notifications &&
-              user.notifications.map((role, index) => (
+            {user.Notifications &&
+              user.Notifications.map((role, index) => (
                 <li key={index}>{role.message}</li>
               ))}
           </ul>

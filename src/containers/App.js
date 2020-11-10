@@ -11,6 +11,7 @@ import {
   BoardUser,
   BoardAdmin,
   Header,
+  Alert,
 } from '../components';
 
 import { useSelector } from 'react-redux';
@@ -20,6 +21,7 @@ const App = () => {
   return (
     <Router>
       <Header />
+      <Alert />
 
       <div>
         <div className='container mt-3'>

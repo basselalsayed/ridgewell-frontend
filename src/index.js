@@ -14,7 +14,7 @@ import { API_URL } from './constants';
 
 axios.defaults.baseURL = API_URL;
 axios.defaults.headers = authHeader();
-axios.defaults.timeout = 4000;
+axios.defaults.timeout = 10000;
 
 ReactDOM.render(
   <React.StrictMode>
