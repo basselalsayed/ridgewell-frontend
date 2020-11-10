@@ -124,7 +124,7 @@ const RequestForm = ({ annualLeave, id, from, until, update }) => {
                 type='date'
                 name='until'
                 min={values.from}
-                max={getMax(values.annualLeave, values.from, update)}
+                max={getMax(values.annualLeave, values.from)}
                 value={values.until}
                 onChange={handleChange}
                 isValid={touched.until && !errors.until}
