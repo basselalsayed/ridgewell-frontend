@@ -7,14 +7,18 @@ import { Tab, Row, Col, ListGroup, Spinner } from 'react-bootstrap';
 import { tabBtn } from './index.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAll } from '../store/actions';
+import { setError } from '../store/actions/response';
 
 const BoardUser = () => {
-  const { user } = useSelector(state => state.authReducer);
+  const {
+    authReducer: { user },
+    responseReducer: { error },
+  } = useSelector(state => state);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getAll(user.id));
-  }, [dispatch, user.id]);
+    user ? dispatch(getAll(user.id)) : dispatch(setError('No User logged in'));
+  }, [dispatch, user]);
 
   let { holidays, notifications, requests } = useSelector(
     state => state.contentReducer,
@@ -52,7 +56,7 @@ const BoardUser = () => {
   const tabContent = (
     <Row>
       <Col>
-        {holidays && requests && notifications ? (
+        {error ? null : holidays && requests && notifications ? (
           <Tab.Content>
             <Tab.Pane eventKey='#requests'>
               <Requests requests={requests} />
