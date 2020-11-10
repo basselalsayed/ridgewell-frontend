@@ -9,8 +9,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getAll } from '../store/actions';
 
 const BoardUser = () => {
-  const dispatch = useDispatch();
   const { user } = useSelector(state => state.authReducer);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getAll(user.id));

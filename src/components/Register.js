@@ -4,13 +4,11 @@ import { Card, Form } from 'react-bootstrap';
 
 import { Formik } from 'formik';
 import * as yup from 'yup';
-import axios from 'axios';
-import { decryptUser, parseError } from '../helpers';
-import { API_URL } from '../constants';
+import { parseError } from '../helpers';
 import { CountdownCancel, Status, SuccessButton } from './forms';
 import { CenteredSpinner } from './Spinner';
 import { useDispatch, useSelector } from 'react-redux';
-import { setUser } from '../store/actions';
+import { signUp } from '../store/actions';
 
 const Register = ({ history }) => {
   const { isPlaying } = useSelector(state => state.countdownReducer);
@@ -47,17 +45,10 @@ const Register = ({ history }) => {
         { setStatus, validateForm },
       ) => {
         validateForm();
-        await axios
-          .post(API_URL + 'users', { username, email, password })
-          .then(({ data: { message, user } }) => {
-            setStatus(message);
-            user.accessToken &&
-              localStorage.setItem('user', JSON.stringify(user));
-            dispatch(setUser(decryptUser(user))).then(() =>
-              history.push('/user'),
-            );
-          })
-          .catch(error => setStatus(parseError(error)));
+        dispatch(signUp({ username, email, password })).catch(error =>
+          setStatus(parseError(error)),
+        );
+        history.push('/profile');
       }}
       initialValues={{
         email: '',
@@ -150,7 +141,9 @@ const Register = ({ history }) => {
                 ) : isPlaying ? (
                   <CountdownCancel />
                 ) : (
-                  <SuccessButton title={'Submit'} errors={errors} />
+                  status !== 'Success' && (
+                    <SuccessButton title={'Submit'} errors={errors} />
+                  )
                 )}
               </Form.Row>
               {status && <Status status={status} />}
