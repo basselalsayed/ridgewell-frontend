@@ -7,7 +7,16 @@ import { formatted } from '../../../../helpers';
 import { useDispatch } from 'react-redux';
 import { endCountdown } from '../../../../store/actions/countdown';
 
-const EventModal = ({ id, handleShow, show, start, end, title, update }) => {
+const EventModal = ({
+  annualLeave,
+  id,
+  handleShow,
+  show,
+  start,
+  end,
+  title,
+  update,
+}) => {
   const dispatch = useDispatch();
 
   return (
@@ -28,6 +37,7 @@ const EventModal = ({ id, handleShow, show, start, end, title, update }) => {
       </Modal.Header>
       <Modal.Body>
         <RequestForm
+          annualLeave={annualLeave}
           id={id}
           from={formatted(start, 'form')}
           until={formatted(end, 'form')}

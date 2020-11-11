@@ -15,7 +15,7 @@ import { getHolidays } from '../../store/actions';
 import { today } from '../../constants';
 import { Status } from './Status';
 
-const RequestForm = ({ id, from, until, update }) => {
+const RequestForm = ({ annualLeave, id, from, until, update }) => {
   const { isDelete, isPlaying } = useSelector(state => state.countdownReducer);
   const dispatch = useDispatch();
 
@@ -60,6 +60,7 @@ const RequestForm = ({ id, from, until, update }) => {
               );
 
           response && setStatus('Success');
+
           dispatch(getHolidays());
         } catch (err) {
           setStatus(`${err.response.statusText}: ${err.response.data.message}`);
@@ -69,7 +70,7 @@ const RequestForm = ({ id, from, until, update }) => {
       initialValues={{
         from,
         until,
-        annualLeave: true,
+        annualLeave,
       }}
     >
       {({
@@ -123,7 +124,7 @@ const RequestForm = ({ id, from, until, update }) => {
                 type='date'
                 name='until'
                 min={values.from}
-                max={getMax(values.annualLeave, values.from, update)}
+                max={getMax(values.annualLeave, values.from)}
                 value={values.until}
                 onChange={handleChange}
                 isValid={touched.until && !errors.until}

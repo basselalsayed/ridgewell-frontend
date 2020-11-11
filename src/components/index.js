@@ -12,4 +12,5 @@ export * from './Profile';
 export * from './Register';
 export * from './requests';
 export * from './Spinner';
+export * from './PrivateRoute';
 export * from './users';

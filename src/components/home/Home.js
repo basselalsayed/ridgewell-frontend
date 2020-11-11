@@ -40,6 +40,7 @@ const Home = () => {
 
   const modalProps = {
     ...date,
+    annualLeave: false,
     handleShow,
     show,
     title: 'New Holiday',

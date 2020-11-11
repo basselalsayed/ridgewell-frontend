@@ -12,7 +12,7 @@ const getMin = (annualLeave, update) =>
     ? formatted(plusTwoMonths(today), 'form')
     : formatted(today, 'form');
 
-const getMax = (annualLeave, date, update) =>
-  !update && !annualLeave && formatted(plusTwoDays(date), 'form');
+const getMax = (annualLeave, date) =>
+  !annualLeave && formatted(plusTwoDays(date), 'form');
 
 export { formatted, getMin, getMax, plusTwoMonths, plusTwoDays };
